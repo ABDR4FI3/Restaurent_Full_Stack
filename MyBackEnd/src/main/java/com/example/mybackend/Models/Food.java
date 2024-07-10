@@ -1,6 +1,7 @@
 package com.example.mybackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -52,7 +53,7 @@ public class Food {
     private List<Carousel> carousels;
 
     @ManyToMany(mappedBy = "favoriteFoods")
-    @JsonIgnoreProperties("favoriteFoods")
+    @JsonIgnore
     private List<User> users;
 
 }

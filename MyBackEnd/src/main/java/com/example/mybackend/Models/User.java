@@ -1,6 +1,9 @@
 package com.example.mybackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +30,11 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("users")// Assumes there's a column 'role_id' in the User table
+    @JsonIgnoreProperties("users")
     private UserRole userRole;
 
     @OneToOne(mappedBy = "user")
+    @JsonManagedReference
     private Cart cart;
 
     @ManyToMany
@@ -39,6 +43,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
+    @JsonBackReference
     private List<Food> favoriteFoods;
 
 
