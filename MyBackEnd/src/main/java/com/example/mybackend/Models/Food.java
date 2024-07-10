@@ -36,6 +36,11 @@ public class Food {
     private float rating;
     private float price;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonManagedReference
+    private Category category;
+
     @ElementCollection
     @CollectionTable(name = "food_nutrition", joinColumns = @JoinColumn(name = "food_id"))
     @MapKeyColumn(name = "nutrition_name")
