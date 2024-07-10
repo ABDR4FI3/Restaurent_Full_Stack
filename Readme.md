@@ -1,6 +1,3 @@
-Here's a comprehensive README structure for a full stack application for a restaurant that includes a mobile application using Flutter, a backend using Spring Boot, and a web application using React:
-
----
 
 # Restaurant Management System
 

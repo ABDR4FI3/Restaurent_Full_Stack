@@ -14,17 +14,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // ! User Registration
+    // * User Registration
     @PostMapping("/register")
     public Map<String, Object> registration(@RequestBody UserDTO userDTO)
     {
         return userService.registration(userDTO);
     }
-    // ! User Login (returns JWT token)
+    // * User Login (returns JWT token)
     @GetMapping("/Login")
     public Map<String, Object> Login(@RequestBody LoginDTO loginDTO)
     {
         return userService.login(loginDTO.getEmail(), loginDTO.getPassword());
+    }
+    // * Get User Details
+    @GetMapping("/{user_id}")
+    public Map<String,Object> getUserDetails(@PathVariable("user_id") long userId){
+        return userService.getUserDetails(userId);
     }
 
 }

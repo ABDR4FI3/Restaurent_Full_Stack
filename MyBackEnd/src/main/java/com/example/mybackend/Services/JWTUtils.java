@@ -34,7 +34,7 @@ public class JWTUtils {
         // Start building the JWT token using the Jwts.builder() method
         return Jwts.builder()
                 // Set the subject of the token to the username of the user
-                .setSubject(user.getName())
+                .setSubject(String.valueOf(user.getId()))
                 // Set the issued date of the token to the current time plus the expiration time
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ExpirationTime))
@@ -53,7 +53,7 @@ public class JWTUtils {
                 .compact();
     }
     //
-    public String extractUserName(String token){
+    public String extractUserId(String token){
         return extractClaims(token, Claims::getSubject);
     }
     //
@@ -80,14 +80,12 @@ public class JWTUtils {
     }
 
     public boolean isTokenValid(String token, User user){
-        final String userName = extractUserName(token);
-        return (userName.equals(user.getName())) && !isTokenExpired(token);
+        final String userId = extractUserId(token);
+        return (userId.equals(user.getId())) && !isTokenExpired(token);
     }
 
     public  boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());
-        //return extractClaims(token,Claims::getExpiration).before(new Date());
-        //return false;
     }
 
 

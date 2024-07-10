@@ -33,7 +33,7 @@ public class UserService {
 
     // Initialize SLF4J logger for the UserService class
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
+    // * User Registration
     public Map<String, Object> registration(UserDTO user) {
         Map<String, Object> response = new HashMap<>();
         System.out.println("my user is " + user);
@@ -70,7 +70,7 @@ public class UserService {
         response.put("token", generatedToken);
         return response;
     }
-
+    //* User Login
     public Map<String, Object> login(String email, String password) {
         HashMap<String, Object> response = new HashMap<>();
         User user = userRepository.findByEmail(email);
@@ -85,6 +85,20 @@ public class UserService {
         jwtUtils.generateToken(user);
         response.put("response", 200);
         response.put("token", jwtUtils.generateToken(user));
+        return response;
+    }
+
+    // * get User Details
+    public Map<String,Object> getUserDetails(long userId) {
+        // todo replace user id with token
+        HashMap<String,Object> response = new HashMap<>();
+        if(userRepository.findById(userId).isEmpty()) {
+            response.put("response", 404);
+            response.put("message", "User not found");
+            return response;
+        }
+        response.put("response", 200);
+        response.put("user", userRepository.findById(userId).get());
         return response;
     }
 }
