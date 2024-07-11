@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/model/food.dart';
-import 'package:restaurent/model/shop.dart';
 import 'package:restaurent/theme/colors.dart';
-import 'package:http/http.dart' as http;
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class _CardPageState extends State<CardPage> {
     fetchCartItems();
   }
 
-Future<void> fetchCartItems() async {
+  Future<void> fetchCartItems() async {
     final url = Uri.parse('http://192.168.100.128:9090/cart/all?userId=2');
     final response = await http.get(url);
 
@@ -44,13 +42,14 @@ Future<void> fetchCartItems() async {
       } else {
         setState(() {
           cartItems = [];
-          double totalPrice = 0.0;
+          totalPrice = 0;
         });
       }
     } else {
       throw Exception('Failed to load cart items: ${response.body}');
     }
   }
+
   int calculateTotalPrice() {
     int total = 0;
     for (var item in cartItems) {
@@ -59,11 +58,28 @@ Future<void> fetchCartItems() async {
     return total;
   }
 
-  void removeFromCart(int index) {
-    setState(() {
-      cartItems.removeAt(index);
-      totalPrice = calculateTotalPrice();
-    });
+  Future<void> removeFromCart(int index) async {
+    if (index < 0 || index >= cartItems.length) {
+      throw Exception('Index out of bounds');
+    }
+    int foodId = cartItems[index].id;
+    final url = Uri.parse('http://192.168.100.128:9090/cart/remove');
+    final response = await http.post(
+      url,
+      body: {
+        'userId': '2', // userId as string
+        'foodId': foodId.toString(), // Convert foodId to string
+      },
+    );
+    if (response.statusCode == 200) {
+      // Remove item from cartItems list
+      setState(() {
+        cartItems.removeAt(index);
+        totalPrice = calculateTotalPrice();
+      });
+    } else {
+      throw Exception('Failed to remove item from cart: ${response.body}');
+    }
   }
 
   @override
@@ -87,7 +103,8 @@ Future<void> fetchCartItems() async {
               itemBuilder: (context, index) {
                 final Food food = cartItems[index];
                 return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
                     leading: Image.asset(
                       food.image,
@@ -98,7 +115,7 @@ Future<void> fetchCartItems() async {
                     title: Text(food.name),
                     subtitle: Text('Price: \$${food.price.toString()}'),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () => removeFromCart(index),
                     ),
                   ),

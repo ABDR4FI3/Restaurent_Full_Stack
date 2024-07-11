@@ -2,8 +2,7 @@ import 'package:restaurent/model/Category.dart';
 import 'package:restaurent/model/NutritionValue.dart';
 import 'package:restaurent/model/Comment.dart';
 
-
-class Food {
+class Modelfooddetails {
   final int id;
   final String name;
   final String image;
@@ -15,7 +14,7 @@ class Food {
   final int totalCalories;
   final List<Comment> comments;
 
-  Food({
+  Modelfooddetails({
     required this.id,
     required this.name,
     required this.image,
@@ -28,29 +27,30 @@ class Food {
     required this.comments,
   });
 
-  factory Food.fromJson(Map<String, dynamic>? json) {
+  factory Modelfooddetails.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       throw ArgumentError.notNull('json');
     }
 
     // Parse comments
     List<Comment> parsedComments = [];
-    if (json['comments'] != null) {
-      var commentsList = json['comments'] as List<dynamic>;
+    if (json['foods']['comments'] != null) {
+      var commentsList = json['foods']['comments'] as List<dynamic>;
       parsedComments =
           commentsList.map((comment) => Comment.fromJson(comment)).toList();
     }
 
-    return Food(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      image: json['image'] ?? '',
-      description: json['description'] ?? '',
-      rating: (json['rating'] ?? 0.0).toDouble(),
-      price: (json['price'] ?? 0.0).toDouble(),
-      category: Category.fromJson(json['category'] ?? {}),
-      nutritionValue: NutritionValue.fromJson(json['nutritionValue'] ?? {}),
-      totalCalories: json['totalCalories'] ?? 0,
+    return Modelfooddetails(
+      id: json['foods']['id'] ?? 0,
+      name: json['foods']['name'] ?? '',
+      image: json['foods']['image'] ?? '',
+      description: json['foods']['description'] ?? '',
+      rating: (json['foods']['rating'] ?? 0.0).toDouble(),
+      price: (json['foods']['price'] ?? 0.0).toDouble(),
+      category: Category.fromJson(json['foods']['category'] ?? {}),
+      nutritionValue:
+          NutritionValue.fromJson(json['foods']['nutritionValue'] ?? {}),
+      totalCalories: json['foods']['totalCalories'] ?? 0,
       comments: parsedComments,
     );
   }
