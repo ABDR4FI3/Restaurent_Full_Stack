@@ -1,0 +1,12 @@
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (1, 'lib/Images/Ramen/ramen1.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (1, 'lib/Images/Ramen/ramen2.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (1, 'lib/Images/Ramen/ramen3.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (2, 'lib/Images/Biryani/biryani1.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (2, 'lib/Images/Biryani/biryani2.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (2, 'lib/Images/Biryani/biryani3.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (3, 'lib/Images/Salad/salad1.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (3, 'lib/Images/Salad/salad2.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (3, 'lib/Images/Salad/salad3.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (4, 'lib/Images/Burger/burger1.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (4, 'lib/Images/Burger/burger2.png');
+INSERT INTO restaurent.carousel_images (carousel_id, image) VALUES (4, 'lib/Images/Burger/burger3.png');
