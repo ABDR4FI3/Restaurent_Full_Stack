@@ -34,8 +34,11 @@ public class User {
     private UserRole userRole;
 
     @OneToOne(mappedBy = "user")
-    @JsonManagedReference
     private Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Comment> comments;
 
     @ManyToMany
     @JoinTable(
