@@ -6,7 +6,8 @@ import 'package:restaurent/theme/colors.dart';
 class FoodTile extends StatefulWidget {
   final Food food;
   final void Function()? onTap;
-  const FoodTile({super.key, required this.food, required this.onTap});
+  const FoodTile({Key? key, required this.food, required this.onTap})
+      : super(key: key);
 
   @override
   _FoodTileState createState() => _FoodTileState();
@@ -26,7 +27,7 @@ class _FoodTileState extends State<FoodTile> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        width: 250,
+        width: 270,
         height: 350,
         decoration: BoxDecoration(
           color: Colors.grey[100],
@@ -37,14 +38,13 @@ class _FoodTileState extends State<FoodTile> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            // * Image with heart icon in top right corner
+            // Image with heart icon in top right corner
             Stack(
               children: [
                 Image.asset(
                   widget.food.image,
                   height: 200,
                   width: 200,
-                  
                   fit: BoxFit.cover,
                 ),
                 Positioned(
@@ -63,24 +63,24 @@ class _FoodTileState extends State<FoodTile> {
                 ),
               ],
             ),
-            // * Text : food name
+            // Text: food name
             Text(
               widget.food.name,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.abhayaLibre(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // * Rating & Price
+            // Rating & Price
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // * Price
+                // Price
                 Row(
                   children: [
                     Text(
-                      widget.food.getPrice().toString(),
-                      style: GoogleFonts.quicksand(
+                      widget.food.price.toString(),
+                      style: GoogleFonts.abhayaLibre(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
@@ -96,17 +96,17 @@ class _FoodTileState extends State<FoodTile> {
                 const SizedBox(
                   width: 20,
                 ),
-                // * Rating
+                // Rating
                 Row(
                   children: [
                     Text(
-                      widget.food.getRating().toString(),
-                      style: GoogleFonts.quicksand(
+                      widget.food.rating.toString(),
+                      style: GoogleFonts.abhayaLibre(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 1),
                     Icon(
                       Icons.star,
                       color: Colors.yellow[700],
