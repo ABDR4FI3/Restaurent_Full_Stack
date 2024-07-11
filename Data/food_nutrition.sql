@@ -1,0 +1,16 @@
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (1, 30, 'carbs');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (1, 10, 'fat');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (1, 15, 'protein');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (1, 5, 'vitamins');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (2, 50, 'carbs');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (2, 15, 'fat');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (2, 20, 'protein');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (2, 8, 'vitamins');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (3, 25, 'carbs');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (3, 3, 'fat');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (3, 15, 'protein');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (3, 60, 'vitamins');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (4, 40, 'carbs');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (4, 25, 'fat');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (4, 25, 'protein');
+INSERT INTO restaurent.food_nutrition (food_id, nutrition_value, nutrition_name) VALUES (4, 2, 'vitamins');

@@ -35,7 +35,7 @@ class LandingPage extends StatelessWidget {
             // * Image
             Padding(
               padding: const EdgeInsets.all(50.0),
-              child: Image.asset('lib/Images/Logo.png'),
+              child: Image.asset('Images/Logo.png'),
             ),
             // * Separator
             const SizedBox(

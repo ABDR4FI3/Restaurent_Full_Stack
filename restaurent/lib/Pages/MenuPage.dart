@@ -1,8 +1,8 @@
-import 'dart:math';
-
+import 'dart:convert';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/food_tile.dart';
 import 'package:restaurent/Pages/FoodDetails.dart';
@@ -10,27 +10,52 @@ import 'package:restaurent/model/food.dart';
 import 'package:restaurent/theme/colors.dart';
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({super.key});
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
 class _MenuPageState extends State<MenuPage> {
+  late List<Food> foodMenu = [];
 
-  // * navigate to food item details
-  void navigateToFoodDetails(int index) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FoodDetails(
-                  food: foodMenu[index],
-                )));
+  // Fetch food data from API
+  Future<void> fetchFoods() async {
+    final response =
+        await http.get(Uri.parse('http://192.168.100.128:9090/food/all'));
+
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var foodsList = jsonData['foods'] as List;
+
+      setState(() {
+        foodMenu = foodsList.map((e) => Food.fromJson(e)).toList();
+      });
+    } else {
+      throw Exception('Failed to load foods');
+    }
   }
 
   @override
+  void initState() {
+    super.initState();
+    fetchFoods();
+  }
+
+  // Navigate to food item details
+void navigateToFoodDetails(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FoodDetails(foodId: foodMenu[index].id),
+      ),
+    );
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    int random_meal_id = Random().nextInt(foodMenu.length);
+    int randomMealId = foodMenu.isNotEmpty ? foodMenu.length : 0;
     return Scaffold(
       backgroundColor: const Color.fromARGB(234, 255, 255, 255),
       appBar: AppBar(
@@ -41,7 +66,7 @@ class _MenuPageState extends State<MenuPage> {
         ),
         title: Text(
           'A43 Sushi & Roll',
-          style: GoogleFonts.aboreto(
+          style: GoogleFonts.abhayaLibre(
             fontWeight: FontWeight.w800,
             color: Colors.black,
           ),
@@ -67,7 +92,7 @@ class _MenuPageState extends State<MenuPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // * Search Bar
+            // Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: TextField(
@@ -80,34 +105,34 @@ class _MenuPageState extends State<MenuPage> {
                     borderSide: BorderSide(color: primaryColor),
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  hintText: "Seach your favorite food",
+                  hintText: "Search your favorite food",
                 ),
               ),
             ),
-            // * Get a Discount Text Widget
+            // Get a Discount Text Widget
             Container(
               decoration: BoxDecoration(
-                  color: primaryColor, borderRadius: BorderRadius.circular(25)),
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(25),
+              ),
               margin: const EdgeInsets.all(25),
               padding: const EdgeInsets.all(25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    // Wrap Column with Expanded
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment
-                          .start, // Align content to the start
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Get a 10% discount on your order",
-                          style: GoogleFonts.spaceGrotesk(
+                          style: GoogleFonts.abhayaLibre(
                             fontSize: 23,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),
                         ),
-                        // * Redeem Button Widget
+                        // Redeem Button Widget
                         MyButton(
                           text: "Redeem",
                           onTap: () {},
@@ -119,9 +144,8 @@ class _MenuPageState extends State<MenuPage> {
               ),
             ),
 
-            // * Menu List Text Widget
+            // Menu List Text Widget
             Padding(
-              // ! i use this to give left margin to the menu list
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
                 "Food Menu ",
@@ -134,36 +158,37 @@ class _MenuPageState extends State<MenuPage> {
             ),
 
             const SizedBox(height: 10),
-            // * Menu List Image Widget
+            // Menu List Image Widget
             SizedBox(
-              height: 365, // Add a height constraint to the Expanded widget
+              height: 365,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: foodMenu.length,
                 itemBuilder: (context, index) => FoodTile(
                   onTap: () => navigateToFoodDetails(index),
-                  food: foodMenu[index], // Pass the food object
+                  food: foodMenu[index],
                 ),
               ),
             ),
-            // * Separator
+            // Separator
             const SizedBox(
               height: 10,
             ),
-            // * Popular Menu Text
+            // Popular Menu Text
             Container(
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
-                  Text("Popular meal today",
-                      style: GoogleFonts.quicksand(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      )),
-
+                  Text(
+                    "Popular meal today",
+                    style: GoogleFonts.abhayaLibre(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(width: 10),
-                  // *  Heart Icon
+                  // Heart Icon
                   const Icon(
                     Icons.favorite,
                     color: Colors.red,
@@ -172,50 +197,8 @@ class _MenuPageState extends State<MenuPage> {
                 ],
               ),
             ),
-            // * Popular Menu Items
-            Container(
-                margin: const EdgeInsets.all(15),
-                padding: const EdgeInsets.all(15),
-                height: 200,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 152, 158, 139),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  // todo image :
-                  // * get random id for a meal
-                  Image.asset(
-                    foodMenu[random_meal_id].getImage(),
-                    height: 100,
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  // *  Text
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // ! Meal Name
-                      Text(foodMenu[random_meal_id].getName(),
-                          style: GoogleFonts.quicksand(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      // ! meal price
-                      Text(foodMenu[random_meal_id].getPrice().toString(),
-                          style: GoogleFonts.quicksand(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Icon(Icons.attach_money,
-                          color: Colors.green[700], size: 30),
-                    ],
-                  ),
-                ]))
+            // Popular Menu Items
+
           ],
         ),
       ),
