@@ -1,13 +1,14 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'dart:ffi';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/radialbar.dart';
+import 'package:restaurent/Config/IPadress.dart';
 import 'package:restaurent/model/FoodWithCarousel.dart';
+import 'package:restaurent/model/ModelFoodDetails.dart';
 import 'package:restaurent/model/food.dart';
 import 'package:restaurent/model/shop.dart';
 import 'package:restaurent/theme/colors.dart';
@@ -63,51 +64,40 @@ class _FoodDetailsState extends State<FoodDetails> {
     }
   }
 
-  addToCart(FoodWithCarousel food) {
-    if (quantity <= 0) {
-      showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(
-          backgroundColor: Colors.blueGrey, // Example color, adjust as needed
-          content: Text(
-            "Please select quantity",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-        ),
+  Future<void> addToCart(Modelfooddetails food, int userId) async {
+    final String url =
+        'http://$IpAdress/cart/add'; // replace with actual IP address
+
+    final Uri uri = Uri.http(url, '/cart/add', {
+      'foodId': food.id,
+      'userId': userId,
+    });
+
+    print("my parameters, foodId: ${food.id} , userId: $userId");
+
+    final Map<String, dynamic> requestBody = {
+      'foodId': food.id,
+      'userId': userId,
+    };
+
+    print("Request body: ${jsonEncode(requestBody)}");
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+            'http://$IpAdress/cart/add?foodId=${food.id}&userId=${userId}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
       );
-    } else {
-      // Add your cart functionality here, for example:
-      // final Cart cart = context.read<Cart>();
-      // cart.addToCart(food, quantity);
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.blueGrey, // Example color, adjust as needed
-          content: const Text(
-            "Successfully added to cart",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(
-                    context); // Assuming you want to pop back twice to dismiss both dialogs
-              },
-              icon: const Icon(
-                Icons.done,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      );
+
+      if (response.statusCode == 200) {
+        print("Added to cart successfully.");
+      } else {
+        print("Failed to add to cart: ${response.body}");
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
@@ -284,6 +274,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                     ],
                                   ),
                                   // * Right section with buttons and quantity
+                                  /*
                                   Row(
                                     children: [
                                       // * Remove Button
@@ -328,6 +319,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                       ),
                                     ],
                                   ),
+                                  */
                                 ],
                               ),
                               // * Add to Cart Button
@@ -342,7 +334,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                 text: "Add to Cart",
                                 fontSize: 15,
                                 contentColor: Colors.white,
-                                onTap: () => addToCart(food),
+                                onTap: () => addToCart(food.foods[0], 2),
                               ),
                             ],
                           ),

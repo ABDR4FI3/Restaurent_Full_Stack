@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,7 @@ class CardPage extends StatefulWidget {
 class _CardPageState extends State<CardPage> {
   List<Food> cartItems = [];
   int totalPrice = 0;
+  int _selectedIndex = 2; // Set the initial selected index
 
   @override
   void initState() {

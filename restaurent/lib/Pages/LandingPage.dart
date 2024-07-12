@@ -53,7 +53,7 @@ class LandingPage extends StatelessWidget {
             MyButton(
               text: "Order Now",
               onTap: () {
-                Navigator.pushNamed(context, '/menupage');
+                Navigator.pushNamed(context, '/Home');
               },
             )
           ],
