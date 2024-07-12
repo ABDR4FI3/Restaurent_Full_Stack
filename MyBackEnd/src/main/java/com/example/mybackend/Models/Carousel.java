@@ -1,5 +1,6 @@
 package com.example.mybackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,6 @@ public class Carousel {
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
     @JsonManagedReference
-    private List<Food> foods;
 
+    private List<Food> foods;
 }

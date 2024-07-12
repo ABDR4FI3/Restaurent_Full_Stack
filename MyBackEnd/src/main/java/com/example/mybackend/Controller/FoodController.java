@@ -43,4 +43,10 @@ public class FoodController {
     public Map<String, Object> getFoodsByPrice(@RequestParam("price") int price) {
         return foodService.getFoodByPriceLessThan(price);
     }
+
+    // * get food with carousel images
+    @GetMapping("/detailed/{food_id}")
+    public Map<String, Object> getFoodsWithCarousel(@PathVariable("food_id") long id) {
+        return foodService.getFoodWithCarousels(id);
+    }
 }

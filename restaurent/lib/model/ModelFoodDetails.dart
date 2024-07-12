@@ -2,8 +2,7 @@ import 'package:restaurent/model/Category.dart';
 import 'package:restaurent/model/NutritionValue.dart';
 import 'package:restaurent/model/Comment.dart';
 
-
-class Food {
+class Modelfooddetails {
   final int id;
   final String name;
   final String image;
@@ -15,7 +14,7 @@ class Food {
   final int totalCalories;
   final List<Comment> comments;
 
-  Food({
+  Modelfooddetails({
     required this.id,
     required this.name,
     required this.image,
@@ -28,7 +27,7 @@ class Food {
     required this.comments,
   });
 
-  factory Food.fromJson(Map<String, dynamic>? json) {
+  factory Modelfooddetails.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       throw ArgumentError.notNull('json');
     }
@@ -36,12 +35,13 @@ class Food {
     // Parse comments
     List<Comment> parsedComments = [];
     if (json['comments'] != null) {
+      print('Comments Section ${json['comments']}');
       var commentsList = json['comments'] as List<dynamic>;
       parsedComments =
           commentsList.map((comment) => Comment.fromJson(comment)).toList();
     }
 
-    return Food(
+    return Modelfooddetails(
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
       image: json['image'] ?? '',
