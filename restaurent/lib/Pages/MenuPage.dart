@@ -27,7 +27,6 @@ class _MenuPageState extends State<MenuPage> {
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       var foodsList = jsonData['foods'] as List;
-
       setState(() {
         foodMenu = foodsList.map((e) => Food.fromJson(e)).toList();
       });

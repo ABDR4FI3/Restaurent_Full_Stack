@@ -9,10 +9,7 @@ import com.example.mybackend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FoodService {
@@ -125,6 +122,24 @@ public class FoodService {
         response.put("foods", foodRepository.findByPriceLessThan(price));
         response.put("message", "Foods Filtered by Price retrieved successfully");
         response.put("response", 200);
+        return response;
+    }
+    // ! Get Food With CArousel Image
+    public Map<String, Object> getFoodWithCarousels(long foodId) {
+        HashMap<String, Object> response = new HashMap<>();
+
+        // Retrieve the food by its ID
+        Optional<Food> foodOptional = foodRepository.findById(foodId);
+
+        if (foodOptional.isEmpty()) {
+            response.put("response", 404);
+            response.put("message", "Food not found");
+        } else {
+            Food food = foodOptional.get();
+            response.put("response", 200);
+            response.put("food", food.getCarousels());
+        }
+
         return response;
     }
 

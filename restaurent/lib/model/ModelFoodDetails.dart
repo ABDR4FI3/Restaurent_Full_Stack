@@ -34,23 +34,23 @@ class Modelfooddetails {
 
     // Parse comments
     List<Comment> parsedComments = [];
-    if (json['foods']['comments'] != null) {
-      var commentsList = json['foods']['comments'] as List<dynamic>;
+    if (json['comments'] != null) {
+      print('Comments Section ${json['comments']}');
+      var commentsList = json['comments'] as List<dynamic>;
       parsedComments =
           commentsList.map((comment) => Comment.fromJson(comment)).toList();
     }
 
     return Modelfooddetails(
-      id: json['foods']['id'] ?? 0,
-      name: json['foods']['name'] ?? '',
-      image: json['foods']['image'] ?? '',
-      description: json['foods']['description'] ?? '',
-      rating: (json['foods']['rating'] ?? 0.0).toDouble(),
-      price: (json['foods']['price'] ?? 0.0).toDouble(),
-      category: Category.fromJson(json['foods']['category'] ?? {}),
-      nutritionValue:
-          NutritionValue.fromJson(json['foods']['nutritionValue'] ?? {}),
-      totalCalories: json['foods']['totalCalories'] ?? 0,
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      image: json['image'] ?? '',
+      description: json['description'] ?? '',
+      rating: (json['rating'] ?? 0.0).toDouble(),
+      price: (json['price'] ?? 0.0).toDouble(),
+      category: Category.fromJson(json['category'] ?? {}),
+      nutritionValue: NutritionValue.fromJson(json['nutritionValue'] ?? {}),
+      totalCalories: json['totalCalories'] ?? 0,
       comments: parsedComments,
     );
   }
