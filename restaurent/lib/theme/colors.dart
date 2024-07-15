@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 var primaryColor = const Color.fromARGB(255, 138, 60, 50);
 var secondaryColor = const Color.fromARGB(109, 140, 94, 91);
 var thirdColor = const Color.fromARGB(234, 255, 255, 255);
+var primaryBlue =  const Color.fromARGB(255, 58, 96, 172);
+var darkBackground = const Color.fromARGB(255, 0, 24, 42);
 
 // ! Bar chart colors
 const Color lightGreen = Color.fromARGB(255, 144, 238, 144);

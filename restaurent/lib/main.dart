@@ -2,8 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurent/Pages/FavoritePage.dart';
 import 'package:restaurent/Pages/LandingPage.dart';
+import 'package:restaurent/Pages/LoginPage.dart';
 import 'package:restaurent/Pages/MenuPage.dart';
 import 'package:restaurent/Pages/ProfilePage.dart';
+import 'package:restaurent/Pages/RegisterPage.dart';
 import 'package:restaurent/Pages/card_page.dart';
 import 'package:restaurent/theme/colors.dart';
 
@@ -22,13 +24,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LandingPage(),
+      // !! home: const LandingPage(),
+      home:  Loginpage(),
       routes: {
         '/menu': (context) => const MenuPage(),
         '/Home': (context) => const HomeScreen(),
         '/favorite': (context) => const FavoritePage(),
         '/cart': (context) => const CardPage(),
         '/profile': (context) => const Profilepage(),
+        '/register': (context) => Registerpage(),
+        '/login': (context) => Loginpage(),
       },
     );
   }
@@ -69,7 +74,6 @@ Widget _buildBottomNavigationBar() {
     List<int> pagesWithoutBottomNavBar = [0]; // Index of LandingPage()
     print("_selectedIndex: $_selectedIndex");
     if(pagesWithoutBottomNavBar.contains([_selectedIndex])) {
-      print("teeeeeeeeeeeeeeeeeeeeeest");
       return Container();
     }
     return CurvedNavigationBar(
