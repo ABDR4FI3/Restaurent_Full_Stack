@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurent/Pages/FavoritePage.dart';
+import 'package:restaurent/Pages/HomeScreen.dart';
+import 'package:restaurent/Pages/LandingPage.dart';
+import 'package:restaurent/Pages/LoginPage.dart';
 import 'package:restaurent/Pages/MenuPage.dart';
+import 'package:restaurent/Pages/ProfilePage.dart';
+import 'package:restaurent/Pages/RegisterPage.dart';
 import 'package:restaurent/Pages/card_page.dart';
-import 'package:restaurent/model/shop.dart';
-import 'Pages/LandingPage.dart';
+import 'package:restaurent/Provider/HomeScreenProvider.dart';
+import 'package:restaurent/theme/colors.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(create: (context) => Cart(), child: const MyApp()),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Resturant A43',
-      debugShowCheckedModeBanner: false,
-      home: const LandingPage(),
-      routes: {
-        '/landing': (context) => const LandingPage(),
-        '/menupage': (context) => const MenuPage(),
-        '/cart': (context) => const CardPage(),
-      },
+    return ChangeNotifierProvider(
+      create: (context) => HomeScreenProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Restaurant App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Registerpage(),
+        routes: {
+          //'/': (context) => const HomeScreen(),
+          '/register': (context) => Registerpage(),
+          '/login': (context) => Loginpage(),
+          '/home': (context) => const HomeScreen(),
+          '/menu': (context) => const MenuPage(),
+          '/favorite': (context) => const FavoritePage(),
+          '/cart': (context) => const CardPage(),
+          '/profile': (context) => const Profilepage(),
+        },
+      ),
     );
   }
 }

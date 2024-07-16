@@ -42,7 +42,7 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   // Navigate to food item details
-void navigateToFoodDetails(int index) {
+  void navigateToFoodDetails(int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -50,7 +50,6 @@ void navigateToFoodDetails(int index) {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,21 +70,6 @@ void navigateToFoodDetails(int index) {
           ),
         ),
         centerTitle: true, // This will center the title
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        color: primaryColor,
-        backgroundColor: secondaryColor,
-        onTap: (index) {
-          if (index == 2) {
-            Navigator.pushNamed(context, '/cart');
-          }
-        },
-        items: const [
-          Icon(Icons.home, color: Colors.white),
-          Icon(Icons.favorite, color: Colors.white),
-          Icon(Icons.shopping_cart, color: Colors.white),
-          Icon(Icons.person, color: Colors.white),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -197,7 +181,6 @@ void navigateToFoodDetails(int index) {
               ),
             ),
             // Popular Menu Items
-
           ],
         ),
       ),

@@ -13,7 +13,7 @@ public class CartController {
     CartService cartService;
 
     @PostMapping("/add")
-    public Map<String, Object> addFoodToCart(@RequestParam("foodId") long foodId, @RequestParam("userId") long userId) {
+    public Map<String, Object> addFoodToCart(@RequestParam("foodId") int foodId, @RequestParam("userId") long userId) {
         return cartService.addFoodToCart(foodId, userId);
     }
     @PostMapping("/remove")
