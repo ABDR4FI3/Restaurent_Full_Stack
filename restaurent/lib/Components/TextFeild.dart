@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 
-class CustomTextfeild extends StatelessWidget {
-  final controller;
+class CustomTextfeild extends StatefulWidget {
+  final TextEditingController controller;
   final String hintText;
   final bool obscureText;
 
   const CustomTextfeild({
-    super.key,
+    Key? key,
     required this.controller,
     required this.hintText,
-    required this.obscureText,
-  });
+    this.obscureText = false, // Default to false for normal text input
+  }) : super(key: key);
+
+  @override
+  _CustomTextfeildState createState() => _CustomTextfeildState();
+}
+
+class _CustomTextfeildState extends State<CustomTextfeild> {
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        controller: controller,
-        obscureText: obscureText,
+        controller: widget.controller,
+        obscureText: _obscureText && widget.obscureText,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -32,8 +39,21 @@ class CustomTextfeild extends StatelessWidget {
           ),
           fillColor: const Color.fromARGB(253, 255, 255, 255),
           filled: true,
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500])
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: Colors.grey[500]),
+          suffixIcon: widget.obscureText
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey[500],
+                  ),
+                )
+              : null,
         ),
       ),
     );

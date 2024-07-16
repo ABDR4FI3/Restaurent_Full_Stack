@@ -39,7 +39,7 @@ class Loginpage extends StatelessWidget {
         final token = responseData['token'];
         await saveToken(token);
         showSnackbar(context, 'Login successful');
-        Navigator.pushReplacementNamed(context, '/menu');
+        Navigator.pushReplacementNamed(context, '/home');
         break;
       case 404:
         showSnackbar(context, 'User not found');

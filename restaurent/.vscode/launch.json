@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "restaurent",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "restaurent (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "restaurent (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "restaurent - Android Emulator",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "deviceId": "emulator-5554" // This is the ID for sdk gphone64 x86 64 (mobile)
+    }
+  ]
+}

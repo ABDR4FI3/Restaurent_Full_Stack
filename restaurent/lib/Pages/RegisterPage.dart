@@ -7,16 +7,61 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:restaurent/Components/AuthButton.dart';
 import 'package:restaurent/Components/TextFeild.dart';
 
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Registerpage extends StatelessWidget {
   final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
   Registerpage({super.key});
 
   Future<void> RegisterUser(BuildContext context) async {
-    
-  }
+    final String apiUrl = 'http://192.168.100.128:9090/user/register'; 
 
+    final userDTO = {
+      'name': usernameController.text,
+      'email': emailController.text,
+      'address': addressController.text,
+      'phone': phoneController.text,
+      'password': passwordController.text,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(userDTO),
+      );
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+
+        if (responseData['response'].toString() == 200.toString()) {
+          // Save the token using SharedPreferences
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', responseData['token']);
+
+          // Navigate to the next screen or show success message
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          // Handle errors like non-unique username, email, or phone
+          showSnackbar(context, 'Registration failed. Please check your details.');
+        }
+      } else {
+        showSnackbar(context, 'Server error. Please try again later.');
+      }
+    } catch (error) {
+      showSnackbar(context, 'An error occurred. Please try again later.');
+    }
+  }
 
   void showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -89,23 +134,23 @@ class Registerpage extends StatelessWidget {
                 // ! Separator
                 const SizedBox(height: 20),
                 CustomTextfeild(
-                  controller: passwordController,
+                  controller: emailController,
                   hintText: "Enter email",
-                  obscureText: true,
+                  obscureText: false,
                 ),
                 // ! Separator
                 const SizedBox(height: 20),
                 CustomTextfeild(
-                  controller: passwordController,
-                  hintText: "Enter adress",
-                  obscureText: true,
+                  controller: addressController,
+                  hintText: "Enter address",
+                  obscureText: false,
                 ),
                 // ! Separator
                 const SizedBox(height: 20),
                 CustomTextfeild(
-                  controller: passwordController,
+                  controller: phoneController,
                   hintText: "Enter phone",
-                  obscureText: true,
+                  obscureText: false,
                 ),
                 // ! Separator
                 const SizedBox(height: 20),
@@ -147,3 +192,5 @@ class Registerpage extends StatelessWidget {
     );
   }
 }
+
+  
