@@ -37,11 +37,11 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(HomeScreenProvider provider) {
-    
+
 
     return CurvedNavigationBar(
       color: primaryColor,
-      backgroundColor: secondaryColor,
+      backgroundColor: Color.fromARGB(255, 224, 224, 224),
       index: provider.selectedIndex,
       onTap: (index) {
         provider.setIndex(index);

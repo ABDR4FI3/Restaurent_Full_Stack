@@ -65,22 +65,11 @@ class _FoodDetailsState extends State<FoodDetails> {
   }
 
   Future<void> addToCart(Modelfooddetails food, int userId) async {
-    final String url =
-        'http://$IpAdress/cart/add'; // replace with actual IP address
-
-    final Uri uri = Uri.http(url, '/cart/add', {
-      'foodId': food.id,
-      'userId': userId,
-    });
+    final String url = 'http://$IpAdress/cart/add'; //
+    final String apiUrl =
+        'http://192.168.100.128:9090/cart/add?foodId=${food.id}&userId=2';
 
     print("my parameters, foodId: ${food.id} , userId: $userId");
-
-    final Map<String, dynamic> requestBody = {
-      'foodId': food.id,
-      'userId': userId,
-    };
-
-    print("Request body: ${jsonEncode(requestBody)}");
 
     try {
       final response = await http.post(
@@ -92,12 +81,37 @@ class _FoodDetailsState extends State<FoodDetails> {
       );
 
       if (response.statusCode == 200) {
-        print("Added to cart successfully.");
+        print("Added to cart successfully. \n ${response.body}}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Added to cart successfully."),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Already in Cart ."),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
       } else {
         print("Failed to add to cart: ${response.body}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Failed to add to cart: ${response.body}"),
+            backgroundColor: const Color.fromARGB(255, 62, 100, 206),
+          ),
+        );
       }
     } catch (e) {
       print("Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error: $e"),
+          backgroundColor: const Color.fromARGB(255, 62, 100, 206),
+        ),
+      );
     }
   }
 
@@ -217,11 +231,10 @@ class _FoodDetailsState extends State<FoodDetails> {
                               fontWeight: FontWeight.w600),
                         ),
                         RadialBar(
-                          fat: food.foods[0].nutritionValue.fat ?? 0,
-                          protein: food.foods[0].nutritionValue.protein ?? 0,
-                          vitamins: food.foods[0].nutritionValue.vitamins ?? 0,
-                          carbohydrates:
-                              food.foods[0].nutritionValue.carbs ?? 0,
+                          fat: food.foods[0].nutritionValue.fat,
+                          protein: food.foods[0].nutritionValue.protein,
+                          vitamins: food.foods[0].nutritionValue.vitamins,
+                          carbohydrates: food.foods[0].nutritionValue.carbs,
                         ),
                         // * seperator
                         const SizedBox(
@@ -324,13 +337,13 @@ class _FoodDetailsState extends State<FoodDetails> {
                               ),
                               // * Add to Cart Button
                               MyButton(
-                                height: 35, //!35
-                                width: double.infinity, //!80
+                                height: 35,
+                                width: double.infinity,
                                 icon: Icons.shopping_cart,
                                 iconSize: 30,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
-                                boxColor: secondaryColor,
+                                boxColor: thirdColor,
                                 text: "Add to Cart",
                                 fontSize: 15,
                                 contentColor: Colors.white,
