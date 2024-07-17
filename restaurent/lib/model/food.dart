@@ -33,13 +33,14 @@ class Food {
       throw ArgumentError.notNull('json');
     }
 
-    // Parse comments
+    // * Parse comments
     List<Comment> parsedComments = [];
     if (json['comments'] != null) {
       var commentsList = json['comments'] as List<dynamic>;
       parsedComments =
           commentsList.map((comment) => Comment.fromJson(comment)).toList();
     }
+
 
     return Food(
       id: json['id'] ?? 0,
@@ -54,4 +55,5 @@ class Food {
       comments: parsedComments,
     );
   }
+  
 }

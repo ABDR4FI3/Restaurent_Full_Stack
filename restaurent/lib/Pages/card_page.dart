@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:restaurent/Components/MyButton.dart';
-import 'package:restaurent/model/food.dart';
+import 'package:restaurent/Config/IPadress.dart';
+import 'package:restaurent/model/OrderResponse.dart';
 import 'package:restaurent/theme/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -16,71 +17,76 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  List<Food> cartItems = [];
+  List<Order> orders = [];
   int totalPrice = 0;
-  int _selectedIndex = 2; // Set the initial selected index
 
   @override
   void initState() {
     super.initState();
-    fetchCartItems();
+    fetchOrders();
   }
 
-  Future<void> fetchCartItems() async {
-    final url = Uri.parse('http://192.168.100.128:9090/cart/all?userId=2');
-    final response = await http.get(url);
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
 
-    if (response.statusCode == 200) {
-      // Parse JSON response
-      final jsonData = jsonDecode(response.body);
+  Future<void> fetchOrders() async {
+    final token = await getToken();
+    final url = Uri.parse('http://$IpAdress/order/all?token=$token');
 
-      if (jsonData['items'] != null && jsonData['items'] is List) {
-        final List<dynamic> items = jsonData['items'];
+    try {
+      final response = await http.get(url);
 
-        setState(() {
-          cartItems = items.map((item) => Food.fromJson(item)).toList();
-          totalPrice = calculateTotalPrice();
-        });
+      if (response.statusCode == 200) {
+        // Parse JSON response
+        final jsonData = jsonDecode(response.body);
+
+        if (jsonData['orders'] != null && jsonData['orders'] is List) {
+          final List<dynamic> ordersList = jsonData['orders'];
+
+          setState(() {
+            orders = ordersList.map((order) => Order.fromJson(order)).toList();
+            totalPrice = calculateTotalPrice();
+          });
+        } else {
+          setState(() {
+            orders = [];
+            totalPrice = 0;
+          });
+        }
       } else {
-        setState(() {
-          cartItems = [];
-          totalPrice = 0;
-        });
+        throw Exception('Failed to load orders: ${response.body}');
       }
-    } else {
-      throw Exception('Failed to load cart items: ${response.body}');
+    } catch (e) {
+      print('Error fetching orders: $e');
     }
   }
 
   int calculateTotalPrice() {
     int total = 0;
-    for (var item in cartItems) {
-      total += item.price.toInt();
+    for (var order in orders) {
+      total += order.food.price.toInt() *
+          order.qte; // Assuming qte represents quantity
     }
     return total;
   }
 
-  Future<void> removeFromCart(int index) async {
-    if (index < 0 || index >= cartItems.length) {
-      throw Exception('Index out of bounds');
-    }
-    int foodId = cartItems[index].id;
-    final url = Uri.parse('http://192.168.100.128:9090/cart/remove');
-    final response = await http.post(
-      url,
-      body: {
-        'userId': '2', // userId as string
-        'foodId': foodId.toString(), // Convert foodId to string
-      },
-    );
-    if (response.statusCode == 200) {
-      // Remove item from cartItems list
-      setState(() {
-        cartItems.removeAt(index);
-        totalPrice = calculateTotalPrice();
-      });
-    } else {
-      throw Exception('Failed to remove item from cart: ${response.body}');
+  Future<void> removeFromCart(int orderId) async {
+    final token = await getToken();
+    final url =
+        Uri.parse('http://$IpAdress/cart/remove?token=$token&orderId=$orderId');
+
+    try {
+      final response = await http.post(url);
+
+      if (response.statusCode == 200) {
+        fetchOrders();
+      } else {
+        throw Exception('Failed to remove order: ${response.body}');
+      }
+    } catch (e) {
+      print('Error removing order: $e');
     }
   }
 
@@ -91,7 +97,7 @@ class _CardPageState extends State<CardPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: Text(
-          "Cart",
+          "Orders",
           style: GoogleFonts.quicksand(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -102,24 +108,25 @@ class _CardPageState extends State<CardPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: cartItems.length,
+              itemCount: orders.length,
               itemBuilder: (context, index) {
-                final Food food = cartItems[index];
+                final Order order = orders[index];
                 return Card(
                   margin:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
                     leading: Image.asset(
-                      food.image,
+                      order.food.image,
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover,
                     ),
-                    title: Text(food.name),
-                    subtitle: Text('Price: \$${food.price.toString()}'),
+                    title: Text(order.food.name),
+                    subtitle: Text('Quantity: ${order.qte}'),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => removeFromCart(index),
+                      icon: Icon(Icons.delete),
+                      onPressed: () =>
+                          removeFromCart(order.id), // Pass order id to remove
                     ),
                   ),
                 );
@@ -130,7 +137,7 @@ class _CardPageState extends State<CardPage> {
             padding: const EdgeInsets.all(16.0),
             child: MyButton(
               boxColor: Colors.black,
-              text: "Pay ${totalPrice.toString()}",
+              text: "Total Price: ${totalPrice.toString()}",
               onTap: () {
                 // todo Handle payment logic
               },
