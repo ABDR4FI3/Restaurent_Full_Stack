@@ -3,7 +3,9 @@ package com.example.mybackend.Services;
 
 
 import com.example.mybackend.DTO.UserDTO;
+import com.example.mybackend.Models.Cart;
 import com.example.mybackend.Models.Food;
+import com.example.mybackend.Models.Orders;
 import com.example.mybackend.Models.User;
 import com.example.mybackend.Repositories.UserRepository;
 import com.example.mybackend.Repositories.UserRoleRepository;
@@ -106,6 +108,8 @@ public class UserService {
     // * get User Details with token
     public Map<String,Object> getUserDetailsWithToken(String token) {
         try {
+            int count  = 0;
+            float sum = 0;
             HashMap<String,Object> response = new HashMap<>();
             Long userId = Long.valueOf(jwtUtils.extractUserId(token));
             if(userRepository.findById(userId).isEmpty()){
@@ -120,8 +124,23 @@ public class UserService {
                 return response;
             }
             User user = userRepository.findById(userId).get();
+            Cart cart = user.getCart();
+            if(cart == null) {
+                response.put("response", 404);
+                response.put("message", "cart is empty");
+                return response;
+            }
+            // * Get additional info
+            for (Orders order : cart.getOrders()) {
+                if (order.getStatus().equals("paid")){
+                    count++;
+                    sum += order.getFood().getPrice() * order.getQte();
+                }
+            }
             response.put("response", 200);
             response.put("user", user);
+            response.put("count", count);
+            response.put("totale", sum);
             return response;
         }catch (Exception e){
             HashMap<String,Object> response = new HashMap<>();

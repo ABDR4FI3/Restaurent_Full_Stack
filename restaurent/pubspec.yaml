@@ -44,6 +44,10 @@ dependencies:
   flutter_svg:
   shared_preferences: 
   fluttertoast: 
+  flutter_webview_plugin:
+  flutter_map:
+  latlong2:
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

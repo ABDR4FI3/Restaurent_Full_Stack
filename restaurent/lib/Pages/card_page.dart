@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:restaurent/Components/MyButton.dart';
@@ -31,9 +32,58 @@ class _CardPageState extends State<CardPage> {
     return prefs.getString('token');
   }
 
+  Future<Map<String, dynamic>> payOrder() async {
+    String? token = await getToken();
+    // Replace with your API endpoint URL
+    final String apiUrl = 'http://$IpAdress/cart/pay?token=$token';
+
+    // Prepare the query parameters
+
+    try {
+      // Make the GET request
+      final response = await http.get(Uri.parse(apiUrl));
+
+      // * Check if the request was successful (status code 200)
+      if (response.statusCode == 200) {
+        //  * Parse the JSON response
+        Map<String, dynamic> data = jsonDecode(response.body);
+        fetchOrders();
+        //  * Show success toast message
+        Fluttertoast.showToast(
+          msg: "Order paid successfully ! Enjoy your meal !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+        return data;
+      } else {
+        // !  Request failed with an error status code
+        print('Request failed with status: ${response.statusCode}');
+        // ! Show error toast message
+        Fluttertoast.showToast(
+          msg: "Failed to pay order",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
+        return {
+          'response': response.statusCode,
+          'message': 'Failed to pay order'
+        };
+      }
+    } catch (e) {
+      // Handle network or server errors
+      print('Error making payOrder request: $e');
+      return {'response': 500, 'message': 'Internal Server Error'};
+    }
+  }
+
   Future<void> fetchOrders() async {
     final token = await getToken();
-    final url = Uri.parse('http://$IpAdress/order/all?token=$token');
+    final url =
+        Uri.parse('http://$IpAdress/order/status?token=$token&status=pending');
 
     try {
       final response = await http.get(url);
@@ -139,7 +189,7 @@ class _CardPageState extends State<CardPage> {
               boxColor: Colors.black,
               text: "Total Price: ${totalPrice.toString()}",
               onTap: () {
-                // todo Handle payment logic
+                payOrder();
               },
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurent/Components/MapComponent.dart';
 import 'package:restaurent/theme/colors.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -13,6 +14,9 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightBackground,
+      body: Container(
+        child: MapComponent(),
+      ),
     );
   }
 }

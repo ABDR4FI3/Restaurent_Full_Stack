@@ -27,7 +27,7 @@ class FoodDetails extends StatefulWidget {
 
 class _FoodDetailsState extends State<FoodDetails> {
   late Future<FoodWithCarousel> futureFood;
-  int quantity = 0;
+  int quantity = 1;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   }
 
   void decrementQuantity() {
-    if (quantity > 0) {
+    if (quantity > 1) {
       setState(() {
         quantity--;
       });

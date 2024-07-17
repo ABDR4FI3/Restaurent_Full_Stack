@@ -130,7 +130,7 @@ public class OrderService {
             User user = userOptional.get();
             // * Return the response
             response.put("response", 200);
-            response.put("orders", orderRepository.findByStatus(status));
+            response.put("orders", orderRepository.findByStatusAndUser(status,user));
             response.put("message", "Orders retrieved successfully");
             return response;
         }catch (Exception e){

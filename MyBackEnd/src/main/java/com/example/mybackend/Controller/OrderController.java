@@ -1,6 +1,7 @@
 package com.example.mybackend.Controller;
 
 import com.example.mybackend.DTO.MakeOrderDTO;
+import com.example.mybackend.Services.CartService;
 import com.example.mybackend.Services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,8 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     OrderService orderService;
-
+    @Autowired
+    private CartService cartService;
 
 
     @PostMapping("/make")
@@ -31,6 +33,13 @@ public class OrderController {
     public Map<String, Object> GetOrders(@RequestParam("token") String token) {
         return orderService.getAllOrders(token);
     }
+
+    @GetMapping("/status")
+    public Map<String, Object> GetOrdersByStatus(@RequestParam("token") String token, @RequestParam("status") String status) {
+        return orderService.getAllOrdersByStatus(token, status);
+    }
+
+
 
 
 }

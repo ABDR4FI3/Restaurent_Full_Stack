@@ -205,6 +205,61 @@ public class CartService {
         response.put("orders", items);
         return response;
     }
+    // ! not used
+    public Map<String,Object> getAllCartItemsByCategory(String token, String category) {
+        Map<String, Object> response = new HashMap<>();
+        // * Find the user by ID
+        long userId = Long.parseLong(jwtUtils.extractUserId(token));
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            response.put("response", 404);
+            response.put("message", "User not found");
+            return response;
+        }
+        User user = userOptional.get();
+        // * Get or create the cart for the user
+        List<Orders> items = orderRepository.findByStatusAndUser(category, user);
+
+        if (items.isEmpty() || items == null) {
+            response.put("response", 400);
+            response.put("message", "Cart is empty");
+            return response;
+        }
+        response.put("response", 200);
+        response.put("message", "Cart items retrieved successfully");
+        response.put("orders", items);
+        return response;
+
+    }
+    public Map<String,Object> payAllItemsInCart(String token) {
+        Map<String, Object> response = new HashMap<>();
+        // * Find the user by ID
+        long userId = Long.parseLong(jwtUtils.extractUserId(token));
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            response.put("response", 404);
+            response.put("message", "User not found");
+            return response;
+        }
+        User user = userOptional.get();
+        // * Get or create the cart for the user
+        Cart cart = user.getCart();
+
+        List<Orders> items = cart.getOrders();
+        if (items.isEmpty() || cart == null) {
+            response.put("response", 400);
+            response.put("message", "Cart is empty");
+            return response;
+        }
+        for (Orders item : items) {
+            item.setStatus("paid");
+            orderRepository.save(item);
+        }
+        response.put("response", 200);
+        response.put("message", "Cart items retrieved successfully");
+        response.put("orders", items);
+        return response;
+    }
 
 
 }

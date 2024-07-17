@@ -35,4 +35,11 @@ public class CartController {
     public Map<String, Object> getAllCartItems(@RequestParam("token") String token) {
         return cartService.getAllCartItems(token);
     }
+    @GetMapping("/pay")
+    public ResponseEntity<Map<String, Object>> PayOrder(@RequestParam("token") String token) {
+        Map<String, Object> response = cartService.payAllItemsInCart(token);
+        int statusCode = (int) response.get("response");
+        return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));
+    }
+
 }
