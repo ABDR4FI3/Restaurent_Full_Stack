@@ -141,9 +141,9 @@ class _MenuPageState extends State<MenuPage> {
             ),
 
             const SizedBox(height: 10),
-            // Menu List Image Widget
+            // * Menu List Image Widget
             SizedBox(
-              height: 365,
+              height: 250,  
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: foodMenu.length,
