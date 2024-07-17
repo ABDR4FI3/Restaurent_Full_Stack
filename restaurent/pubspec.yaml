@@ -43,7 +43,7 @@ dependencies:
   http:
   flutter_svg:
   shared_preferences: 
-
+  fluttertoast: 
 
 dev_dependencies:
   flutter_test:
