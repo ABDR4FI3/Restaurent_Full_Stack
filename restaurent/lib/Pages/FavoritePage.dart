@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurent/theme/colors.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -10,8 +11,8 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Favourite Page"),
+    return Scaffold(
+      backgroundColor: lightBackground,
     );
   }
 }

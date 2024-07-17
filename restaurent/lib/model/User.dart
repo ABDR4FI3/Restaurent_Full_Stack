@@ -6,16 +6,18 @@ class User {
   final String address;
   final String phone;
   final String email;
+  final String gender;
   final String password; // Added password field
   final UserRole userRole;
 
   User({
     required this.id,
     required this.name,
+    required this.gender,
     required this.address,
     required this.phone,
     required this.email,
-    required this.password, // Include password in constructor
+    required this.password, 
     required this.userRole,
   });
 
@@ -25,6 +27,7 @@ class User {
       name: json['name'] ?? '',
       address: json['address'] ?? '',
       phone: json['phone'] ?? '',
+      gender: json['gender'] ?? '',
       email: json['email'] ?? '',
       password: json['password'] ??
           '', 

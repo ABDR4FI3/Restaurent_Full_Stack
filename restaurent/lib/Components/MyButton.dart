@@ -50,7 +50,7 @@ class MyButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   fontSize: fontSize ?? 30,
-                  color: contentColor ?? const Color.fromARGB(255, 138, 60, 50),
+                  color: contentColor ?? Color.fromARGB(255, 50, 94, 138),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -59,7 +59,7 @@ class MyButton extends StatelessWidget {
             if (icon != null)
               Icon(
                 icon,
-                color: contentColor ?? Colors.brown,
+                color: contentColor ?? Color.fromARGB(255, 56, 91, 108),
                 size: iconSize ?? 40,
               ),
           ],

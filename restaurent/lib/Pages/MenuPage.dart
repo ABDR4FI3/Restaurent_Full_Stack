@@ -55,7 +55,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     int randomMealId = foodMenu.isNotEmpty ? foodMenu.length : 0;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(234, 255, 255, 255),
+      backgroundColor: lightBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: const Icon(

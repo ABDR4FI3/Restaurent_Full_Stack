@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,12 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/radialbar.dart';
 import 'package:restaurent/Config/IPadress.dart';
+import 'package:restaurent/Pages/LoginPage.dart';
 import 'package:restaurent/model/FoodWithCarousel.dart';
 import 'package:restaurent/model/ModelFoodDetails.dart';
 import 'package:restaurent/model/food.dart';
 import 'package:restaurent/model/shop.dart';
 import 'package:restaurent/theme/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Add this import
 
 class FoodDetails extends StatefulWidget {
   final int foodId;
@@ -40,8 +42,7 @@ class _FoodDetailsState extends State<FoodDetails> {
     if (response.statusCode == 200) {
       print('Response Body: ${response.body}');
       final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      final foodJson = jsonResponse['food']
-          [0]; // Adjusted to access the first element of the food array
+      final foodJson = jsonResponse['food'][0];
       final foodWithCarousel = FoodWithCarousel.fromJson(foodJson);
       return foodWithCarousel;
     } else {
@@ -56,6 +57,11 @@ class _FoodDetailsState extends State<FoodDetails> {
     });
   }
 
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
   void decrementQuantity() {
     if (quantity > 0) {
       setState(() {
@@ -64,40 +70,60 @@ class _FoodDetailsState extends State<FoodDetails> {
     }
   }
 
-  Future<void> addToCart(Modelfooddetails food, int userId) async {
-    final String url =
-        'http://$IpAdress/cart/add'; // replace with actual IP address
+  Future<void> addToCart(Modelfooddetails food, String token, int qte) async {
+    final String apiUrl = 'http://$IpAdress/order/make';
 
-    final Uri uri = Uri.http(url, '/cart/add', {
+    print("my parameters, foodId: ${food.id}, token: $token, qte: $qte");
+
+    final makeOrderDTO = {
+      'token': token,
       'foodId': food.id,
-      'userId': userId,
-    });
-
-    print("my parameters, foodId: ${food.id} , userId: $userId");
-
-    final Map<String, dynamic> requestBody = {
-      'foodId': food.id,
-      'userId': userId,
+      'qte': qte,
     };
-
-    print("Request body: ${jsonEncode(requestBody)}");
 
     try {
       final response = await http.post(
-        Uri.parse(
-            'http://$IpAdress/cart/add?foodId=${food.id}&userId=${userId}'),
+        Uri.parse(apiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
+        body: jsonEncode(makeOrderDTO),
       );
 
       if (response.statusCode == 200) {
-        print("Added to cart successfully.");
+        print("Order placed successfully. \n ${response.body}}");
+        Fluttertoast.showToast(
+          msg: "Order placed successfully.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       } else {
-        print("Failed to add to cart: ${response.body}");
+        print("Failed to place order: ${response.body}");
+        Fluttertoast.showToast(
+          msg: "Failed to place order: ${response.body}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
     } catch (e) {
       print("Error: $e");
+      Fluttertoast.showToast(
+        msg: "Error: $e",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -217,31 +243,25 @@ class _FoodDetailsState extends State<FoodDetails> {
                               fontWeight: FontWeight.w600),
                         ),
                         RadialBar(
-                          fat: food.foods[0].nutritionValue.fat ?? 0,
-                          protein: food.foods[0].nutritionValue.protein ?? 0,
-                          vitamins: food.foods[0].nutritionValue.vitamins ?? 0,
-                          carbohydrates:
-                              food.foods[0].nutritionValue.carbs ?? 0,
+                          fat: food.foods[0].nutritionValue.fat,
+                          protein: food.foods[0].nutritionValue.protein,
+                          vitamins: food.foods[0].nutritionValue.vitamins,
+                          carbohydrates: food.foods[0].nutritionValue.carbs,
                         ),
                         // * seperator
                         const SizedBox(
                           height: 30,
                         ),
-
                         Container(
-                          //width: 200,
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(10),
-                          height: 130,
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
                             color: primaryColor,
-                            boxShadow: [
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: const [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 15,
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
+                                color: Colors.black12,
+                                blurRadius: 5,
+                                offset: Offset(10, 10),
                               ),
                             ],
                           ),
@@ -274,7 +294,6 @@ class _FoodDetailsState extends State<FoodDetails> {
                                     ],
                                   ),
                                   // * Right section with buttons and quantity
-                                  /*
                                   Row(
                                     children: [
                                       // * Remove Button
@@ -319,26 +338,45 @@ class _FoodDetailsState extends State<FoodDetails> {
                                       ),
                                     ],
                                   ),
-                                  */
                                 ],
                               ),
                               // * Add to Cart Button
                               MyButton(
-                                height: 35, //!35
-                                width: double.infinity, //!80
+                                height: 35,
+                                width: double.infinity,
                                 icon: Icons.shopping_cart,
                                 iconSize: 30,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 15),
-                                boxColor: secondaryColor,
+                                boxColor: Colors.white,
                                 text: "Add to Cart",
                                 fontSize: 15,
-                                contentColor: Colors.white,
-                                onTap: () => addToCart(food.foods[0], 2),
+                                contentColor: thirdColor,
+                                onTap: () async {
+                                  final token = await getToken();
+                                  if (token != null) {
+                                    addToCart(
+                                      food.foods[0],
+                                      token,
+                                      quantity,
+                                    );
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "Failed to retrieve token",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    //Navigator.push(context, Routes.loginRoute);
+                                  }
+                                },
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -347,6 +385,23 @@ class _FoodDetailsState extends State<FoodDetails> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: 1,
+        height: 50.0,
+        items: const <Widget>[
+          Icon(Icons.add, size: 30),
+          Icon(Icons.list, size: 30),
+          Icon(Icons.compare_arrows, size: 30),
+        ],
+        color: primaryColor,
+        buttonBackgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 600),
+        onTap: (index) {
+          //Handle button tap
+        },
       ),
     );
   }

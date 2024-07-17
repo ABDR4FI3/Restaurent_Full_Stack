@@ -87,6 +87,7 @@ class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: lightBackground,
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: Text(
@@ -128,11 +129,10 @@ class _CardPageState extends State<CardPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: MyButton(
+              boxColor: Colors.black,
               text: "Pay ${totalPrice.toString()}",
               onTap: () {
-                // Handle payment logic
-                // This is where you would typically navigate to a payment screen
-                // or execute payment operations.
+                // todo Handle payment logic
               },
             ),
           ),
