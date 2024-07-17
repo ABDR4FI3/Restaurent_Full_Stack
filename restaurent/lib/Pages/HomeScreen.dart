@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
       },
       items: const [
         Icon(Icons.home, color: Colors.white),
-        Icon(Icons.favorite, color: Colors.white),
+        Icon(Icons.location_on, color: Colors.white),
         Icon(Icons.shopping_cart, color: Colors.white),
         Icon(Icons.person, color: Colors.white),
       ],

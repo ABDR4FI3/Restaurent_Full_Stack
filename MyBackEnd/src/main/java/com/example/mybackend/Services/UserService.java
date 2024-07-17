@@ -3,6 +3,9 @@ package com.example.mybackend.Services;
 
 
 import com.example.mybackend.DTO.UserDTO;
+import com.example.mybackend.Models.Cart;
+import com.example.mybackend.Models.Food;
+import com.example.mybackend.Models.Orders;
 import com.example.mybackend.Models.User;
 import com.example.mybackend.Repositories.UserRepository;
 import com.example.mybackend.Repositories.UserRoleRepository;
@@ -57,6 +60,7 @@ public class UserService {
                 .password(user.getPassword())
                 .phone(user.getPhone())
                 .address(user.getAddress())
+                .gender("male")
                 .userRole(userRoleRepository.findById(1L).get())
                 .build();
 
@@ -71,9 +75,9 @@ public class UserService {
         return response;
     }
     //* User Login
-    public Map<String, Object> login(String email, String password) {
+    public Map<String, Object> login(String username, String password) {
         HashMap<String, Object> response = new HashMap<>();
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByName(username);
         if (user == null) {
             response.put("response", 404);
             return response;
@@ -100,5 +104,52 @@ public class UserService {
         response.put("response", 200);
         response.put("user", userRepository.findById(userId).get());
         return response;
+    }
+    // * get User Details with token
+    public Map<String,Object> getUserDetailsWithToken(String token) {
+        try {
+            int count  = 0;
+            float sum = 0;
+            HashMap<String,Object> response = new HashMap<>();
+            Long userId = Long.valueOf(jwtUtils.extractUserId(token));
+            if(userRepository.findById(userId).isEmpty()){
+                response.put("response", 404);
+                response.put("message", "User not found");
+                return response;
+            }
+            if(jwtUtils.isTokenExpired(token)) {
+                System.out.println("token validity is " + jwtUtils.isTokenExpired(token));
+                response.put("response", 401);
+                response.put("message", "Token expired");
+                return response;
+            }
+            User user = userRepository.findById(userId).get();
+            Cart cart = user.getCart();
+            if(cart == null) {
+                response.put("response", 404);
+                response.put("message", "cart is empty");
+                return response;
+            }
+            // * Get additional info
+            for (Orders order : cart.getOrders()) {
+                if (order.getStatus().equals("paid")){
+                    count++;
+                    sum += order.getFood().getPrice() * order.getQte();
+                }
+            }
+            response.put("response", 200);
+            response.put("user", user);
+            response.put("count", count);
+            response.put("totale", sum);
+            return response;
+        }catch (Exception e){
+            HashMap<String,Object> response = new HashMap<>();
+            response.put("response", 401);
+            response.put("message", "Invalid token");
+            response.put("exception", e.getMessage());
+            response.put("exception cause", e.getCause());
+            return response;
+        }
+
     }
 }

@@ -30,7 +30,7 @@ public class Food {
     private String image;
 
     @Lob
-    @Column(length = 10000)  // Specifies the maximum length of the description
+    @Column(length = 10000)  // * Specifies the maximum length of the description
     private String description;
 
     private float rating;
@@ -60,5 +60,18 @@ public class Food {
     @ManyToMany(mappedBy = "favoriteFoods")
     @JsonIgnore
     private List<User> users;
+
+    @OneToMany(mappedBy = "food")
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Orders> orders;
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurent/Config/IPadress.dart';
+import 'package:restaurent/Pages/UserWithDetails.dart';
 import 'package:restaurent/model/User.dart';
 import 'package:restaurent/theme/colors.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class Profilepage extends StatefulWidget {
 }
 
 class _ProfilepageState extends State<Profilepage> {
-  late Future<User> userDetails;
+  late Future<UserWithDetails> userDetails;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _ProfilepageState extends State<Profilepage> {
     userDetails = fetchUserDetails();
   }
 
-  Future<User> fetchUserDetails() async {
+  Future<UserWithDetails> fetchUserDetails() async {
     final String url = 'http://$IpAdress/user/details';
     final String? token = await getToken();
 
@@ -47,11 +48,7 @@ class _ProfilepageState extends State<Profilepage> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        if (data.containsKey('user')) {
-          return User.fromJson(data['user']);
-        } else {
-          throw Exception('User data not found in response');
-        }
+        return UserWithDetails.fromJson(data);
       } else {
         throw Exception('Failed to load user details');
       }
@@ -69,7 +66,7 @@ class _ProfilepageState extends State<Profilepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightBackground,
-      body: FutureBuilder<User>(
+      body: FutureBuilder<UserWithDetails>(
         future: userDetails,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -105,7 +102,7 @@ class _ProfilepageState extends State<Profilepage> {
                     ),
                   ),
                   Text(
-                    userDetails.name,
+                    userDetails.user.name,
                     style: GoogleFonts.montserrat(
                       fontSize: 25,
                       color: primaryColor,
@@ -153,7 +150,7 @@ class _ProfilepageState extends State<Profilepage> {
                                       size: 40,
                                     ),
                                     Text(
-                                      userDetails.gender,
+                                      userDetails.user.gender,
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
@@ -166,7 +163,7 @@ class _ProfilepageState extends State<Profilepage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      userDetails.address,
+                                      userDetails.user.address,
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
@@ -193,7 +190,7 @@ class _ProfilepageState extends State<Profilepage> {
                                       width: 10,
                                     ),
                                     Text(
-                                      userDetails.phone,
+                                      userDetails.user.phone,
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
@@ -206,7 +203,7 @@ class _ProfilepageState extends State<Profilepage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      userDetails.email,
+                                      userDetails.user.email,
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
@@ -233,7 +230,7 @@ class _ProfilepageState extends State<Profilepage> {
                                       width: 10,
                                     ),
                                     Text(
-                                      'Count Orders',
+                                      'Count Orders: ${userDetails.count}',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
@@ -246,7 +243,7 @@ class _ProfilepageState extends State<Profilepage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Total Spent',
+                                      'Total Spent: ${userDetails.total}',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 20,
                                       ),
