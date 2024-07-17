@@ -2,6 +2,7 @@ package com.example.mybackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,8 @@ public class Cart {
     @JsonIgnore
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Food> items;
-
-    // Getters and setters
+    @JsonIgnoreProperties("")
+    private List<Orders> orders;
 }

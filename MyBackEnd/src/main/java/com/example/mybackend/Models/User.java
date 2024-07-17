@@ -21,12 +21,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String name;
     private String password;
     private String address;
     private String phone;
     private String email;
+    private String gender;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -48,6 +49,10 @@ public class User {
     )
     @JsonBackReference
     private List<Food> favoriteFoods;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Orders> orders;
 
 
 }

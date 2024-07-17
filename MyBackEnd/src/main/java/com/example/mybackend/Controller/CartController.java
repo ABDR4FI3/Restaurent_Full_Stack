@@ -2,6 +2,8 @@ package com.example.mybackend.Controller;
 
 import com.example.mybackend.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -13,19 +15,24 @@ public class CartController {
     CartService cartService;
 
     @PostMapping("/add")
-    public Map<String, Object> addFoodToCart(@RequestParam("foodId") int foodId, @RequestParam("userId") long userId) {
-        return cartService.addFoodToCart(foodId, userId);
+    public ResponseEntity<Map<String, Object>> addFoodToCart(@RequestParam("foodId") int foodId, @RequestParam("userId") long userId) {
+        Map<String, Object> response = cartService.addFoodToCart(foodId, userId);
+        int statusCode = (int) response.get("response");
+        return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));
     }
+
     @PostMapping("/remove")
-    public Map<String, Object> removeFoodFromCart(@RequestParam("foodId") long foodId, @RequestParam("userId") long userId) {
-        return cartService.removeFoodFromCart(foodId, userId);
+    public ResponseEntity<Map<String, Object>> removeFoodFromCart(@RequestParam("token") String token, @RequestParam("orderId") long orderId) {
+        Map<String, Object> response = cartService.removeFoodFromCart(token, orderId);
+        int statusCode = (int) response.get("response");
+        return new ResponseEntity<>(response, HttpStatus.valueOf(statusCode));
     }
     @PostMapping("/clear")
     public Map<String, Object> clearCart(@RequestParam("userId") long userId) {
         return cartService.clearCart(userId);
     }
     @GetMapping("/all")
-    public Map<String, Object> getAllCartItems(@RequestParam("userId") long userId) {
-        return cartService.getAllCartItems(userId);
+    public Map<String, Object> getAllCartItems(@RequestParam("token") String token) {
+        return cartService.getAllCartItems(token);
     }
 }
