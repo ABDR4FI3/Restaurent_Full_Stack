@@ -49,7 +49,7 @@ class _FoodTileState extends State<FoodTile> {
                 ),
                 Positioned(
                   top: 0,
-                  right: 5,
+                  right: -5,
                   height: 40,
                   width: 40,
                   child: IconButton(

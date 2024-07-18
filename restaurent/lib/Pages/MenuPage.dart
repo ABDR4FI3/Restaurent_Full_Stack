@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,14 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   late List<Food> foodMenu = [];
+  bool isVisible = true;
+  List<String> categories = [
+    'All',
+    'Fast Food',
+    'Healthy Food',
+    'Asian',
+    'Desserts',
+  ];
 
   // Fetch food data from API
   Future<void> fetchFoods() async {
@@ -53,7 +62,6 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    int randomMealId = foodMenu.isNotEmpty ? foodMenu.length : 0;
     return Scaffold(
       backgroundColor: lightBackground,
       appBar: AppBar(
@@ -69,13 +77,13 @@ class _MenuPageState extends State<MenuPage> {
             color: Colors.black,
           ),
         ),
-        centerTitle: true, // This will center the title
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Search Bar
+            // *Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: TextField(
@@ -92,44 +100,46 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ),
             ),
-            // Get a Discount Text Widget
-            Container(
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.circular(25),
+            const SizedBox(height: 20),
+            // * Carousel Slider
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlayInterval: const Duration(seconds: 2),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.3,
+                scrollDirection: Axis.horizontal,
+                enableInfiniteScroll: true,
+                height: 240.0,
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
               ),
-              margin: const EdgeInsets.all(25),
-              padding: const EdgeInsets.all(25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Get a 10% discount on your order",
-                          style: GoogleFonts.abhayaLibre(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+              items: foodMenu.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: primaryColor),
+                        ),
+                        child: Image(
+                          image: AssetImage(
+                            i.image,
                           ),
-                        ),
-                        // Redeem Button Widget
-                        MyButton(
-                          text: "Redeem",
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                          fit: BoxFit.cover,
+                        ));
+                  },
+                );
+              }).toList(),
             ),
-
-            // Menu List Text Widget
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            // * Menu List Text Widget
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Text(
                 "Food Menu ",
                 style: TextStyle(
@@ -139,13 +149,50 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
-            // * Menu List Image Widget
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              child: SizedBox(
+                height: 50, // Adjust the height as needed
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Container(
+                        width: 150, // Adjust the width as needed
+                        decoration: BoxDecoration(
+                          color: primaryColor, // Example color
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            categories[index],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            // * Grid Menu with Image Widget
             SizedBox(
-              height: 250,  
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+              height: 550,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 0,
+                  crossAxisSpacing: 0,
+                  childAspectRatio: 0.75,
+                ),
                 itemCount: foodMenu.length,
                 itemBuilder: (context, index) => FoodTile(
                   onTap: () => navigateToFoodDetails(index),
@@ -153,6 +200,7 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ),
             ),
+
             // Separator
             const SizedBox(
               height: 10,
@@ -164,14 +212,13 @@ class _MenuPageState extends State<MenuPage> {
               child: Row(
                 children: [
                   Text(
-                    "Popular meal today",
-                    style: GoogleFonts.abhayaLibre(
-                      fontSize: 25,
+                    "A gift for your first order",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  // Heart Icon
                   const Icon(
                     Icons.favorite,
                     color: Colors.red,
@@ -180,7 +227,45 @@ class _MenuPageState extends State<MenuPage> {
                 ],
               ),
             ),
-            // Popular Menu Items
+            Visibility(
+              visible: isVisible,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                margin: const EdgeInsets.all(25),
+                padding: const EdgeInsets.all(25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Get a 10% discount on your order",
+                            style: GoogleFonts.abhayaLibre(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          MyButton(
+                            text: "Redeem",
+                            onTap: () {
+                              setState(() {
+                                isVisible = false; // Update isVisible state
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
