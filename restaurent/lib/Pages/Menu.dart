@@ -36,10 +36,10 @@ class _MenuState extends State<Menu> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Menu",
-          style: GoogleFonts.montserrat(
+          'Discover our menu',
+          style: GoogleFonts.abhayaLibre(
+            fontWeight: FontWeight.w800,
             color: Colors.white,
-            fontSize: 20,
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.white),

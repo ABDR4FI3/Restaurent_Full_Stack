@@ -23,11 +23,10 @@ class _MenuPageState extends State<MenuPage> {
   late List<Food> foodMenu = [];
   bool isVisible = true;
 
-
   // Fetch food data from API
   Future<void> fetchFoods() async {
     final response =
-        await http.get(Uri.parse('http://192.168.100.128:9090/food/all'));
+        await http.get(Uri.parse('http://192.168.100.128:9090/food/popular'));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
@@ -82,7 +81,7 @@ class _MenuPageState extends State<MenuPage> {
         ),
         centerTitle: true,
       ),
-      drawer:  Customdrawer(),
+      drawer: Customdrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,18 +142,23 @@ class _MenuPageState extends State<MenuPage> {
             // * Menu List Text Widget
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              child: Text(
-                "Food Menu ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[900],
-                  fontSize: 25,
+              margin: const EdgeInsets.only(
+                top: 20,
+              ),
+              child: Center(
+                child: Text(
+                  "Popular Items  ",
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[900],
+                    fontSize: 25,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            Container(
+            // * List of Categories
+            /*Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
               child: SizedBox(
                 height: 50, // Adjust the height as needed
@@ -185,7 +189,7 @@ class _MenuPageState extends State<MenuPage> {
                   },
                 ),
               ),
-            ),
+            ),*/
             const SizedBox(height: 10),
             // * Grid Menu with Image Widget
             SizedBox(
@@ -205,11 +209,11 @@ class _MenuPageState extends State<MenuPage> {
               ),
             ),
 
-            // Separator
+            //  * Separator
             const SizedBox(
               height: 10,
             ),
-            // Popular Menu Text
+            // * Redeem Coupon Text
             Container(
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
@@ -231,6 +235,8 @@ class _MenuPageState extends State<MenuPage> {
                 ],
               ),
             ),
+
+            //* Redeem Coupon Widget
             Visibility(
               visible: isVisible,
               child: Container(

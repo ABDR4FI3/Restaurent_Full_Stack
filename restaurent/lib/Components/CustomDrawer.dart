@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent/Pages/FavoritePage.dart';
+import 'package:restaurent/Pages/HistoryPurchase.dart';
 import 'package:restaurent/Pages/LoginPage.dart';
 import 'package:restaurent/Pages/Menu.dart';
 import 'package:restaurent/Pages/MenuPage.dart';
@@ -95,6 +96,7 @@ class Customdrawer extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text('Profile'),
             onTap: () {
+              print("go to profile page ");
               routingProvider.setIndex(3);
             },
           ),
@@ -103,6 +105,13 @@ class Customdrawer extends StatelessWidget {
             title: const Text('Home'),
             onTap: () {
               routingProvider.setIndex(0);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text('Favorite'),
+            onTap: () {
+              // TODO: Add favourite page
             },
           ),
           ListTile(
@@ -123,10 +132,13 @@ class Customdrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Favorite'),
+            leading: const Icon(Icons.history),
+            title: const Text('History'),
             onTap: () {
-              // TODO: Add favourite page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Historypurchase()),
+              );
             },
           ),
           ListTile(
