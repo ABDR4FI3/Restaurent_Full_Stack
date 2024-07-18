@@ -30,6 +30,25 @@ public class FoodService {
         response.put("response", 200);
         return response;
     }
+    public Map<String, Object> getPopularFoods() {
+        HashMap<String, Object> response = new HashMap<>();
+        int count = 0;
+        if(foodRepository.findAll().isEmpty() ) {
+            response.put("response", 404);
+            return response;
+        }
+        List<Food> foods = foodRepository.findAll();
+        List<Food> popularFoods = new ArrayList<>();
+        for (Food food : foods) {
+            if(count < 4) {
+                popularFoods.add(food);
+                count++;
+            }
+        }
+        response.put("foods", popularFoods);
+        response.put("response", 200);
+        return response;
+    }
 
     // * Get a Specific food
     public Map<String, Object> getOneFood(long id) {

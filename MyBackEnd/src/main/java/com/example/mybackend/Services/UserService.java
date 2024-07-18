@@ -86,10 +86,12 @@ public class UserService {
         User user = userRepository.findByName(username);
         if (user == null) {
             response.put("response", 404);
+            response.put("message", "User not found with this username");
             return response;
         }
         if (!user.getPassword().equals(password)) {
             response.put("response", 401);
+            response.put("message", "Password incorrect");
             return response;
         }
         jwtUtils.generateToken(user);

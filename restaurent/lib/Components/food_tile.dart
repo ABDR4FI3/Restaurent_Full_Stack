@@ -31,10 +31,10 @@ class _FoodTileState extends State<FoodTile> {
         height: 250,
         decoration: BoxDecoration(
           color: Colors.grey[100],
-          border: Border.all(color: primaryColor, width: 5),
+          border: Border.all(color: Colors.grey.shade300, width: 1),
           borderRadius: BorderRadius.circular(20),
         ),
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(5),
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
