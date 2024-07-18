@@ -48,6 +48,7 @@ dependencies:
   flutter_map:
   latlong2:
   url_launcher: ^6.3.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,10 @@ flutter:
     - Images/Salad/
     - Images/Burger/
     - Images/Ramen/
+    - Images/sushi/
+    - Images/pizza/
+    - Images/pasta/
+    - Images/taco/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

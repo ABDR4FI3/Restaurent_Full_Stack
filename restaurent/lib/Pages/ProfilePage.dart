@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:restaurent/Components/CustomDrawer.dart';
 import 'package:restaurent/Config/IPadress.dart';
-import 'package:restaurent/Pages/UserWithDetails.dart';
+import 'package:restaurent/model/UserWithDetails.dart';
 import 'package:restaurent/model/User.dart';
 import 'package:restaurent/theme/colors.dart';
 import 'package:http/http.dart' as http;
@@ -66,6 +67,7 @@ class _ProfilepageState extends State<Profilepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightBackground,
+      drawer: Customdrawer(),
       body: FutureBuilder<UserWithDetails>(
         future: userDetails,
         builder: (context, snapshot) {
@@ -116,9 +118,9 @@ class _ProfilepageState extends State<Profilepage> {
                       margin: const EdgeInsets.only(
                         top: 20,
                       ),
-                      decoration: BoxDecoration(
-                        color: secondaryColor,
-                        borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                        color:  slateGray,
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25),
                             topRight: Radius.circular(25)),
                       ),

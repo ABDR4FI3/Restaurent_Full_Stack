@@ -8,11 +8,18 @@ import 'package:restaurent/Pages/MenuPage.dart';
 import 'package:restaurent/Pages/ProfilePage.dart';
 import 'package:restaurent/Pages/RegisterPage.dart';
 import 'package:restaurent/Pages/card_page.dart';
+import 'package:restaurent/Provider/FoodProvider.dart';
 import 'package:restaurent/Provider/HomeScreenProvider.dart';
 import 'package:restaurent/theme/colors.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => HomeScreenProvider()),
+      ChangeNotifierProvider(create: (context) => FoodProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -164,7 +164,7 @@ class _FoodDetailsState extends State<FoodDetails> {
               // *  image logo
               Image.asset(
                 food.foods[0].image,
-                height: 300,
+                height: 400,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -174,10 +174,15 @@ class _FoodDetailsState extends State<FoodDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // * Meal Name
-                    Text(
-                      food.foods[0].name,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
+                    Center(
+                      child: Text(
+                        food.foods[0].name,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 34,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 5
+                        )
+                      ),
                     ),
                     //* seperator
                     const SizedBox(height: 8),
@@ -386,7 +391,7 @@ class _FoodDetailsState extends State<FoodDetails> {
           ),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
+      /*bottomNavigationBar: CurvedNavigationBar(
         index: 1,
         height: 50.0,
         items: const <Widget>[
@@ -402,7 +407,7 @@ class _FoodDetailsState extends State<FoodDetails> {
         onTap: (index) {
           //Handle button tap
         },
-      ),
+      ),*/
     );
   }
 }

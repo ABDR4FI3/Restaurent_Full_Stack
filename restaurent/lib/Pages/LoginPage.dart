@@ -38,6 +38,8 @@ class Loginpage extends StatelessWidget {
         final responseData = jsonDecode(response.body);
         final token = responseData['token'];
         await saveToken(token);
+        await saveName(responseData['username']);
+        await saveMail(responseData['usermail']);
         showSnackbar(context, 'Login successful');
         Navigator.pushReplacementNamed(context, '/home');
         break;
@@ -56,6 +58,14 @@ class Loginpage extends StatelessWidget {
   Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
+  }
+  Future<void> saveName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
+  }
+  Future<void> saveMail(String mail) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('mail', mail);
   }
 
   void showSnackbar(BuildContext context, String message) {
@@ -143,7 +153,7 @@ class Loginpage extends StatelessWidget {
                         onTap: () {
                           Navigator.pushReplacementNamed(context, '/register');
                         },
-                        child: Text("Forgot Password?",
+                        child: Text("you don't have an account?",
                             style: GoogleFonts.quicksand(
                               color: Colors.white,
                             )),

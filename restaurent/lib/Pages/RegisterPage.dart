@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -43,6 +44,7 @@ class Registerpage extends StatelessWidget {
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
+        String message = responseData['message'];
 
         if (responseData['response'].toString() == 200.toString()) {
           // Save the token using SharedPreferences
@@ -53,19 +55,21 @@ class Registerpage extends StatelessWidget {
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           // Handle errors like non-unique username, email, or phone
-          showSnackbar(context, 'Registration failed. Please check your details.');
+          showSnackbar(context,
+           'Registration failed. $message',
+           Color(Colors.red.value));
         }
       } else {
-        showSnackbar(context, 'Server error. Please try again later.');
+        showSnackbar(context, 'Server error. Please try again later.' , Colors.redAccent);
       }
     } catch (error) {
-      showSnackbar(context, 'An error occurred. Please try again later.');
+      showSnackbar(context, 'An error occurred. Please try again later $error.' , Colors.black);
     }
   }
 
-  void showSnackbar(BuildContext context, String message) {
+  void showSnackbar(BuildContext context, String message , Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(content: Text(message),backgroundColor: color,),
     );
   }
 

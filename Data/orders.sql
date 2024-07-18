@@ -1,0 +1,12 @@
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (5, 7, 2, 1, 3, 'pending');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (10, 6, 2, 4, 3, 'pending');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (24, 2, 1, 4, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (25, 1, 1, 2, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (27, 4, 1, 1, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (28, 7, 1, 1, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (29, 3, 1, 1, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (30, 3, 1, 2, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (31, 3, 1, 1, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (32, 3, 1, 3, 2, 'paid');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (42, 2, 1, 1, 2, 'pending');
+INSERT INTO restaurent.orders (id, qte, cart_id, food_id, user_id, status) VALUES (43, 3, 1, 1, 2, 'pending');

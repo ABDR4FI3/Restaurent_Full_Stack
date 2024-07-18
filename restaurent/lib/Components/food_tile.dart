@@ -27,8 +27,8 @@ class _FoodTileState extends State<FoodTile> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        width: 270,
-        height: 350,
+        width: 180,
+        height: 250,
         decoration: BoxDecoration(
           color: Colors.grey[100],
           border: Border.all(color: primaryColor, width: 5),
@@ -43,13 +43,13 @@ class _FoodTileState extends State<FoodTile> {
               children: [
                 Image.asset(
                   widget.food.image,
-                  height: 200,
-                  width: 200,
+                  height: 100,
+                  width: 100,
                   fit: BoxFit.cover,
                 ),
                 Positioned(
                   top: 0,
-                  right: 5,
+                  right: -5,
                   height: 40,
                   width: 40,
                   child: IconButton(
@@ -67,7 +67,7 @@ class _FoodTileState extends State<FoodTile> {
             Text(
               widget.food.name,
               style: GoogleFonts.abhayaLibre(
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -81,7 +81,7 @@ class _FoodTileState extends State<FoodTile> {
                     Text(
                       widget.food.price.toString(),
                       style: GoogleFonts.abhayaLibre(
-                        fontSize: 40,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -89,7 +89,7 @@ class _FoodTileState extends State<FoodTile> {
                     Icon(
                       Icons.attach_money,
                       color: Colors.green[700],
-                      size: 40,
+                      size: 20,
                     ),
                   ],
                 ),
@@ -102,7 +102,7 @@ class _FoodTileState extends State<FoodTile> {
                     Text(
                       widget.food.rating.toString(),
                       style: GoogleFonts.abhayaLibre(
-                        fontSize: 40,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -110,7 +110,7 @@ class _FoodTileState extends State<FoodTile> {
                     Icon(
                       Icons.star,
                       color: Colors.yellow[700],
-                      size: 40,
+                      size: 20,
                     ),
                   ],
                 ),

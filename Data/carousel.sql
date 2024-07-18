@@ -1,0 +1,11 @@
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (1, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (2, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (3, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (4, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (5, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (6, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (7, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (8, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (9, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (10, null);
+INSERT INTO restaurent.carousel (carousel_id, food_id) VALUES (11, null);
