@@ -18,6 +18,10 @@ public class FoodController {
     public Map<String, Object> getAllFoods() {
         return foodService.getAllFoods();
     }
+    @GetMapping("/popular")
+    public Map<String, Object> getPopularFoods() {
+        return foodService.getPopularFoods();
+    }
     // * Get one food
     @GetMapping("/{food_id}")
     public Map<String, Object> getOneFood(@PathVariable("food_id") long id) {
