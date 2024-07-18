@@ -40,7 +40,13 @@ public class UserService {
     public Map<String, Object> registration(UserDTO user) {
         Map<String, Object> response = new HashMap<>();
         System.out.println("my user is " + user);
-        // Check if the username, email, and phone are unique
+        //! Check validity of user data
+        if(user.getAddress() == null || user.getEmail() == null || user.getName() == null || user.getPassword() == null || user.getPhone() == null) {
+            response.put("response", 400);
+            response.put("message", "Missing user data");
+            return response;
+        }
+        // * Check if the username, email, and phone are unique
         boolean isUsernameUnique = (userRepository.findByName(user.getName()) == null);
         boolean isEmailUnique = (userRepository.findByEmail(user.getEmail()) == null);
         boolean isPhoneUnique = (userRepository.findByPhone(user.getPhone()) == null);
@@ -88,6 +94,8 @@ public class UserService {
         }
         jwtUtils.generateToken(user);
         response.put("response", 200);
+        response.put("username", user.getName());
+        response.put("usermail", user.getEmail());
         response.put("token", jwtUtils.generateToken(user));
         return response;
     }

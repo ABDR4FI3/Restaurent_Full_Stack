@@ -391,7 +391,7 @@ class _FoodDetailsState extends State<FoodDetails> {
           ),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
+      /*bottomNavigationBar: CurvedNavigationBar(
         index: 1,
         height: 50.0,
         items: const <Widget>[
@@ -407,7 +407,7 @@ class _FoodDetailsState extends State<FoodDetails> {
         onTap: (index) {
           //Handle button tap
         },
-      ),
+      ),*/
     );
   }
 }

@@ -19,6 +19,9 @@ public class UserController {
     @PostMapping("/register")
     public Map<String, Object> registration(@RequestBody UserDTO userDTO)
     {
+        if(userDTO.getAddress().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getName().isEmpty() || userDTO.getPassword().isEmpty() || userDTO.getPhone().isEmpty()){
+            return Map.of("response", 400, "message", "Missing user data");
+        }
         return userService.registration(userDTO);
     }
     // * User Login (returns JWT token)

@@ -122,9 +122,5 @@ public class MyBackEndApplication implements CommandLineRunner {
                 .totalCalories(250)
                 .build();
 
-        foodRepository.save(pizza);
-        foodRepository.save(sushi);
-        foodRepository.save(pasta);
-        foodRepository.save(tacos);
     }
 }

@@ -4,9 +4,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:restaurent/Components/CustomDrawer.dart';
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/food_tile.dart';
 import 'package:restaurent/Pages/FoodDetails.dart';
+import 'package:restaurent/model/CategoryData.dart';
 import 'package:restaurent/model/food.dart';
 import 'package:restaurent/theme/colors.dart';
 
@@ -20,13 +22,7 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   late List<Food> foodMenu = [];
   bool isVisible = true;
-  List<String> categories = [
-    'All',
-    'Fast Food',
-    'Healthy Food',
-    'Asian',
-    'Desserts',
-  ];
+
 
   // Fetch food data from API
   Future<void> fetchFoods() async {
@@ -50,7 +46,7 @@ class _MenuPageState extends State<MenuPage> {
     fetchFoods();
   }
 
-  // Navigate to food item details
+  // * Navigate to food item details
   void navigateToFoodDetails(int index) {
     Navigator.push(
       context,
@@ -66,9 +62,16 @@ class _MenuPageState extends State<MenuPage> {
       backgroundColor: lightBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: const Icon(
-          Icons.menu,
-          color: Colors.black,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
         ),
         title: Text(
           'A43 Sushi & Roll',
@@ -79,6 +82,7 @@ class _MenuPageState extends State<MenuPage> {
         ),
         centerTitle: true,
       ),
+      drawer:  Customdrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +173,7 @@ class _MenuPageState extends State<MenuPage> {
                         child: Center(
                           child: Text(
                             categories[index],
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
