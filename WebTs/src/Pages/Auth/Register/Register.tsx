@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
-import plant from "../../../assets/Img/Register.jpg";
-import {  Link, useNavigate } from "react-router-dom";
+import plant from "../../../assets/Img/Auth/Register.jpg";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ReactCardFlip from "react-card-flip";
-
+import { registerService } from "../../../services/AuthService";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -28,33 +27,15 @@ const Register: React.FC = () => {
   const handlePhase2Submit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:9090/user/register", {
-        name,
-        email,
-        password,
-        address,
-        phone,
-        gender,
-      });
-
-      const data = response.data;
-      console.log("Create Account response:", data);
+      const data = await registerService({ name, email, password, address, phone });
       if (data.token) {
         localStorage.setItem("token", data.token);
-
-        if (data.role === "user") {
-          localStorage.setItem("role", "user");
-          navigate("/home");
-        } else if (data.role === "admin") {
-          localStorage.setItem("role", "admin");
-          navigate("/Admin");
-        }
+        navigate(data.role === "user" ? "/home" : "/Admin");
       } else {
-        throw new Error("Invalid response");
+        throw new Error("Invalid registration response");
       }
     } catch (error: any) {
-      setError("Account creation failed. Please check your information.");
-      console.error("Account creation error:", error);
+      setError("Registration failed. Please check your information.");
     }
   };
 
@@ -127,9 +108,9 @@ const Register: React.FC = () => {
                 </div>
               </div>
               <p className="text-end">
-                Don't have an account?{" "}
+                you have already an account?{" "}
                 <Link to="/login" className="text-blue-500 hover:underline">
-                  Register here
+                  Log in
                 </Link>
               </p>
               <div className="flex justify-end ">

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
-import plant from "../../../assets/Img/Login.jpg";
+import plant from "../../../assets/Img/Auth/Register.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { loginService } from "../../../services/AuthService";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,29 +14,15 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:9090/user/Login", {
-        email,
-        password,
-      });
-
-      const data = response.data;
-      console.log("Login response:", data);
+      const data = await loginService(email, password);
       if (data.token) {
         localStorage.setItem("token", data.token);
-
-        if (data.role === "user") {
-          localStorage.setItem("role", "user");
-          navigate("/home");
-        } else if (data.role === "admin") {
-          localStorage.setItem("role", "admin");
-          navigate("/Admin");
-        }
+        navigate(data.role === "user" ? "/home" : "/Admin");
       } else {
         throw new Error("Invalid login response");
       }
     } catch (error: any) {
       setError("Login failed. Please check your credentials.");
-      console.error("Login error:", error);
     }
   };
 
