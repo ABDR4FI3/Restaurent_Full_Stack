@@ -1,0 +1,20 @@
+.nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px; /* Adjust thickness */
+  background-color: currentColor; /* Uses the color of the text */
+  transition: width 0.9s ease, left 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 40%;
+  left: 0;
+}

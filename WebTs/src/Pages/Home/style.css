@@ -32,7 +32,7 @@
 .interior-bg {
   background-image: url("../../assets/Img/Home/interior.jpg");
   background-repeat: no-repeat;
-  position: relative; /* Make sure the interior-bg is positioned relative */
+  position: relative; 
 }
 
 .overlay {

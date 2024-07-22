@@ -16,12 +16,12 @@ const FoodContainer: React.FC<FoodContainerProps> = ({
   return (
     <>
       <div
-        className=" flex flex-col gap-3 bg-white rounded-lg shadow-xl p-4 text-black "
+        className=" flex flex-col gap-2 bg-white rounded-lg shadow-xl p-4 text-black"
         style={{ fontFamily: "LibreBodoni" }}
       >
         <div>
           {" "}
-          <img src={img} className="h-52 w-full rounded-lg" alt="" />
+          <img src={img} className="h-52 w-full rounded-lg mb-2 " alt="" />
           <div className="flex justify-between text-2xl">
             {" "}
             <h1>{name}</h1>
