@@ -1,0 +1,50 @@
+.Font {
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+}
+
+.custom-font {
+  font-family: "LibreBodoni", serif;
+}
+
+.LibreBodoni {
+  font-family: libre;
+}
+.LibreBodoni_description {
+  font-family: libre;
+  font-style: normal;
+  line-height: 1.5;
+  font-size: 20px;
+}
+.bg-gradient {
+  background: rgb(43, 45, 46);
+  background: linear-gradient(
+    -90deg,
+    rgba(43, 45, 46, 1) 0%,
+    rgba(18, 18, 18, 1) 86%
+  );
+}
+
+.SecondPolice{
+  font-family: "Josefin Sans";
+  font-weight: 200;
+}
+.interior-bg {
+  background-image: url("../../assets/Img/Home/interior.jpg");
+  background-repeat: no-repeat;
+  position: relative; 
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the color and opacity as needed */
+}
+
+h1, p {
+  position: relative;
+  z-index: 1; /* Ensure the text appears above the overlay */
+}

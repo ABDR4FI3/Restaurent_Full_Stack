@@ -41,7 +41,7 @@ public class UserService {
         Map<String, Object> response = new HashMap<>();
         System.out.println("my user is " + user);
         //! Check validity of user data
-        if(user.getAddress() == null || user.getEmail() == null || user.getName() == null || user.getPassword() == null || user.getPhone() == null) {
+        if(user.getAddress() == null || user.getEmail() == null || user.getName() == null || user.getPassword() == null || user.getPhone() == null ) {
             response.put("response", 400);
             response.put("message", "Missing user data");
             return response;
@@ -66,7 +66,7 @@ public class UserService {
                 .password(user.getPassword())
                 .phone(user.getPhone())
                 .address(user.getAddress())
-                .gender("male")
+                .gender(user.getGender())
                 .userRole(userRoleRepository.findById(1L).get())
                 .build();
 
@@ -98,6 +98,7 @@ public class UserService {
         response.put("response", 200);
         response.put("username", user.getName());
         response.put("usermail", user.getEmail());
+        response.put("role", user.getUserRole().getRoleName());
         response.put("token", jwtUtils.generateToken(user));
         return response;
     }
