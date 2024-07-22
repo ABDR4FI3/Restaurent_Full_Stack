@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        libre: ['"Libre Bodoni"'],
+      },
       colors: {
         "dark-bg": "#121212",
         "lighter-dark": "#222126",
@@ -23,6 +26,8 @@ export default {
         home1: "url('./src/assets/Img/Home/homebackground.jpg')",
         home2: "url('./src/assets/Img/Home/plat.png')",
         home3: "url('./src/assets/Img/pattern/homebackground.png')",
+        interior: "url('./src/assets/Img/Home/interior.jpg')",
+
       },
     },
   },
