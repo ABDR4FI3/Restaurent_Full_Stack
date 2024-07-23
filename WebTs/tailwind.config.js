@@ -9,6 +9,7 @@ export default {
       },
       fontFamily: {
         libre: ['"Libre Bodoni"'],
+        josefin: ['"Josefin Sans"'],
       },
       colors: {
         "dark-bg": "#121212",

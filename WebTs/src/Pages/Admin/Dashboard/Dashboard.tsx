@@ -5,8 +5,11 @@ import logo from "../../../assets/icon/SamLogo.png";
 import NumberCard from "./NumbersCard/NumberCard";
 import { BiFoodMenu } from "react-icons/bi";
 import { FiShoppingCart } from "react-icons/fi";
+import IncomeExpense from "../Charts/IncomeExpense";
 const Dashboard: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const incomeData = [5000, 4000, 3000, 4500, 6000, 5500, 6500];
+  const expenseData = [2000, 3000, 2500, 3500, 4000, 4500, 5000];
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -42,36 +45,59 @@ const Dashboard: React.FC = () => {
       </nav>
       <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
       {/* Dashboard content */}
-      <div>
+      <div className="flex flex-col">
         {/* Cards goes here */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid lg:grid-cols-4 gap-4 sm:grid-cols-2">
           <NumberCard
             icon={<BiFoodMenu size={35} />}
             title="Menus"
+            diff={+10}
             value="8"
-            color="bg-sky-500"
+            chartData={[2, 8, 3, 7, 5, 8, 10]}
+            color="#f11D08"
             onClick={() => console.log("Menus clicked")}
           />
           <NumberCard
             icon={<FiShoppingCart size={35} />}
             title="Orders"
+            diff={-5}
             value="0"
-            color="bg-sky-500"
+            chartData={[8, 2, 3, 10, 8, 10.12, 5]}
+            color="#1f2937"
             onClick={() => console.log("Orders clicked")}
           />
           <NumberCard
             icon={<FaTachometerAlt size={35} />}
             title="Custumers"
+            diff={11}
             value="0"
-            color="bg-sky-500"
+            chartData={[10, 5, 7, 5, 8, 10, 14]}
+            color="#f97316"
             onClick={() => console.log("Custumers clicked")}
           />
           <NumberCard
             icon={<FaTachometerAlt size={35} />}
             title="Income"
+            diff={-8}
             value="0"
-            color="bg-sky-500"
+            chartData={[1, 8, 5, 5, 4, 9, 5]}
+            color="#ab8cf8"
             onClick={() => console.log("Income clicked")}
+          />
+        </div>
+        {/* Revenue + Chart goes here */}
+        <div className="flex gap-5 justify-between sm:flex-col lg:flex-row">
+          <IncomeExpense
+            color1="#ab8cf8"
+            color2="#bf8e43"
+            incomeData={incomeData}
+            expenseData={expenseData}
+          />
+          <IncomeExpense
+            color1="#f11D08"
+            color2="#3A3FE9"
+            incomeData={incomeData}
+            expenseData={expenseData}
           />
         </div>
       </div>
