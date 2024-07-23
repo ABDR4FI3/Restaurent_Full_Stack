@@ -15,6 +15,8 @@ export default {
         "dark-bg": "#121212",
         "lighter-dark": "#222126",
         "dark-yellew": "#bf8e43",
+        "instagram-gradient-start": "#E1306C",
+        "instagram-gradient-end": "#FBB03B",
       },
       keyframes: {
         wave: {

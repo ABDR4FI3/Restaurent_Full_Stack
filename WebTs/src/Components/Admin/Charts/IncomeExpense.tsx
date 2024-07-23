@@ -31,7 +31,7 @@ const IncomeExpense: React.FC<IncomeExpenseProps> = ({
   ];
 
   return (
-    <div className="shadow-2xl flex flex-col w-full p-8">
+    <div className="basis-1/2 shadow-2xl flex flex-col w-full p-8">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-3xl font-libre">Revenue</h1>
@@ -42,7 +42,7 @@ const IncomeExpense: React.FC<IncomeExpenseProps> = ({
             id="timePeriod"
             value={selectedPeriod}
             onChange={handleChange}
-            className="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
           >
             <option value="Weekly">Weekly</option>
             <option value="Monthly">Monthly</option>
