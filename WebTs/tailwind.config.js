@@ -3,6 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      transitionProperty: {
+        height: "height",
+        spacing: "margin, padding",
+      },
       fontFamily: {
         libre: ['"Libre Bodoni"'],
       },
@@ -27,8 +31,12 @@ export default {
         home2: "url('./src/assets/Img/Home/plat.png')",
         home3: "url('./src/assets/Img/pattern/homebackground.png')",
         interior: "url('./src/assets/Img/Home/interior.jpg')",
-
       },
+    },
+  },
+  variants: {
+    extend: {
+      translate: ["responsive", "hover", "focus"],
     },
   },
   plugins: [],

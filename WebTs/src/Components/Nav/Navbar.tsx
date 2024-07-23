@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import image from "../../assets/icon/A43.png";
-import "./NavBar.css"; // Import the custom CSS file
+import image from "../../assets/icon/SamLogo.png";
+import "./NavBar.css"; 
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
     <nav className="bg-dark text-white shadow-md bg-dark-bg">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="#" className="text-2xl font-bold">
-          <img src={image} alt="" />
+          <img src={image}  alt="" />
         </Link>
 
         {/* Hamburger icon for mobile */}
