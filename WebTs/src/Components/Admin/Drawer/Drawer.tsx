@@ -65,7 +65,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
             {" "}
             <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
               <FaUser className="hover:text-dark-yellew duration-150" />
-              <span>Profile</span>
+              <span>User</span>
             </li>
           </Link>
         </div>
