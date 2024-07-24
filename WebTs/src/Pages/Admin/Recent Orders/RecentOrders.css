@@ -1,0 +1,24 @@
+/* DataTableStyles.css */
+.custom-header {
+  background-color: #f1f1f1;
+  color: #333;
+  font-weight: bold;
+  font-family: "LibreBodoni";
+  font-size: 20px;
+  padding: 20px;
+}
+
+.custom-row {
+  background-color: #fff;
+  color: #000;
+  height: 10px;
+}
+
+.custom-row:hover {
+  background-color: #f5f5f5;
+}
+
+.custom-cell {
+  padding: 8px 16px;
+  font-size: 18px;
+}

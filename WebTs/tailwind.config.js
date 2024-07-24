@@ -3,13 +3,20 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      transitionProperty: {
+        height: "height",
+        spacing: "margin, padding",
+      },
       fontFamily: {
         libre: ['"Libre Bodoni"'],
+        josefin: ['"Josefin Sans"'],
       },
       colors: {
         "dark-bg": "#121212",
         "lighter-dark": "#222126",
         "dark-yellew": "#bf8e43",
+        "instagram-gradient-start": "#E1306C",
+        "instagram-gradient-end": "#FBB03B",
       },
       keyframes: {
         wave: {
@@ -27,8 +34,12 @@ export default {
         home2: "url('./src/assets/Img/Home/plat.png')",
         home3: "url('./src/assets/Img/pattern/homebackground.png')",
         interior: "url('./src/assets/Img/Home/interior.jpg')",
-
       },
+    },
+  },
+  variants: {
+    extend: {
+      translate: ["responsive", "hover", "focus"],
     },
   },
   plugins: [],

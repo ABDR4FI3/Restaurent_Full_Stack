@@ -1,6 +1,6 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import "./footer.css"
+import "./footer.css";
 const Footer: React.FC = () => {
   return (
     <footer className=" text-white py-8">
@@ -57,16 +57,72 @@ const Footer: React.FC = () => {
               Follow Us
             </h5>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" aria-label="Facebook">
+              <a
+                href="https://facebook.com"
+                aria-label="Facebook"
+                className="hover:text-blue-500 duration-500"
+              >
                 <FaFacebook size={24} />
               </a>
-              <a href="https://twitter.com" aria-label="Twitter">
+              <a
+                href="https://twitter.com"
+                aria-label="Twitter"
+                className="hover:text-sky-500 duration-500"
+              >
                 <FaTwitter size={24} />
               </a>
-              <a href="https://instagram.com" aria-label="Instagram">
+              <a
+                href="https://instagram.com"
+                aria-label="Instagram"
+                className="insta-gradient"
+              >
                 <FaInstagram size={24} />
+                <svg width="0" height="0">
+                  <defs>
+                    <linearGradient
+                      id="instagram-gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        style={{ stopColor: "#E1306C", stopOpacity: 1 }}
+                      />
+                      <stop
+                        offset="25%"
+                        style={{ stopColor: "#F56040", stopOpacity: 1 }}
+                      />
+                      <stop
+                        offset="100%"
+                        style={{ stopColor: "#FBB03B", stopOpacity: 1 }}
+                      />
+                    </linearGradient>
+                    <mask
+                      id="insta-gradient-mask"
+                      x="0"
+                      y="0"
+                      width="100%"
+                      height="100%"
+                    >
+                      <rect
+                        x="0"
+                        y="0"
+                        width="100%"
+                        height="100%"
+                        fill="white"
+                      />
+                      <FaInstagram size={24} style={{ fill: "black" }} />
+                    </mask>
+                  </defs>
+                </svg>
               </a>
-              <a href="https://linkedin.com" aria-label="LinkedIn">
+              <a
+                href="https://linkedin.com"
+                aria-label="LinkedIn"
+                className="hover:text-blue-500 duration-500"
+              >
                 <FaLinkedin size={24} />
               </a>
             </div>

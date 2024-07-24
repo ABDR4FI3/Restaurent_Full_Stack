@@ -18,3 +18,30 @@
   width: 40%;
   left: 0;
 }
+
+.insta-gradient {
+  position: relative;
+  display: inline-block;
+}
+
+.insta-gradient svg {
+  transition: fill 2s ease-in-out;
+  fill: white; /* Default color */
+}
+
+.insta-gradient:hover svg {
+  fill: url(#instagram-gradient);
+}
+
+/* Define the gradient */
+.insta-gradient svg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #E1306C, #FBB03B);
+  -webkit-mask: url(#insta-gradient-mask) no-repeat center;
+  mask: url(#insta-gradient-mask) no-repeat center;
+}
