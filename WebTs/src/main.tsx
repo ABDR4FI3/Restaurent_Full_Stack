@@ -9,6 +9,7 @@ import Dashboard from "./Pages/Admin/Dashboard/Dashboard.tsx";
 import { Provider } from "react-redux";
 import store from "./store/index.ts";
 import RecentOrders from "./Pages/Admin/Recent Orders/RecentOrders.tsx";
+import Managemenu from "./Pages/Admin/Manage Menu/ManageMenu.tsx";
 
 const router = createBrowserRouter([
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/orders",
     element: <RecentOrders />,
+  },
+  {
+    path: "/admin/menu",
+    element: <Managemenu />,
   },
 
   {

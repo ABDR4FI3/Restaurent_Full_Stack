@@ -4,6 +4,7 @@ import { FaClipboardList, FaInbox } from "react-icons/fa6";
 import logo from "../../../assets/icon/SamLogo.png";
 import "./Drawer.css";
 import { Link } from "react-router-dom";
+import { MdMenuBook } from "react-icons/md";
 
 interface DrawerProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
       } w-64 lg:w-1/5`}
     >
       <div className="flex justify-end p-4">
+        {/* Close button */}
         <button
           onClick={onClose}
           className="font-bold h-7 w-7 hover:bg-slate-300 duration-500 hover:text-red-600 rounded_close_btn"
@@ -25,6 +27,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           &times;
         </button>
       </div>
+      {/* Logo */}
       <div className="flex justify-center my-4">
         <img src={logo} alt="Logo" />
       </div>
@@ -49,6 +52,16 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
             </li>
           </Link>
         </div>
+        {/* Manage Menu */}
+        <div className="flex gap-4">
+          <Link to={"/admin/menu"}>
+            {" "}
+            <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
+              <MdMenuBook className="hover:text-dark-yellew duration-150" />
+              <span>Manage Menu </span>
+            </li>
+          </Link>
+        </div>
         {/* Charts */}
         <div className="flex gap-4">
           <Link to={"/admin/charts"}>
@@ -59,13 +72,13 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
             </li>
           </Link>
         </div>
-        {/* Profile */}
+        {/* Manage Users */}
         <div className="flex gap-4">
           <Link to={"/admin/charts"}>
             {" "}
             <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
               <FaUser className="hover:text-dark-yellew duration-150" />
-              <span>User</span>
+              <span>Users</span>
             </li>
           </Link>
         </div>
