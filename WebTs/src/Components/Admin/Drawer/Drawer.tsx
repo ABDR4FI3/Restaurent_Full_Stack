@@ -74,7 +74,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         </div>
         {/* Manage Users */}
         <div className="flex gap-4">
-          <Link to={"/admin/charts"}>
+          <Link to={"/admin/users"}>
             {" "}
             <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
               <FaUser className="hover:text-dark-yellew duration-150" />

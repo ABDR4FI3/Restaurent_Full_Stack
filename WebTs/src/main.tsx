@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import store from "./store/index.ts";
 import RecentOrders from "./Pages/Admin/Recent Orders/RecentOrders.tsx";
 import Managemenu from "./Pages/Admin/Manage Menu/ManageMenu.tsx";
+import ManageUsers from "./Pages/Admin/Manage Users/ManageUsers.tsx";
 
 const router = createBrowserRouter([
 
@@ -25,7 +26,10 @@ const router = createBrowserRouter([
     path: "/admin/menu",
     element: <Managemenu />,
   },
-
+  {
+    path: "/admin/users",
+    element: <ManageUsers />,
+  },
   {
     path: "/home",
     element: <HomePage />,

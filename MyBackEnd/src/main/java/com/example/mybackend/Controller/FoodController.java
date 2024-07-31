@@ -1,5 +1,6 @@
 package com.example.mybackend.Controller;
 
+import com.example.mybackend.DTO.FoodDTO;
 import com.example.mybackend.Services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +53,15 @@ public class FoodController {
     @GetMapping("/detailed/{food_id}")
     public Map<String, Object> getFoodsWithCarousel(@PathVariable("food_id") long id) {
         return foodService.getFoodWithCarousels(id);
+    }
+
+    // ! ADMIN CRUD
+    @PostMapping("/admin/add")
+    public Map<String, Object> addFoodtoMenu(@RequestBody FoodDTO food , @RequestParam("token") String token) {
+        return foodService.addFoodtoMenu(food,token);
+    }
+    @PostMapping("/admin/edit")
+    public Map<String, Object> editFoodFromMenu(@RequestBody FoodDTO food , @RequestParam("token") String token) {
+        return foodService.editFoodFromMenu(food,token);
     }
 }

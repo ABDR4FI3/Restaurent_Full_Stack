@@ -28,7 +28,6 @@ const Managemenu: React.FC = () => {
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
-
   const { categories, loading, error } = useFetchCategories();
   const {
     visible,
@@ -38,25 +37,36 @@ const Managemenu: React.FC = () => {
     handleDelete,
     handleAddFood,
     setVisible,
+    submitFood,
   } = useFoodHandlers();
 
-  // * Fetch foods data
+  //* function to fetch the food list
+  const fetchData = async () => {
+    try {
+      const result = await getAllFoods();
+      console.log("data fetched from server:");
+      const formattedFoods = formatFoods(result);
+      setFoods(formattedFoods);
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+    }
+  };
+
   const [foods, setFoods] = React.useState<FormattedFood[]>([]);
-
+  // * Fetch foods data
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllFoods();
-        console.log(result);
-        const formattedFoods = formatFoods(result);
-        setFoods(formattedFoods);
-      } catch (error) {
-        console.error("Error fetching food data:", error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  // * Handle form submission
+  const handleFormSubmit = async (food: FormattedFood) => {
+    try {
+      await submitFood(food);
+      await fetchData(); // Ensure fetchData is awaited
+    } catch (error) {
+      console.error("Error submitting food data:", error);
+    }
+  };
 
   const actionBodyTemplate = (rowData: FormattedFood) => (
     <TableActions
@@ -71,7 +81,11 @@ const Managemenu: React.FC = () => {
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       {visible && fooditem && (
         <Modal onClose={() => setVisible(false)}>
-          <MenuForm food={fooditem} action={action} />
+          <MenuForm
+            food={fooditem}
+            action={action}
+            onSubmit={handleFormSubmit}
+          />
         </Modal>
       )}
       {loading && (

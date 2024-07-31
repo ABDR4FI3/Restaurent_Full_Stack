@@ -3,7 +3,6 @@ function truncateText(text: string, wordLimit: number): string {
   if (words.length > wordLimit) {
     return words.slice(0, wordLimit).join(" ") + "...";
   }
-  console.log("limit is " , wordLimit);
   return text;
 }
 

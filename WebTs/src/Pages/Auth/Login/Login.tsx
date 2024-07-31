@@ -17,7 +17,7 @@ const Login: React.FC = () => {
       const data = await loginService(email, password);
       if (data.token) {
         localStorage.setItem("token", data.token);
-        navigate(data.role === "user" ? "/home" : "/Admin");
+        navigate(data.role === "user" ? "/home" : "/Admin/Dashboard");
       } else {
         throw new Error("Invalid login response");
       }

@@ -10,6 +10,8 @@ export interface FormattedFood {
   description: string;
   price: number;
   category: string;
+  calories: number;
+  nutionValue: { [key: string]: number };
 }
 
 // ! Function to format food data
@@ -22,5 +24,24 @@ export const formatFoods = (foods: Food[]): FormattedFood[] => {
     description: food.description,
     price: food.price,
     category: food.category.name,
+    calories: food.totalCalories,
+    nutionValue: food.nutritionValue,
   }));
+};
+
+export const emptyFormattedFood: FormattedFood = {
+  id: 0,
+  name: "",
+  image: "",
+  link: "",
+  description: "",
+  price: 0,
+  category: "",
+  calories: 0,
+  nutionValue: {
+    fat: 0,
+    protein: 0,
+    carbs: 0,
+    calories: 0,
+  },
 };
