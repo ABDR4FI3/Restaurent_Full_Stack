@@ -55,7 +55,6 @@ public class Food {
     private List<Comment> comments;
 
     @ManyToMany(mappedBy = "foods")
-    @JsonBackReference
     private List<Carousel> carousels;
 
     @ManyToMany(mappedBy = "favoriteFoods")

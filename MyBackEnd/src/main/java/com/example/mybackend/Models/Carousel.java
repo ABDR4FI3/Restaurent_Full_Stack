@@ -36,7 +36,7 @@ public class Carousel {
             joinColumns = @JoinColumn(name = "carousel_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
-    @JsonManagedReference
+    @JsonIgnore
 
     private List<Food> foods;
 }

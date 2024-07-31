@@ -18,6 +18,11 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     price: 0,
     category: "",
     calories: 0,
+    carouselImage: {
+      carouselId: 0,
+      images: [],
+      links: [],
+    },
     nutionValue: {
       fat: 0,
       protein: 0,

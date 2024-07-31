@@ -22,6 +22,7 @@ import Footer from "../../../Components/Footer/footer";
 import Loading from "../../../lottie/Loading";
 import useFetchCategories from "../../../Hooks/useFetchCategories";
 import useFoodHandlers from "../../../Hooks/useFoodHandlers";
+import Gallery from "./Gallery/Gallery";
 
 const Managemenu: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,8 +39,12 @@ const Managemenu: React.FC = () => {
     handleAddFood,
     setVisible,
     submitFood,
+    GalleryVisible,
+    handleGallery , 
+    setGalleryVisible,
   } = useFoodHandlers();
-
+  
+  const [foods, setFoods] = React.useState<FormattedFood[]>([]);
   //* function to fetch the food list
   const fetchData = async () => {
     try {
@@ -52,7 +57,6 @@ const Managemenu: React.FC = () => {
     }
   };
 
-  const [foods, setFoods] = React.useState<FormattedFood[]>([]);
   // * Fetch foods data
   React.useEffect(() => {
     fetchData();
@@ -72,6 +76,7 @@ const Managemenu: React.FC = () => {
     <TableActions
       handleEdit={() => handleEdit(rowData)}
       handleDelete={() => handleDelete(rowData)}
+      handleGallery={() => handleGallery(rowData)}
     />
   );
 
@@ -79,6 +84,7 @@ const Managemenu: React.FC = () => {
     <div className="flex flex-col h-screen">
       <DashboardNav />
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
+      {/* Form TO manage Food */}
       {visible && fooditem && (
         <Modal onClose={() => setVisible(false)}>
           <MenuForm
@@ -88,6 +94,13 @@ const Managemenu: React.FC = () => {
           />
         </Modal>
       )}
+      {/*Form to manage Gallery*/}
+      {GalleryVisible && fooditem && (
+        <Modal onClose={() => setGalleryVisible(false)}>
+          <Gallery food={fooditem} />
+        </Modal>
+      )}
+      {/* Loading Modal*/}
       {loading && (
         <Modal onClose={() => console.log("closed")}>
           <Loading />

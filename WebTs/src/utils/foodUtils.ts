@@ -1,4 +1,5 @@
 
+import { CarouselFood } from "../types/CarouselFood";
 import { Food } from "../types/Food";
 
 // Define the shape of the formatted food data
@@ -12,6 +13,7 @@ export interface FormattedFood {
   category: string;
   calories: number;
   nutionValue: { [key: string]: number };
+  carouselImage: CarouselFood;
 }
 
 // ! Function to format food data
@@ -26,6 +28,7 @@ export const formatFoods = (foods: Food[]): FormattedFood[] => {
     category: food.category.name,
     calories: food.totalCalories,
     nutionValue: food.nutritionValue,
+    carouselImage: food.carousels,
   }));
 };
 
@@ -38,6 +41,11 @@ export const emptyFormattedFood: FormattedFood = {
   price: 0,
   category: "",
   calories: 0,
+  carouselImage: {
+    carouselId: 0,
+    images: [],
+    links: [],
+  },
   nutionValue: {
     fat: 0,
     protein: 0,
