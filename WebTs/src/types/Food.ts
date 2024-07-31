@@ -4,6 +4,7 @@ import { Comments } from "./Comments";
 export interface Food {
   id: number;
   name: string;
+  link: string;
   image: string;
   description: string;
   rating: number;

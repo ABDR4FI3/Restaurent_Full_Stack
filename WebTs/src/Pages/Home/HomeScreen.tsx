@@ -2,16 +2,12 @@ import Navbar from "../../Components/Nav/Navbar";
 import "./style.css";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
-import plat from "../../assets/Img/Home/fancyBurger.png";
+
 import { Link } from "react-router-dom";
 import { FaLeaf, FaLongArrowAltRight } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import FoodContainer from "./Popular food/FoodContainer";
-import food1 from "../../assets/Images/pizza/pizza.jpg";
-import food2 from "../../assets/Images/Burger/burger1.png";
-import food3 from "../../assets/Images/Biryani/biryani1.png";
-import food4 from "../../assets/Images/Ramen/ramen1.png";
 import MapComponent from "../../Components/Map/MapComponent";
 import Footer from "../../Components/Footer/footer";
 
@@ -53,7 +49,11 @@ const HomePage: React.FC = () => {
           <div className="flex justify-center items-center w-full  ">
             {/* Container */}
             <div className="flex w-9/12 justify-center items-center p-8 mt-10">
-              <img src={plat} className="w-1/2" alt="" />
+              <img
+                src="https://i.postimg.cc/d040Nscv/no-bg-burger.png"
+                className="w-1/2"
+                alt=""
+              />
               <div className="flex flex-col w-1/2 rounded-2xl bg-lighter-dark p-10 items-center justify-center sm:h-1/4">
                 <h1 className="text-4xl   font-bold text-dark-yellew custom-font">
                   Why choose us
@@ -131,25 +131,25 @@ const HomePage: React.FC = () => {
               <h1 className="text-5xl my-8 SecondPolice">Popular Food</h1>
               <div className="grid grid-cols-4 gap-10 ">
                 <FoodContainer
-                  img={food1}
+                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
                   rating={4.5}
                   price={10}
                   name="pizza"
                 />
                 <FoodContainer
-                  img={food2}
+                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
                   rating={4.5}
                   price={10}
                   name="pizza"
                 />
                 <FoodContainer
-                  img={food3}
+                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
                   rating={4.5}
                   price={10}
                   name="pizza"
                 />
                 <FoodContainer
-                  img={food4}
+                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
                   rating={4.5}
                   price={10}
                   name="pizza"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import DashboardNav from "../../../Components/Admin/Nav/DashboardNav";
@@ -17,6 +17,11 @@ import { GiMeal } from "react-icons/gi";
 import { FaBox } from "react-icons/fa6";
 import { MdOutlineAttachMoney, MdOutlinePointOfSale } from "react-icons/md";
 import TableActions from "./TableActions/tableActions";
+import Footer from "../../../Components/Footer/footer";
+
+import Loading from "../../../lottie/Loading";
+import useFetchCategories from "../../../Hooks/useFetchCategories";
+import useFoodHandlers from "../../../Hooks/useFoodHandlers";
 
 const Managemenu: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,15 +29,25 @@ const Managemenu: React.FC = () => {
     (state: RootState) => state.drawer.isDrawerOpen
   );
 
-  // * state management
-  const [visible, setVisible] = useState(false);
-  const [foods, setFoods] = useState<FormattedFood[]>([]);
+  const { categories, loading, error } = useFetchCategories();
+  const {
+    visible,
+    fooditem,
+    action,
+    handleEdit,
+    handleDelete,
+    handleAddFood,
+    setVisible,
+  } = useFoodHandlers();
 
-  //* use effect to fetch foods
-  useEffect(() => {
+  // * Fetch foods data
+  const [foods, setFoods] = React.useState<FormattedFood[]>([]);
+
+  React.useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getAllFoods();
+        console.log(result);
         const formattedFoods = formatFoods(result);
         setFoods(formattedFoods);
       } catch (error) {
@@ -43,43 +58,40 @@ const Managemenu: React.FC = () => {
     fetchData();
   }, []);
 
-  //* handle actions
-  const handleEdit = (id: number) => {
-    console.log("Edit food with id:", id);
-  };
-
-  const handleDelete = (id: number) => {
-    console.log("Delete food with id:", id);
-  };
-
-  //* action body template
-  const actionBodyTemplate = (rowData: FormattedFood) => {
-    return (
-      <TableActions
-        handleEdit={() => handleEdit(rowData.id)}
-        handleDelete={() => handleDelete(rowData.id)}
-      />
-    );
-  };
+  const actionBodyTemplate = (rowData: FormattedFood) => (
+    <TableActions
+      handleEdit={() => handleEdit(rowData)}
+      handleDelete={() => handleDelete(rowData)}
+    />
+  );
 
   return (
     <div className="flex flex-col h-screen">
       <DashboardNav />
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
-      {/* Conditional rendering of the menu form */}
-      {visible && (
+      {visible && fooditem && (
         <Modal onClose={() => setVisible(false)}>
-          <MenuForm />
+          <MenuForm food={fooditem} action={action} />
         </Modal>
       )}
-      {/* Manage menu content */}
-      <div className="flex lg:flex-row sm:flex-col mt-5 ">
-        <div className="basis-4/6 ">
-          {" "}
-          <div className="flex lg:flex-col p-8 h-1/2 overflow-x-scroll no-scrollbar">
+      {loading && (
+        <Modal onClose={() => console.log("closed")}>
+          <Loading />
+        </Modal>
+      )}
+      {error && <p>Error: {error}</p>}
+      <div className="flex lg:flex-row sm:flex-col mt-5 lg:justify-between">
+        <div className="basis-4/6 mb-14">
+          <div
+            className="flex flex-col p-8 overflow-x-scroll no-scrollbar"
+            style={{ height: "750px" }}
+          >
             <div className="flex justify-end py-5">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                add menu{" "}
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleAddFood}
+              >
+                add menu
               </button>
             </div>
             <DataTable
@@ -99,7 +111,7 @@ const Managemenu: React.FC = () => {
                 header="Image"
                 body={(rowData: FormattedFood) => (
                   <img
-                    src={rowData.image}
+                    src={rowData.link}
                     alt={rowData.name}
                     className="w-24 h-24 object-cover"
                   />
@@ -134,7 +146,7 @@ const Managemenu: React.FC = () => {
                 field="category"
                 header="Category"
                 sortable
-                headerClassName="custom-header "
+                headerClassName="custom-header"
                 className="custom-cell"
               />
               <Column
@@ -147,28 +159,33 @@ const Managemenu: React.FC = () => {
             </DataTable>
           </div>
         </div>
-        <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 h-1/4 ">
-          <StatsCard
-            icon={<GiMeal size={35} />}
-            title="Total Orders"
-            value={10}
-          />
-          <StatsCard
-            icon={<FaBox size={35} />}
-            title="Quantity Sold"
-            value={15}
-          />
-          <StatsCard
-            icon={<MdOutlineAttachMoney size={35} />}
-            title="Total Profit"
-            value={60}
-          />
-          <StatsCard
-            icon={<MdOutlinePointOfSale size={35} />}
-            title="Total Sales"
-            value={46}
-          />
+        <div className="flex justify-center items-center h-2/6 lg:w-2/6 sm:w-full">
+          <div className="grid lg:grid-cols-2 sm:grid-cols-2 gap-4 lg:h-1/4 sm:h-full w-full">
+            <StatsCard
+              icon={<GiMeal size={35} />}
+              title="Total Menu"
+              value={10}
+            />
+            <StatsCard
+              icon={<FaBox size={35} />}
+              title="Categories"
+              value={categories.length}
+            />
+            <StatsCard
+              icon={<MdOutlineAttachMoney size={35} />}
+              title="Total Profit"
+              value={60}
+            />
+            <StatsCard
+              icon={<MdOutlinePointOfSale size={35} />}
+              title="Total Sales"
+              value={46}
+            />
+          </div>
         </div>
+      </div>
+      <div className="bg-dark-bg">
+        <Footer />
       </div>
     </div>
   );

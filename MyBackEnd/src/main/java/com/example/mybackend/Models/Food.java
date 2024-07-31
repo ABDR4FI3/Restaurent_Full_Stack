@@ -28,6 +28,7 @@ public class Food {
 
     private String name;
     private String image;
+    private String link;
 
     @Lob
     @Column(length = 10000)  // * Specifies the maximum length of the description

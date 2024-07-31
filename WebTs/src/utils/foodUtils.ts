@@ -5,6 +5,7 @@ import { Food } from "../types/Food";
 export interface FormattedFood {
   id: number;
   name: string;
+  link: string;
   image: string;
   description: string;
   price: number;
@@ -16,6 +17,7 @@ export const formatFoods = (foods: Food[]): FormattedFood[] => {
   return foods.map((food) => ({
     id: food.id,
     name: food.name,
+    link: food.link,
     image: food.image,
     description: food.description,
     price: food.price,

@@ -6,9 +6,7 @@ import { FiShoppingCart } from "react-icons/fi";
 
 import MostOrdered from "./MostOrdered/MostOrdered";
 import { PiUserCircleGear } from "react-icons/pi";
-import burger from "../../../assets/Images/Burger/burger1.png";
-import pizza from "../../../assets/Images/pizza/pizza.jpg";
-import pasta from "../../../assets/Images/pasta/pasta.jpg";
+
 import { toggleDrawer } from "../../../store/slices/drawerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -79,7 +77,11 @@ const Dashboard: React.FC = () => {
             incomeData={incomeData}
             expenseData={expenseData}
           />
-          <MostOrdered weekly={burger} monthly={pizza} yearly={pasta} />
+          <MostOrdered
+            weekly="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
+            monthly="https://i.postimg.cc/hvMQ9L48/burger3.jpg"
+            yearly="https://i.postimg.cc/Prpdbbqt/salad1.jpg"
+          />
         </div>
         {/* Recent Orders + Export files goes here */}
         <div className="flex gap-5 justify-between sm:flex-col lg:flex-row">
