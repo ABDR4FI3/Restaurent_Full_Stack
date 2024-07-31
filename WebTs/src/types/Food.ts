@@ -14,5 +14,5 @@ export interface Food {
   nutritionValue: { [key: string]: number };
   totalCalories: number;
   comments: Comments[];
-  carousels: CarouselFood;
+  carousel: CarouselFood;
 }

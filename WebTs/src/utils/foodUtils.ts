@@ -28,7 +28,7 @@ export const formatFoods = (foods: Food[]): FormattedFood[] => {
     category: food.category.name,
     calories: food.totalCalories,
     nutionValue: food.nutritionValue,
-    carouselImage: food.carousels,
+    carouselImage: food.carousel,
   }));
 };
 

@@ -30,13 +30,8 @@ public class Carousel {
     @Column(name = "link")
     private List<String> Links;
 
-    @ManyToMany
-    @JoinTable(
-            name = "carousel_food",
-            joinColumns = @JoinColumn(name = "carousel_id"),
-            inverseJoinColumns = @JoinColumn(name = "food_id")
-    )
+    @OneToOne
+    @JoinColumn(name = "food_id")
     @JsonIgnore
-
-    private List<Food> foods;
+    private Food food;
 }

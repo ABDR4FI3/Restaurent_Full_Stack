@@ -54,8 +54,8 @@ public class Food {
     @JsonManagedReference
     private List<Comment> comments;
 
-    @ManyToMany(mappedBy = "foods")
-    private List<Carousel> carousels;
+    @OneToOne(mappedBy = "food", cascade = CascadeType.ALL)
+    private Carousel carousel;
 
     @ManyToMany(mappedBy = "favoriteFoods")
     @JsonIgnore

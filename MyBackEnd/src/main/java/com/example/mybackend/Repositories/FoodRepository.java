@@ -12,7 +12,6 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     public List<Food> findByPriceLessThan(int price);
     public List<Food> findByNameLike(String name);
     public List<Food> getTopByIdIs(int qte);
-    @Query("SELECT DISTINCT f FROM Food f LEFT JOIN FETCH f.carousels")
-    List<Food> findAllFoodsWithCarousels();
+
 
 }
