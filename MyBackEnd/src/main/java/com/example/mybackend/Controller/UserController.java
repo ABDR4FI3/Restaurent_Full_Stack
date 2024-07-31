@@ -3,6 +3,7 @@ package com.example.mybackend.Controller;
 import com.example.mybackend.DTO.LoginDTO;
 import com.example.mybackend.DTO.TokenDTO;
 import com.example.mybackend.DTO.UserDTO;
+import com.example.mybackend.Services.AdminService;
 import com.example.mybackend.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
 
     // * User Registration
     @PostMapping("/register")
@@ -39,4 +42,8 @@ public class UserController {
         return userService.getUserDetailsWithToken(token.getToken());
     }
 
+    @GetMapping("/all")
+    public Map<String,Object> getAllUsers(){
+        return adminService.getusers();
+    }
 }

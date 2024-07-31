@@ -17,6 +17,7 @@
     "@types/leaflet": "^1.9.12",
     "axios": "^1.7.2",
     "leaflet": "^1.9.4",
+    "lottie-react": "^2.4.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.7.0",
     "react": "^18.3.1",

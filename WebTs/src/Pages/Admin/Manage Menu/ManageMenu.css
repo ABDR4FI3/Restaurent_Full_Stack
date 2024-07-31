@@ -1,0 +1,31 @@
+.custom-row {
+  border-bottom: 1px solid #000000;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
+  background-color: rgb(227, 227, 227);
+}
+.custom-cell {
+  padding: 15px;
+  border-left: 1px solid #000000;
+  text-align: center;
+  
+}
+.custom-header {
+  width: "20%";
+
+}
+.topleft{
+  border-top-left-radius: 15px;
+}
+.topright{
+  border-top-right-radius: 15px;
+}
+/* ManageMenu.css */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
+}

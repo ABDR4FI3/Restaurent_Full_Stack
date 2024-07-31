@@ -25,6 +25,11 @@ public class Carousel {
     @Column(name = "image")
     private List<String> images;
 
+    @ElementCollection
+    @CollectionTable(name = "carousel_links", joinColumns = @JoinColumn(name = "carousel_id"))
+    @Column(name = "link")
+    private List<String> Links;
+
     @ManyToMany
     @JoinTable(
             name = "carousel_food",

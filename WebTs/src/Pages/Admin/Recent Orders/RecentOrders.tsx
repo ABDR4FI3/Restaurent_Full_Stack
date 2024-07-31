@@ -117,7 +117,7 @@ const RecentOrders: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-dark-bg">
+      <div className="bg-dark-bg" style={{display: 'flex', justifyContent: 'end'}}>
         <Footer />
       </div>
     </div>

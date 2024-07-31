@@ -1,5 +1,6 @@
 package com.example.mybackend.Services;
 
+import com.example.mybackend.DTO.FoodDTO;
 import com.example.mybackend.Models.Category;
 import com.example.mybackend.Models.Food;
 import com.example.mybackend.Models.User;
@@ -19,6 +20,8 @@ public class FoodService {
     UserRepository userRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    JWTUtils jwtUtils;
 
     public Map<String, Object> getAllFoods() {
         HashMap<String, Object> response = new HashMap<>();
@@ -49,7 +52,6 @@ public class FoodService {
         response.put("response", 200);
         return response;
     }
-
     // * Get a Specific food
     public Map<String, Object> getOneFood(long id) {
         HashMap<String, Object> response = new HashMap<>();
@@ -160,6 +162,78 @@ public class FoodService {
         }
 
         return response;
+    }
+
+    // !  CRUD  Admin
+    // * Add Food to Menu
+    public Map<String ,Object> addFoodtoMenu(FoodDTO foodDTO , String token) {
+        try {
+            HashMap<String, Object> response = new HashMap<>();
+            if (jwtUtils.isTokenExpired(token)) {
+                response.put("response", 400);
+                response.put("message", "Token expired");
+                return response;
+            }
+            Food newFood = Food.builder()
+                    .name(foodDTO.getName())
+                    .image(foodDTO.getImage())
+                    .link(foodDTO.getLink())
+                    .totalCalories(foodDTO.getTotalCalories())
+                    .description(foodDTO.getDescription())
+                    .rating(0)
+                    .nutritionValue(foodDTO.getNutritionValue())
+                    .price(foodDTO.getPrice())
+                    .category(categoryRepository.findByName(foodDTO.getCategory()))
+                    .build();
+            foodRepository.save(newFood);
+            response.put("response", 200);
+            response.put("message", "Food added successfully");
+            return response;
+        }catch (Exception e) {
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("response", 400);
+            response.put("message", e.getMessage());
+            return response;
+        }
+
+    }
+    // * Edit Food from menu Admin
+    public Map<String ,Object> editFoodFromMenu(FoodDTO foodDTO , String token) {
+        try {
+            HashMap<String, Object> response = new HashMap<>();
+            if (jwtUtils.isTokenExpired(token)) {
+                response.put("response", 400);
+                response.put("message", "Token expired");
+                return response;
+            }
+            Optional<Food> oldFoodOptional = foodRepository.findById(foodDTO.getId());
+            if(oldFoodOptional.isEmpty()) {
+                response.put("response", 404);
+                response.put("message", "Food not found");
+                return response;
+            }
+            Food oldFood = oldFoodOptional.get();
+            Food edited =Food.builder()
+                    .id(foodDTO.getId())
+                    .name(foodDTO.getName())
+                    .image(foodDTO.getImage())
+                    .link(foodDTO.getLink())
+                    .description(foodDTO.getDescription())
+                    .rating(0)
+                    .nutritionValue(foodDTO.getNutritionValue())
+                    .price(foodDTO.getPrice())
+                    .category(categoryRepository.findByName(foodDTO.getCategory()))
+                            .build();
+            foodRepository.save(edited);
+            response.put("response", 200);
+            response.put("message", "Food edited successfully");
+            return response;
+        }catch (Exception e) {
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("response", 400);
+            response.put("message", e.getMessage());
+            return response;
+        }
     }
 
 
