@@ -11,7 +11,6 @@ import { FaUser, FaUsers } from "react-icons/fa";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
 import { FormattedUser, formatUsers } from "../../../utils/userUtils";
 import { getAllUsers } from "../../../services/userService";
-import useUserHandlers from "../../../Hooks/useUserHandlers";
 import Footer from "../../../Components/Footer/footer";
 
 const ManageUsers: React.FC = () => {
@@ -19,7 +18,6 @@ const ManageUsers: React.FC = () => {
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
-  const {handleAddUser } = useUserHandlers();
 
   //* Function to fetch the user list
   const fetchData = async () => {
@@ -28,6 +26,7 @@ const ManageUsers: React.FC = () => {
       console.log("Data fetched from server:");
       const formattedUsers = formatUsers(result);
       setUsers(formattedUsers);
+      console.log("formattedUsers:", formattedUsers);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -40,7 +39,6 @@ const ManageUsers: React.FC = () => {
     fetchData();
   }, []);
 
-
   return (
     <div className="flex flex-col h-screen">
       <DashboardNav />
@@ -51,13 +49,8 @@ const ManageUsers: React.FC = () => {
             className="flex flex-col p-8 overflow-x-scroll no-scrollbar"
             style={{ height: "750px" }}
           >
-            <div className="flex justify-end py-5">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleAddUser}
-              >
-                Add User
-              </button>
+            <div className="flex  py-5">
+              <h1 className="text-3xl font font-josefin underline">Users List :</h1>
             </div>
             <DataTable
               value={users}
@@ -92,6 +85,24 @@ const ManageUsers: React.FC = () => {
                 headerClassName="custom-header"
                 className="custom-cell"
               />
+              <Column
+                field="gender"
+                header="gender"
+                sortable
+                headerClassName="custom-header"
+                className="custom-cell"
+              />
+              <Column
+                header="Orders Count"
+                sortable
+                headerClassName="custom-header"
+                className="custom-cell"
+                body={(rowData) =>
+                  rowData.orders && rowData.orders.orders
+                    ? rowData.orders.orders.length
+                    : 0
+                }
+              />
             </DataTable>
           </div>
         </div>
@@ -102,11 +113,7 @@ const ManageUsers: React.FC = () => {
               title="Total Users"
               value={users.length}
             />
-            <StatsCard
-              icon={<FaUser size={35} />}
-              title="Roles"
-              value={2}
-            />
+            <StatsCard icon={<FaUser size={35} />} title="Roles" value={2} />
             <StatsCard
               icon={<MdOutlineEmail size={35} />}
               title="Total Emails"

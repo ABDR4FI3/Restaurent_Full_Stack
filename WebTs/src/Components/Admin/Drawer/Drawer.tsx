@@ -84,7 +84,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         </div>
         {/* Storage */}
         <div className="flex gap-4">
-          <Link to={"/admin/Storage"}>
+          <Link to={"/admin/Inventory"}>
             {" "}
             <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
               <FaInbox className="hover:text-dark-yellew duration-150" />

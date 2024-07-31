@@ -11,6 +11,7 @@ import store from "./store/index.ts";
 import RecentOrders from "./Pages/Admin/Recent Orders/RecentOrders.tsx";
 import Managemenu from "./Pages/Admin/Manage Menu/ManageMenu.tsx";
 import ManageUsers from "./Pages/Admin/Manage Users/ManageUsers.tsx";
+import Inventory from "./Pages/Admin/Inventory/Inventory.tsx";
 
 const router = createBrowserRouter([
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/users",
     element: <ManageUsers />,
+  },
+  {
+    path: "/admin/Inventory",
+    element: <Inventory />,
   },
   {
     path: "/home",
