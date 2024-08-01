@@ -1,0 +1,21 @@
+id,name,position,salary,department,address,phone,email,gender,image,shift,HiringDate
+1,David Graham,Cleaner,38900.87,Service,"91177 Jonathan Lake Apt. 558, New Hector, SC 63620",001-289-885-9284x057,jill47@yahoo.com,Female,https://dummyimage.com/860x845,Night,2024-07-23
+2,Courtney Bryant,Cook,60181.24,Reception,"9689 Tyler Motorway Apt. 678, Orozcostad, ID 02055",654-198-7870,juan53@yahoo.com,Female,https://placekitten.com/944/711,Night,2021-04-21
+3,Amber Conway,Cleaner,65382.69,Reception,"9399 Parker Plaza Apt. 437, New Rebecca, UT 20105",0941698338,jonathan63@tran.com,Female,https://placeimg.com/380/403/any,Evening,2020-08-27
+4,Phyllis Hanson,Waiter,42843.1,Service,"71682 Richard Land Suite 738, South Jamesville, ID 84275",010-907-1629,gabriel00@gmail.com,Female,https://placekitten.com/162/478,Night,2020-12-29
+5,Kristin Robinson,Manager,61210.46,Cleaning,"087 Smith Stravenue Apt. 566, Lisaview, MO 70168",7199804893,wagnerheather@orr.net,Male,https://www.lorempixel.com/143/590,Night,2021-04-18
+6,Kim Jackson,Cleaner,68678.62,Kitchen,"Unit 6463 Box 0541, DPO AE 62441",001-718-487-8116x57609,jamierichards@yahoo.com,Male,https://www.lorempixel.com/88/548,Night,2021-02-05
+7,Terri Ruiz,Manager,60452.09,Reception,"88926 Williams Islands Suite 113, Erikaberg, AL 94994",685-663-9391,thomasmoore@yahoo.com,Female,https://www.lorempixel.com/973/960,Morning,2024-07-19
+8,Jose Simmons,Receptionist,61832.5,HR,"728 Reyes Burg, Seanfurt, NM 07839",816.576.7954x6398,brownjennifer@gould.com,Male,https://placekitten.com/947/974,Night,2023-02-14
+9,Mr. Gary Wiggins,Cleaner,46406.51,HR,"941 John Route Apt. 150, Elliottton, HI 11394",001-844-251-0415x05447,josemurphy@gilbert.net,Male,https://placeimg.com/351/577/any,Night,2023-06-11
+10,Lori Tucker,Cleaner,59097.67,HR,"1336 Dylan Springs Suite 746, West Stephenville, AR 39474",(215)520-0474x714,lisa01@yahoo.com,Female,https://dummyimage.com/68x184,Night,2024-05-20
+11,Crystal Schmidt,Receptionist,68560.93,Reception,"78112 Mcfarland Motorway Suite 972, New Pamela, KY 19877",001-338-922-2824x004,brent45@gmail.com,Female,https://dummyimage.com/591x669,Night,2023-11-30
+12,George Butler,Waiter,65945.07,Kitchen,"272 Bell Grove Apt. 258, Ramirezville, AK 36534",782-180-1022x20157,watkinsdaniel@zimmerman.com,Male,https://placeimg.com/967/538/any,Night,2021-02-17
+13,Miguel Brown,Manager,44581.39,Kitchen,"446 Angela Alley Apt. 853, Dawsonton, TN 42257",001-887-894-5458,stephanielyons@hotmail.com,Male,https://placekitten.com/57/119,Night,2019-12-29
+14,Karen Thornton,Cook,30978.55,Service,"76266 Gonzalez Crescent, Matthewville, VT 22919",+1-540-943-2448x63437,brandon44@mcdowell-palmer.com,Male,https://dummyimage.com/247x213,Morning,2023-05-29
+15,Julie Wright,Cook,68290.29,HR,"85582 Roberts Village Suite 116, Deanchester, TN 68710",001-069-665-4832x64253,escobaramanda@gmail.com,Male,https://dummyimage.com/195x103,Morning,2020-01-01
+16,Michael Pennington,Cook,37769.2,Service,"7973 Lisa Route, New Suzanne, TN 73152",+1-729-597-1608x2514,carolinehamilton@gmail.com,Male,https://placekitten.com/513/1018,Morning,2021-12-30
+17,Laura Anderson,Cook,35271.1,Cleaning,"97644 Elizabeth Way, Port Jesse, IL 50581",574-767-9843,earl53@parker.com,Male,https://placekitten.com/585/189,Evening,2023-11-04
+18,Mark Figueroa,Waiter,38587.69,Cleaning,"39841 Madison Pass Apt. 308, North Robert, MT 12422",383.491.2335x466,qmooney@hotmail.com,Female,https://dummyimage.com/205x664,Morning,2024-03-20
+19,Joshua Duncan,Manager,66769.57,Reception,"7542 Kendra Place, Janetborough, DE 12074",529.482.7753x742,kelly74@pham.com,Male,https://placekitten.com/315/85,Morning,2020-02-11
+20,Andrew Mccann,Cook,61940.5,Reception,"672 Williams Shore, Lake Charles, NH 55701",+1-819-605-7263,alicia83@torres-bright.com,Female,https://placekitten.com/305/17,Evening,2022-12-02
