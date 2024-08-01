@@ -1,5 +1,6 @@
 package com.example.mybackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,13 @@ public class Inventory {
     private double price;
     private double minQuantity;
     private String category;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(
+            name = "inventory_supplier",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id")
+    )
+    @JsonIgnoreProperties("inventories")
     private List<Supplier> suppliers;
 }
