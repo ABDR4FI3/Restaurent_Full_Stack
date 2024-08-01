@@ -98,7 +98,7 @@ const Managemenu: React.FC = () => {
       {/*Form to manage Gallery*/}
       {GalleryVisible && fooditem && (
         <Modal onClose={() => setGalleryVisible(false)}>
-          <Gallery food={fooditem} />
+          <Gallery fooditem={fooditem} />
         </Modal>
       )}
       {/* Loading Modal*/}

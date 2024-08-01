@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { FormattedFood } from "../../../../utils/foodUtils";
 import Loading from "../../../../lottie/Loading";
 import { MdDelete } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import {
   useAddItemToCarousel,
   useDeleteItemFromCarousel,
+  useFetchFood, 
 } from "../../../../Hooks/useCarousel";
+import { FormattedFood } from "../../../../utils/foodUtils";
 
 interface GalleryProps {
-  food: FormattedFood;
+  fooditem: FormattedFood; 
 }
 
-const Gallery: React.FC<GalleryProps> = ({ food }) => {
+const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
   const [loading, setLoading] = useState(true);
-  const [loadedCount, setLoadedCount] = useState(0);
+  const [error, setError] = useState<null | string>(null);
   const [newLink, setNewLink] = useState<string>("");
-  const totalImages = food?.carouselImage.links.length || 0;
+  const { food, refetch } = useFetchFood(fooditem.id);
   const { addItem, loading: adding, error: addError } = useAddItemToCarousel();
-  console.log(" test a43 ", food);
   const {
     deleteItem,
     loading: deleting,
@@ -26,24 +26,18 @@ const Gallery: React.FC<GalleryProps> = ({ food }) => {
   } = useDeleteItemFromCarousel();
 
   useEffect(() => {
-    if (loadedCount === totalImages) {
+    if (food) {
       setLoading(false);
     }
-  }, [loadedCount, totalImages]);
-
-  const handleImageLoad = () => {
-    setLoadedCount((prevCount) => prevCount + 1);
-  };
-
-  const handleImageError = () => {
-    setLoadedCount((prevCount) => prevCount + 1);
-  };
+  }, [food]);
 
   const handleAdd = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (token !== null) {
-        await addItem(food.id, newLink, token);
+      if (token) {
+        await addItem(fooditem.id, newLink, token);
+        await refetch(); // Re-fetch the updated food data
+        setNewLink(""); // Clear the input field
       }
     } catch (error) {
       console.error(error);
@@ -51,19 +45,28 @@ const Gallery: React.FC<GalleryProps> = ({ food }) => {
   };
 
   const handleDelete = async (link: string) => {
+    if (fooditem?.carouselImage.links.length === 1) {
+      setError("You can't delete all the images");
+      return;
+    }
     try {
       const token = localStorage.getItem("token");
-      if (token !== null) {
-        await deleteItem(food.id, link, token);
+      if (token) {
+        if (window.confirm("Are you sure you want to delete this image?")) {
+          await deleteItem(fooditem.id, link, token);
+          await refetch(); // Re-fetch the updated food data
+        }
       }
     } catch (error) {
       console.error(error);
     }
   };
-  
+  console.log("food.carouselImage.links:", food);
+
   return (
     <div className="bg-gray-200 p-8 rounded-lg shadow-2xl">
       {(loading || adding || deleting) && <Loading />}
+      {error && <p className="text-red-500 text-2xl">{error}</p>}
       {addError && <p className="text-red-500">{addError}</p>}
       {deleteError && <p className="text-red-500">{deleteError}</p>}
       <div className="flex justify-between">
@@ -73,7 +76,7 @@ const Gallery: React.FC<GalleryProps> = ({ food }) => {
             type="text"
             className="shadow-2xl text-center rounded-2xl p-2"
             required
-            placeholder="insert the link "
+            placeholder="Insert the link"
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
           />
@@ -86,17 +89,15 @@ const Gallery: React.FC<GalleryProps> = ({ food }) => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-5 my-8">
-        {food.carouselImage !== null  &&
-          food?.carouselImage.links.map((link, index) => (
+        {food &&
+          fooditem.carouselImage.links.map((link: string, index: number) => (
             <div className="relative" key={index}>
               <img
                 src={link}
                 alt={`Carousel image ${index}`}
                 className="w-full"
-                onLoad={handleImageLoad}
-                onError={handleImageError}
+
               />
-              {/* absolute delete button */}
               <div className="absolute top-0 right-0">
                 <button
                   onClick={() => handleDelete(link)}

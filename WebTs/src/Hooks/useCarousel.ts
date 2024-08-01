@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   addItemToCarousel,
   deleteItemFromCarousel,
 } from "../services/carouselService";
+import axios from "axios";
+import { FormattedFood } from "../utils/foodUtils";
 
 export const useAddItemToCarousel = () => {
   const [loading, setLoading] = useState(false);
@@ -42,4 +44,29 @@ export const useDeleteItemFromCarousel = () => {
   };
 
   return { deleteItem, loading, error };
+};
+
+export const useFetchFood = (foodId: number) => {
+  const [food, setFood] = useState<FormattedFood | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchFood = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`http://localhost:9090/food/${foodId}`);
+      setFood(response.data);
+    } catch (err) {
+      setError("Failed to fetch food details");
+    } finally {
+      setLoading(false);
+    }
+  }, [foodId]);
+
+  useEffect(() => {
+    fetchFood();
+  }, [fetchFood]);
+
+  return { food, loading, error, refetch: fetchFood };
 };

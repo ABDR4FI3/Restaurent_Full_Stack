@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:9090"; // Replace with your actual API base URL
+const API_URL = "http://localhost:9090"; 
 
 export const addItemToCarousel = async (
   foodId: number,
@@ -27,7 +27,7 @@ export const deleteItemFromCarousel = async (
   token: string
 ) => {
   try {
-    const response = await axios.post(`${API_URL}carousel/delete`, null, {
+    const response = await axios.post(`${API_URL}/carousel/delete`, null, {
       params: {
         food_id: foodId,
         link,
