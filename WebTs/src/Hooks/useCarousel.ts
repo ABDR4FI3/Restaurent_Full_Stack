@@ -4,7 +4,7 @@ import {
   deleteItemFromCarousel,
 } from "../services/carouselService";
 import axios from "axios";
-import { FormattedFood } from "../utils/foodUtils";
+import { formatFood,FormattedFood } from "../utils/foodUtils";
 
 export const useAddItemToCarousel = () => {
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ export const useDeleteItemFromCarousel = () => {
 };
 
 export const useFetchFood = (foodId: number) => {
-  const [food, setFood] = useState<FormattedFood | null>(null);
+  const [food, setFood] = useState<FormattedFood>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,8 +56,12 @@ export const useFetchFood = (foodId: number) => {
     setError(null);
     try {
       const response = await axios.get(`http://localhost:9090/food/${foodId}`);
-      setFood(response.data);
+      console.log("response:", response.data['foods']);
+      const FormattedFood = formatFood(response.data['foods']);
+      setFood(FormattedFood);
+      console.log("my formatted food:", FormattedFood);
     } catch (err) {
+      console.log(err);
       setError("Failed to fetch food details");
     } finally {
       setLoading(false);

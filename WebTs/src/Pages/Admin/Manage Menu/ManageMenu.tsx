@@ -173,9 +173,11 @@ const Managemenu: React.FC = () => {
               <Column
                 field="category"
                 header="Category"
-                sortable
                 headerClassName="custom-header"
                 className="custom-cell"
+                body={(rowData: FormattedFood) => (
+                  <p>{rowData.category.name}</p>
+                )}
               />
               <Column
                 body={actionBodyTemplate}

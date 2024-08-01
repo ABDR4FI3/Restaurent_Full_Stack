@@ -5,12 +5,12 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import {
   useAddItemToCarousel,
   useDeleteItemFromCarousel,
-  useFetchFood, 
+  useFetchFood,
 } from "../../../../Hooks/useCarousel";
 import { FormattedFood } from "../../../../utils/foodUtils";
 
 interface GalleryProps {
-  fooditem: FormattedFood; 
+  fooditem: FormattedFood;
 }
 
 const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
@@ -18,6 +18,7 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
   const [error, setError] = useState<null | string>(null);
   const [newLink, setNewLink] = useState<string>("");
   const { food, refetch } = useFetchFood(fooditem.id);
+  const [foodData, SetFoodData] = useState<FormattedFood>(fooditem);
   const { addItem, loading: adding, error: addError } = useAddItemToCarousel();
   const {
     deleteItem,
@@ -27,17 +28,23 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
 
   useEffect(() => {
     if (food) {
-      setLoading(false);
+      SetFoodData(food);
     }
   }, [food]);
+
+  useEffect(() => {
+    if (foodData) {
+      setLoading(false);
+    }
+  }, [foodData]);
 
   const handleAdd = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
         await addItem(fooditem.id, newLink, token);
-        await refetch(); // Re-fetch the updated food data
-        setNewLink(""); // Clear the input field
+        await refetch();
+        setNewLink("");
       }
     } catch (error) {
       console.error(error);
@@ -45,7 +52,7 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
   };
 
   const handleDelete = async (link: string) => {
-    if (fooditem?.carouselImage.links.length === 1) {
+    if (foodData?.carouselImage.links.length === 1 ) {
       setError("You can't delete all the images");
       return;
     }
@@ -54,14 +61,13 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
       if (token) {
         if (window.confirm("Are you sure you want to delete this image?")) {
           await deleteItem(fooditem.id, link, token);
-          await refetch(); // Re-fetch the updated food data
+          await refetch();
         }
       }
     } catch (error) {
       console.error(error);
     }
   };
-  console.log("food.carouselImage.links:", food);
 
   return (
     <div className="bg-gray-200 p-8 rounded-lg shadow-2xl">
@@ -89,14 +95,13 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-5 my-8">
-        {food &&
-          fooditem.carouselImage.links.map((link: string, index: number) => (
+        {foodData &&
+          foodData.carouselImage.links.map((link: string, index: number) => (
             <div className="relative" key={index}>
               <img
                 src={link}
                 alt={`Carousel image ${index}`}
                 className="w-full"
-
               />
               <div className="absolute top-0 right-0">
                 <button
