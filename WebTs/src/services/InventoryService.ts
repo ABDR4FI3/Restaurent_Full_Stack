@@ -1,13 +1,20 @@
 import axios from "axios";
+import { Inventory } from "../types/Inventory";
 
 const API_URL = "http://localhost:9090";
 
-export const getAllFoods = async () => {
+export const GetInventory = async (): Promise<Inventory[]> => {
   try {
-    const response = await axios.get(`${API_URL}/food/all`);
-    return response.data["foods"];
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get<{ inventories: Inventory[] }>(
+      `${API_URL}/inventory/all?token=${token}`
+    );
+
+    console.log("response", response.data.inventories);
+    return response.data.inventories;
   } catch (error) {
-    console.error("Error fetching food data:", error);
+    console.error("Error fetching inventory data:", error);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 package com.example.mybackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,6 @@ public class Supplier {
     private String website;
 
     @ManyToMany(mappedBy = "suppliers")
+    @JsonIgnoreProperties("suppliers")
     private List<Inventory> inventories;
 }
