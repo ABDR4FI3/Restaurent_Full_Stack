@@ -1,9 +1,11 @@
 package com.example.mybackend.Services;
 
 import com.example.mybackend.DTO.FoodDTO;
+import com.example.mybackend.Models.Carousel;
 import com.example.mybackend.Models.Category;
 import com.example.mybackend.Models.Food;
 import com.example.mybackend.Models.User;
+import com.example.mybackend.Repositories.CarouselRepository;
 import com.example.mybackend.Repositories.CategoryRepository;
 import com.example.mybackend.Repositories.FoodRepository;
 import com.example.mybackend.Repositories.UserRepository;
@@ -20,6 +22,8 @@ public class FoodService {
     UserRepository userRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CarouselRepository carouselRepository;
     @Autowired
     JWTUtils jwtUtils;
 
@@ -148,10 +152,8 @@ public class FoodService {
     // ! Get Food With CArousel Image
     public Map<String, Object> getFoodWithCarousels(long foodId) {
         HashMap<String, Object> response = new HashMap<>();
-
         // Retrieve the food by its ID
         Optional<Food> foodOptional = foodRepository.findById(foodId);
-
         if (foodOptional.isEmpty()) {
             response.put("response", 404);
             response.put("message", "Food not found");
@@ -160,10 +162,8 @@ public class FoodService {
             response.put("response", 200);
             response.put("food", food.getCarousel());
         }
-
         return response;
     }
-
     // !  CRUD  Admin
     // * Add Food to Menu
     public Map<String ,Object> addFoodtoMenu(FoodDTO foodDTO , String token) {
@@ -174,9 +174,13 @@ public class FoodService {
                 response.put("message", "Token expired");
                 return response;
             }
+            List<String> initialLinks = Arrays.asList("https://i.postimg.cc/htS9dzmn/placeholder.png");
+            List<String> initialImages = Arrays.asList("https://i.postimg.cc/htS9dzmn/placeholder.png");
+            System.out.println(foodDTO.getNutritionValue());
+
             Food newFood = Food.builder()
                     .name(foodDTO.getName())
-                    .image(foodDTO.getImage())
+                    .image(foodDTO.getLink())
                     .link(foodDTO.getLink())
                     .totalCalories(foodDTO.getTotalCalories())
                     .description(foodDTO.getDescription())
@@ -186,6 +190,12 @@ public class FoodService {
                     .category(categoryRepository.findByName(foodDTO.getCategory()))
                     .build();
             foodRepository.save(newFood);
+            Carousel carousel = Carousel.builder()
+                    .Links(initialLinks)
+                    .images(initialImages)
+                    .food(newFood)
+                    .build();
+            carouselRepository.save(carousel);
             response.put("response", 200);
             response.put("message", "Food added successfully");
             return response;

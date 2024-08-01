@@ -14,6 +14,7 @@ const useFoodHandlers = () => {
 
   const handleEdit = (food: FormattedFood) => {
     setAction("edit");
+    setGalleryVisible(false);
     setFooditem(food);
     setVisible(true);
   };
@@ -25,7 +26,8 @@ const useFoodHandlers = () => {
 
   const handleAddFood = () => {
     setAction("add");
-    setFooditem(emptyFormattedFood); 
+    setFooditem(emptyFormattedFood);
+    setGalleryVisible(false);
     setVisible(true);
   };
 

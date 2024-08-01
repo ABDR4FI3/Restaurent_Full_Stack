@@ -61,6 +61,7 @@ const Managemenu: React.FC = () => {
   React.useEffect(() => {
     fetchData();
   }, []);
+  
 
   // * Handle form submission
   const handleFormSubmit = async (food: FormattedFood) => {

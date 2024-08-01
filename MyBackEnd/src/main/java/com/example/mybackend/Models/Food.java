@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Comments;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,7 @@ public class Food {
     @ElementCollection
     @CollectionTable(name = "food_nutrition", joinColumns = @JoinColumn(name = "food_id"))
     @MapKeyColumn(name = "nutrition_name")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @Column(name = "nutrition_value")
     private Map<String, Float> nutritionValue;
 
