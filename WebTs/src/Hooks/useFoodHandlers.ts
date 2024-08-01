@@ -1,24 +1,33 @@
 import { useState } from "react";
 import { emptyFormattedFood, FormattedFood } from "../utils/foodUtils";
 import { addFoodToMenu, editFoodFromMenu } from "../services/foodService";
+import React from "react";
 
 const useFoodHandlers = () => {
   const [visible, setVisible] = useState(false);
   const [fooditem, setFooditem] = useState<FormattedFood | undefined>();
   const [action, setAction] = useState<"add" | "edit">("add");
+  const [GalleryVisible, setGalleryVisible] = React.useState<boolean>(true);
 
   
   // * init the Modal feilds using handleEdit / HandleAddFood
 
   const handleEdit = (food: FormattedFood) => {
     setAction("edit");
+    setGalleryVisible(false);
     setFooditem(food);
     setVisible(true);
   };
 
+  const handleGallery = (food: FormattedFood) => {
+    setFooditem(food);
+    setGalleryVisible(true);
+  };
+
   const handleAddFood = () => {
     setAction("add");
-    setFooditem(emptyFormattedFood); 
+    setFooditem(emptyFormattedFood);
+    setGalleryVisible(false);
     setVisible(true);
   };
 
@@ -49,6 +58,8 @@ const useFoodHandlers = () => {
   };
 
   return {
+    GalleryVisible,
+    handleGallery,
     visible,
     fooditem,
     action,
@@ -57,6 +68,7 @@ const useFoodHandlers = () => {
     handleAddFood,
     setVisible,
     submitFood,
+    setGalleryVisible,
   };
 };
 

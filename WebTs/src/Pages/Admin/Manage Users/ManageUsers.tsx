@@ -49,6 +49,7 @@ const ManageUsers: React.FC = () => {
             className="flex flex-col p-8 overflow-x-scroll no-scrollbar"
             style={{ height: "750px" }}
           >
+            {/* Users List */}
             <div className="flex  py-5">
               <h1 className="text-3xl font font-josefin underline">Users List :</h1>
             </div>
