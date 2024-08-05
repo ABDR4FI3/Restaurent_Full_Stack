@@ -1,13 +1,13 @@
 import axios from "axios";
-import { Inventory } from "../types/Inventory";
+import { InventoryType } from "../types/Inventory";
 
 const API_URL = "http://localhost:9090";
 
-export const GetInventory = async (): Promise<Inventory[]> => {
+export const GetInventory = async (): Promise<InventoryType[]> => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await axios.get<{ inventories: Inventory[] }>(
+    const response = await axios.get<{ inventories: InventoryType[] }>(
       `${API_URL}/inventory/all?token=${token}`
     );
 

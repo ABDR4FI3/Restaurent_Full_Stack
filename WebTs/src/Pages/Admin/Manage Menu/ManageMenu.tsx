@@ -67,7 +67,7 @@ const Managemenu: React.FC = () => {
   const handleFormSubmit = async (food: FormattedFood) => {
     try {
       await submitFood(food);
-      await fetchData(); // Ensure fetchData is awaited
+      await fetchData(); 
     } catch (error) {
       console.error("Error submitting food data:", error);
     }

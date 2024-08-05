@@ -9,19 +9,49 @@ import { Column } from "primereact/column";
 import { Supplier } from "../../../types/Supplier";
 import StatsCard from "../../../Components/Admin/StatsCard/StatsCard";
 import { FaBoxes, FaSortAmountUp, FaTag, FaUserFriends } from "react-icons/fa";
+import TableActions from "./TableItems/TableItems";
+import { InventoryType } from "../../../types/Inventory";
+import Modal from "../../../Components/PopUp/Modal";
+import InventoryForm from "./InventoryForm/InventoryForm";
 
 const Inventory: React.FC = () => {
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
-  const { inventories, loading, error ,stats } = useInventory();
+  const {
+    inventories,
+    loading,
+    error,
+    stats,
+    handleEdit,
+    handleDelete,
+    action,
+    handleAdd,
+    submit,
+    visible,
+    setVisible,
+    item,
+  } = useInventory();
+
+  const actionBodyTemplate = (rowData: InventoryType) => (
+    <TableActions
+      handleEdit={() => handleEdit(rowData)}
+      handleDelete={() => handleDelete(rowData)}
+    />
+  );
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   return (
     <div className="flex flex-col h-screen">
       <DashboardNav />
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
+      {visible && item && (
+        <Modal onClose={() => setVisible(false)}>
+          <InventoryForm action={action} item={item} onSubmit={submit} />
+        </Modal>
+      )}
       <div className="flex lg:flex-row sm:flex-col mt-8 lg:justify-between ">
         <div className="basis-4/6 mb-14">
           <div
@@ -29,10 +59,16 @@ const Inventory: React.FC = () => {
             style={{ height: "750px" }}
           >
             {/* Users List */}
-            <div className="flex  px-5">
+            <div className="flex px-5 justify-between my-4">
               <h1 className="text-3xl font font-josefin underline">
                 Inventory :
               </h1>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleAdd}
+              >
+                add Item
+              </button>
             </div>
             <DataTable
               value={inventories}
@@ -92,6 +128,13 @@ const Inventory: React.FC = () => {
                     ))}
                   </ul>
                 )}
+              />
+              <Column
+                body={actionBodyTemplate}
+                header="Actions"
+                style={{ width: "15%" }}
+                headerClassName="custom-header topright"
+                className="custom-cell"
               />
             </DataTable>
           </div>
