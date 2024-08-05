@@ -90,11 +90,10 @@ const Inventory: React.FC = () => {
                 className="custom-cell"
               />
               <Column
-                field="category"
                 header="category"
-                sortable
                 headerClassName="custom-header"
                 className="custom-cell"
+                body={(rowData) => rowData.category.name}
               />
               <Column
                 field="quantity"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { emptyInventory, InventoryType } from "../types/Inventory";
-import { GetInventory } from "../services/InventoryService";
+import { addFoodToMenu, GetInventory } from "../services/InventoryService";
 
 const useInventory = () => {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
@@ -30,7 +30,6 @@ const useInventory = () => {
   // * Handle Actions
   // ! Add
   const handleAdd = () => {
-    
     setAction("add");
     setItem(emptyInventory);
     setVisible(true);
@@ -55,19 +54,32 @@ const useInventory = () => {
           "Authentication token is missing. Please log in again."
         );
       }
+      console.log("Submit item:", item);
+
+      // Create a new item object without the inventories property in suppliers
+      const itemWithoutInventories = {
+        ...item,
+        suppliers: item.suppliers.map(({ inventories, ...rest }) => rest),
+      };
+
+      console.log("Item without inventories:", itemWithoutInventories);
+
       if (action === "add") {
-        // todo: add new item
-        console.log("Add item:", item);
+        // Add new item
+        console.log("Add item:", itemWithoutInventories);
+        await addFoodToMenu(itemWithoutInventories, token);
       } else {
-        // todo: edit item
-        console.log("Edit item:", item);
+        // Edit item
+        console.log("Edit item:", itemWithoutInventories);
+        // Add your edit logic here
       }
-      fetchInventories(); // * Refresh the inventory list
-      setVisible(false); // * Hide the form after submission
+      fetchInventories(); // Refresh the inventory list
+      setVisible(false); // Hide the form after submission
     } catch (error) {
       console.error("Error submitting food data:", error);
     }
   };
+
   // * Calculate total items
   const totalItems = inventories.length;
 

@@ -1,4 +1,4 @@
-import { Inventory } from "./Inventory";
+import { InventoryType } from "./Inventory";
 
 export interface Supplier {
   id: number;
@@ -7,5 +7,5 @@ export interface Supplier {
   phone: string;
   email: string;
   website?: string; // ! Optional if not always present
-  inventories?: Inventory[]; 
+  inventories?: InventoryType[]; 
 }

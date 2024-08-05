@@ -5,7 +5,7 @@ export interface InventoryType {
   itemName: string;
   quantity: number;
   price: number;
-  category: string;
+  category: number;
   minQuantity: number;
   suppliers: Supplier[];
 }
@@ -15,7 +15,7 @@ export const emptyInventory: InventoryType = {
   itemName: "",
   quantity: 0,
   price: 0,
-  category: "",
+  category: 0,
   minQuantity: 0,
   suppliers: [],
 } 

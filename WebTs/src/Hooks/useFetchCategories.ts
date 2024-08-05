@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Category } from "../types/Category";
-import { getAllCategories } from "../services/categoryService";
+import { GetInventoryCategories } from "../services/InventoryService";
 
 const useFetchCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -11,7 +11,7 @@ const useFetchCategories = () => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const data = await getAllCategories();
+        const data = await GetInventoryCategories();
         setCategories(data);
       } catch (error) {
         setError("Failed to fetch categories");

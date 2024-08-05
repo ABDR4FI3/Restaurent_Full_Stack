@@ -1,0 +1,40 @@
+1,Fruit,Apple,50,0.5,150,0
+2,Fruit,Banana,30,0.3,200,0
+3,Vegetable,Carrot,20,0.2,100,0
+4,Vegetable,Tomato,25,0.4,120,0
+5,Dairy,Milk,10,1,50,0
+6,Dairy,Cheese,5,2.5,30,0
+7,Beverage,Coffee,15,5,70,0
+8,Beverage,Tea,20,3,90,0
+9,Bakery,Bread,25,1.5,80,0
+10,Bakery,Donut,30,0.75,100,0
+11,Fruit,Orange,40,0.6,130,0
+12,Fruit,Strawberry,15,0.8,60,0
+13,Vegetable,Spinach,10,0.3,40,0
+14,Vegetable,Potato,50,0.5,150,0
+15,Dairy,Butter,8,3,40,0
+16,Dairy,Yogurt,20,1.2,80,0
+17,Beverage,Juice,30,2,100,0
+18,Beverage,Water,50,0.5,200,0
+19,Bakery,Croissant,20,1,60,0
+20,Bakery,Muffin,25,1.25,70,0
+21,Fruit,Blueberry,10,1.5,50,0
+22,Vegetable,Lettuce,20,0.5,70,0
+23,Dairy,Ice Cream,15,2.5,40,0
+24,Beverage,Soda,40,1,150,0
+25,Bakery,Bagel,30,1,90,0
+26,Household,Towel,15,3.5,60,0
+27,Household,Shampoo,20,4,80,0
+28,Household,Toothpaste,25,2,90,0
+29,Household,Soap,30,1.5,100,0
+30,Household,Detergent,10,5,50,0
+31,Electronics,Phone Charger,5,15,25,0
+32,Electronics,Headphones,10,25,30,0
+33,Electronics,USB Cable,20,5,40,0
+34,Clothing,T-Shirt,15,10,60,0
+35,Clothing,Jeans,10,30,40,0
+36,Clothing,Jacket,5,50,20,0
+37,Clothing,Socks,25,2,100,0
+38,Clothing,Hat,20,8,70,0
+39,Office,Notebook,30,2.5,90,0
+40,Office,Pen,50,1,200,0

@@ -20,8 +20,8 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
     itemName: "",
     quantity: 0,
     price: 0,
-    minQuantity : 0,
-    category: "",
+    minQuantity: 0,
+    category: 0,
     suppliers: [],
   });
 
@@ -45,7 +45,6 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
   }, [action, item]);
 
   useEffect(() => {
-    // Set supplier options for select input
     setSupplierOptions(suppliers);
   }, [suppliers]);
 
@@ -55,9 +54,10 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
     >
   ) => {
     const { name, value, type } = e.target;
+    const inputElement = e.target as HTMLInputElement;
 
     if (name === "suppliers") {
-      const checked = (e.target as HTMLInputElement).checked;
+      const checked = inputElement.checked; // Narrow down the type here
       const supplierId = parseInt(value);
       setFormState((prevState) => ({
         ...prevState,
@@ -69,6 +69,11 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
           : prevState.suppliers.filter(
               (supplier) => supplier.id !== supplierId
             ),
+      }));
+    } else if (name === "category") {
+      setFormState((prevState) => ({
+        ...prevState,
+        [name]: parseInt(value),
       }));
     } else {
       setFormState((prevState) => ({
@@ -103,7 +108,7 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
               </label>
               <input
                 type="text"
-                name="name"
+                name="itemName"
                 value={formState.itemName}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -129,7 +134,7 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
               </label>
               <input
                 type="number"
-                name="Min Quantity"
+                name="minQuantity"
                 value={formState.minQuantity}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -164,7 +169,7 @@ const InventoryForm: React.FC<InventoryFormProps> = ({
                   Select a category
                 </option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
+                  <option key={category.id} value={category.id}>
                     {category.name}
                   </option>
                 ))}
