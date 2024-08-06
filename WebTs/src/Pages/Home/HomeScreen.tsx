@@ -3,15 +3,22 @@ import "./style.css";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaLeaf, FaLongArrowAltRight } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
 import { RiDiscountPercentLine } from "react-icons/ri";
-import FoodContainer from "./Popular food/FoodContainer";
 import MapComponent from "../../Components/Map/MapComponent";
 import Footer from "../../Components/Footer/footer";
 
+import PopularFoodSwiper from "./Popular Food Swiper/PopularFood";
+import Testimonial from "./Testimonials/Testimonial";
+
 const HomePage: React.FC = () => {
+  const testimonials = [
+    "Dining at [Restaurant Name] was a delightful experience! The ambiance was cozy and inviting, perfect for a relaxing evening. I tried their signature seafood platter, and it was absolutely delicious—fresh, flavorful, and beautifully presented. The staff were attentive and friendly, making sure our needs were met throughout the meal. I highly recommend this place for anyone looking to enjoy a top-notch meal in a great atmosphere. I'll definitely be returning soon!",
+    "As a food critic, I've visited many restaurants, but [Restaurant Name] truly stands out. The creative menu offers a unique twist on classic dishes, and the quality of the ingredients is evident in every bite. I was particularly impressed with their homemade pasta—it was cooked to perfection and paired with a rich, flavorful sauce. The service was impeccable, with staff who are knowledgeable about the menu and passionate about providing a great dining experience. This restaurant has quickly become one of my favorites, and I recommend it to anyone who appreciates fine dining.",
+  ];
+  const navigate = useNavigate();
   return (
     <div className="bg-dark-bg text-white">
       <Navbar />
@@ -38,6 +45,9 @@ const HomePage: React.FC = () => {
               <button
                 className="Font text-2xl mt-10 border p-5 rounded-xl hover:scale-105 duration-1000"
                 style={{ fontFamily: "LibreBodoni", fontWeight: "lighter" }}
+                onClick={() => {
+                  navigate("/menu");
+                }}
               >
                 Check our Menu
               </button>
@@ -54,8 +64,8 @@ const HomePage: React.FC = () => {
                 className="w-1/2"
                 alt=""
               />
-              <div className="flex flex-col w-1/2 rounded-2xl bg-lighter-dark p-10 items-center justify-center sm:h-1/4">
-                <h1 className="text-4xl   font-bold text-dark-yellew custom-font">
+              <div className="flex flex-col w-1/2 rounded-2xl bg-lighter-dark p-10 items-center justify-center sm:h-1/4 glass-effect">
+                <h1 className="text-4xl font-bold text-dark-yellew custom-font">
                   Why choose us
                 </h1>
                 <p className="text-white text-justify text-sm mt-5 px-10 LibreBodoni_description sm:text-ellipsis">
@@ -65,12 +75,13 @@ const HomePage: React.FC = () => {
                   enjoy unparalleled functionality with a touch of
                   sophistication.
                 </p>
-                <p className="flex gap-10  items-center text-dark-yellew mt-5 ml-20 w-full">
+                <p className="flex gap-10 items-center text-dark-yellew mt-5 ml-20 w-full">
                   <Link
                     to="/"
                     className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-                  ></Link>
-                  learn more
+                  >
+                    learn more
+                  </Link>
                   <FaLongArrowAltRight color="#bf8e43" size={25} />
                 </p>
               </div>
@@ -126,36 +137,13 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
             </div>
+
             {/* Popular Food Section */}
             <div className="flex flex-col justify-center items-center">
               <h1 className="text-5xl my-8 SecondPolice">Popular Food</h1>
-              <div className="grid grid-cols-4 gap-10 ">
-                <FoodContainer
-                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
-                  rating={4.5}
-                  price={10}
-                  name="pizza"
-                />
-                <FoodContainer
-                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
-                  rating={4.5}
-                  price={10}
-                  name="pizza"
-                />
-                <FoodContainer
-                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
-                  rating={4.5}
-                  price={10}
-                  name="pizza"
-                />
-                <FoodContainer
-                  img="https://i.postimg.cc/d3FGRQ2F/pizza1.jpg"
-                  rating={4.5}
-                  price={10}
-                  name="pizza"
-                />
+              <div className="w-full flex justify-center">
+                <PopularFoodSwiper />
               </div>
-              {/*<CarouselComponent />*/}
             </div>
           </div>
           {/* Image Background Interior Section */}
@@ -173,6 +161,26 @@ const HomePage: React.FC = () => {
               every day.
             </p>
           </div>
+          {/* Testimonial Section */}
+          <div className="flex justify-center flex-col gap-4">
+            <h2 className="text-5xl text-center SecondPolice ">Testimonials</h2>
+            <div className="flex justify-center gap-16">
+              {" "}
+              <Testimonial
+                img="https://i.postimg.cc/rybvTTVB/man.jpg"
+                name="John Doe"
+                text={testimonials[0]}
+                stars={4}
+              />
+              <Testimonial
+                img="https://i.postimg.cc/rybvTTVB/man.jpg"
+                name="John Doe"
+                text={testimonials[1]}
+                stars={4}
+              />
+            </div>
+          </div>
+          {/* Our Location Section */}
           <div className="flex mx-16 items-center SecondPolice mb-10">
             <div className="basis-1/3 sm:basis-1/2 flex flex-col">
               <h1 className="text-4xl">Our Locations: </h1>

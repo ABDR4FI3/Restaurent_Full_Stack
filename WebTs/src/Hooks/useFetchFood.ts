@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { FormattedFood } from "../utils/foodUtils";
+import { getFood } from "../services/foodService";
 
-const API_URL = "http://localhost:9090"; // Replace with your actual API base URL
+// ! Not used in the app
 
 export const useFetchFood = (foodId: number) => {
   const [food, setFood] = useState<FormattedFood | null>(null);
@@ -12,17 +12,10 @@ export const useFetchFood = (foodId: number) => {
   const fetchFood = async () => {
     setLoading(true);
     setError(null);
-    try {
-      const response = await axios.get(`${API_URL}/food/${foodId}`);
-      setFood(response.data);
-      setLoading(false);
-    } catch (err: any) {
-      setLoading(false);
-      setError(err.message);
-    }
+    setFood(await getFood(foodId));
   };
 
-  // Fetch food data when component mounts or foodId changes
+  
   useEffect(() => {
     fetchFood();
   }, [foodId]);

@@ -3,13 +3,26 @@ import { FormattedFood } from "../utils/foodUtils";
 
 const API_URL = "http://localhost:9090";
 
-export const getAllFoods = async () => {
+export const getAllFoods = async (): Promise<FormattedFood[]> => {
   try {
-    const response = await axios.get(`${API_URL}/food/all`);
-    return response.data["foods"];
+    const response = await axios.get<{ foods: FormattedFood[] }>(
+      `${API_URL}/food/all`
+    );
+    return response.data.foods;
   } catch (error) {
     console.error("Error fetching food data:", error);
     throw error;
+  }
+};
+export const getFood = async (foodid: number): Promise<FormattedFood> => {
+  try {
+    const response = await axios.get<{ food: FormattedFood }>(
+      `${API_URL}/food/${foodid}`
+    );
+    return response.data.food;
+  } catch (error: any) {
+        console.error("Error fetching food data:", error);
+        throw error;
   }
 };
 

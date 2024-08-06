@@ -16,7 +16,7 @@ const FoodContainer: React.FC<FoodContainerProps> = ({
   return (
     <>
       <div
-        className=" flex flex-col gap-2 bg-white rounded-lg shadow-xl p-4 text-black hover:bg-transparent hover:text-white hover:scale-110 duration-300  "
+        className=" flex flex-col gap-2 rounded-lg shadow-xl p-4 text-black bg-wood hover:text-white hover:scale-110 duration-300  "
         style={{ fontFamily: "LibreBodoni" }}
       >
         <div>

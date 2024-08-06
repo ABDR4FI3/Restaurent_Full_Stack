@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import image from "../../assets/icon/SamLogo.png";
-import "./NavBar.css"; 
+import "./Navbar.css";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Check if the token exists in local storage
   const token = localStorage.getItem("token");
-
   return (
     <nav className="bg-dark text-white shadow-md bg-dark-bg">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-3 flex items-center font-montserrat justify-between">
         <Link to="#" className="text-2xl font-bold">
-          <img src={image}  alt="" />
+          <img src={image} alt="" />
         </Link>
 
         {/* Hamburger icon for mobile */}
@@ -33,20 +31,28 @@ const Navbar: React.FC = () => {
           }`}
         >
           <Link
-            to="/"
+            to="/home"
             className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
           >
             Home
           </Link>
           <Link
-            to="/profile"
+            to="/menu"
             className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
           >
             Menu
           </Link>
 
-          {token == null ? (
-            <></>
+          {token != null ? (
+            <>
+              {" "}
+              <Link
+                to="/home"
+                className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+              >
+                Profile
+              </Link>
+            </>
           ) : (
             <>
               <Link

@@ -12,6 +12,7 @@ import RecentOrders from "./Pages/Admin/Recent Orders/RecentOrders.tsx";
 import Managemenu from "./Pages/Admin/Manage Menu/ManageMenu.tsx";
 import ManageUsers from "./Pages/Admin/Manage Users/ManageUsers.tsx";
 import Inventory from "./Pages/Admin/Inventory/Inventory.tsx";
+import MenuPage from "./Pages/Menu/MenuPage.tsx";
 
 const router = createBrowserRouter([
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomePage />,
+  },
+  {
+    path: "/menu",
+    element: <MenuPage />,
   },
   {
     path: "/",

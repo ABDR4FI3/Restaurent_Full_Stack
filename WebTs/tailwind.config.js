@@ -10,6 +10,7 @@ export default {
       fontFamily: {
         libre: ['"Libre Bodoni"'],
         josefin: ['"Josefin Sans"'],
+        montserrat: ['"Montserrat"'],
       },
       colors: {
         "dark-bg": "#121212",
@@ -34,6 +35,7 @@ export default {
         home2: "url('./src/assets/Img/Home/plat.png')",
         home3: "url('./src/assets/Img/pattern/homebackground.png')",
         interior: "url('./src/assets/Img/Home/interior.jpg')",
+        wood: "url('https://i.postimg.cc/PJMjKDMZ/wood.jpg')",
       },
     },
   },

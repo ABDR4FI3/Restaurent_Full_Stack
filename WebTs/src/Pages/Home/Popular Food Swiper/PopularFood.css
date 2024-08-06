@@ -1,0 +1,11 @@
+.swiper-slide {
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9); /* Initial scale for inactive slides */
+}
+
+.swiper-slide-active {
+  transform: scale(1); /* Scale up the active slide */
+  z-index: 1; /* Bring the active slide to the front */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow for active slide */
+}
