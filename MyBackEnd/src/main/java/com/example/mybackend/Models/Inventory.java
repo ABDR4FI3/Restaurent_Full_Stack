@@ -23,7 +23,11 @@ public class Inventory {
     private int quantity;
     private double price;
     private double minQuantity;
-    private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnoreProperties("inventories")
+    private InventoryCategory category;
 
     @ManyToMany
     @JoinTable(
@@ -33,4 +37,17 @@ public class Inventory {
     )
     @JsonIgnoreProperties("inventories")
     private List<Supplier> suppliers;
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", category=" + (category != null ? category.getId() : "null") +  // Avoid circular reference
+                ", minQuantity=" + minQuantity +
+                ", suppliers=" + (suppliers != null ? suppliers.size() : "null") +  // Avoid circular reference
+                '}';
+    }
 }
