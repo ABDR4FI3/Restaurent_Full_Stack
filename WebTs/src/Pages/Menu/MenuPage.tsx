@@ -19,7 +19,7 @@ const MenuPage: React.FC = () => {
       <Navbar />
       {/* ul categories */}
       <div>
-        <ul className="flex gap-20 justify-center text-2xl font-montserrat ">
+        <ul className="lg:flex sm:grid sm:grid-cols-3 gap-20 justify-center text-2xl font-montserrat ">
           {loading && <li>Loading...</li>}
           {error && <li>Error: {error}</li>}
           {!loading && !error && categories.length === 0 && (
@@ -40,7 +40,7 @@ const MenuPage: React.FC = () => {
       </div>
       {/* Data */}
       <div className="flex justify-center my-8">
-        <div className="grid grid-cols-4 gap-16 w-10/12 ">
+        <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-16 w-10/12 ">
           {filteredFoods.map((food) => (
             <FoodContainer
               key={food.id}

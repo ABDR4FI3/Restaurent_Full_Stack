@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import image from "../../assets/icon/SamLogo.png";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
@@ -14,7 +13,11 @@ const Navbar: React.FC = () => {
     <nav className="bg-dark text-white shadow-md bg-dark-bg">
       <div className="container mx-auto px-4 py-3 flex items-center font-montserrat justify-between">
         <Link to="#" className="text-2xl font-bold">
-          <img src={image} alt="" />
+          <img
+            src="https://i.postimg.cc/0yPCLw0j/logo.png"
+            width={150}
+            alt=""
+          />
         </Link>
 
         {/* Hamburger icon for mobile */}
@@ -26,51 +29,57 @@ const Navbar: React.FC = () => {
 
         {/* Navigation Links */}
         <div
-          className={`lg:flex lg:items-center lg:space-x-4 absolute lg:static top-16 left-0 w-full lg:w-auto bg-dark-bg lg:bg-transparent transition-transform ease-in-out ${
+          className={`lg:flex lg:items-center lg:space-x-4 fixed lg:static top-0 left-0 w-full h-full lg:w-auto lg:h-auto bg-dark-bg lg:bg-transparent transition-transform ease-in-out ${
             isOpen ? "transform translate-x-0" : "transform -translate-x-full"
-          }`}
+          } ${isOpen ? "z-50" : ""}`}
         >
-          <Link
-            to="/home"
-            className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-          >
-            Home
-          </Link>
-          <Link
-            to="/menu"
-            className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-          >
-            Menu
-          </Link>
+          <div className="flex lg:flex-row sm:flex-col items-center justify-center h-full">
+            <Link
+              to="/home"
+              className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+              onClick={toggleMenu}
+            >
+              Home
+            </Link>
+            <Link
+              to="/menu"
+              className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+              onClick={toggleMenu}
+            >
+              Menu
+            </Link>
 
-          {token != null ? (
-            <>
-              {" "}
-              <Link
-                to="/home"
-                className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-              >
-                Profile
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/register"
-                className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-              >
-                Register
-              </Link>
-              <Link
-                to="/login"
-                className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
-              >
-                Login
-              </Link>
-            </>
-          )}
-          {/* Dark Light Toggle */}
-          <div></div>
+            {token != null ? (
+              <>
+                <Link
+                  to="/home"
+                  className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+                  onClick={toggleMenu}
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/register"
+                  className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+                  onClick={toggleMenu}
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+                  onClick={toggleMenu}
+                >
+                  Login
+                </Link>
+              </>
+            )}
+            {/* Dark Light Toggle */}
+            <div></div>
+          </div>
         </div>
       </div>
     </nav>
