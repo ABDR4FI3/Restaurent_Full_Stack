@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Drawer from "../../../Components/Admin/Drawer/Drawer";
 import NumberCard from "./NumbersCard/NumberCard";
 import { BiFoodMenu } from "react-icons/bi";
@@ -8,21 +8,31 @@ import MostOrdered from "./MostOrdered/MostOrdered";
 import { PiUserCircleGear } from "react-icons/pi";
 
 import { toggleDrawer } from "../../../store/slices/drawerSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../../store";
 import { FaTachometerAlt } from "react-icons/fa";
 import Order from "../../../Components/Admin/Order/Order";
 import Footer from "../../../Components/Footer/footer";
 import IncomeExpense from "../../../Components/Admin/Charts/IncomeExpense";
 import DashboardNav from "../../../Components/Admin/Nav/DashboardNav";
+import {
+  fetchOrderStatus,
+  selectOrders,
+} from "../../../store/slices/orderSlice";
 
 const Dashboard: React.FC = () => {
   const incomeData = [5000, 4000, 3000, 4500, 6000, 5500, 6500];
   const expenseData = [2000, 3000, 2500, 3500, 4000, 4500, 5000];
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const orders = useSelector(selectOrders);
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
+  useEffect(() => {
+    dispatch(fetchOrderStatus("Paid"));
+  }, [dispatch]);
+
+  const recentOrders = orders?.slice(0, 5) || [];
 
   return (
     <div className="flex flex-col h-screen">
@@ -93,11 +103,15 @@ const Dashboard: React.FC = () => {
             </div>
             {/* Recent Orders goes here */}
             <div className="flex flex-col gap-4 my-4">
-              {" "}
-              <Order name="Burger" price={5000} quantity={2} total={10000} />
-              <Order name="Burger" price={5000} quantity={2} total={10000} />
-              <Order name="Burger" price={5000} quantity={2} total={10000} />
-              <Order name="Burger" price={5000} quantity={2} total={10000} />
+              {recentOrders.map((order, index) => (
+                <Order
+                  key={index}
+                  name={order.food.name}
+                  price={order.food.price}
+                  quantity={order.qte}
+                  total={order.qte * order.food.price}
+                />
+              ))}
             </div>
           </div>
           {/*Col 2 Export Files : */}

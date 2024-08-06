@@ -1,11 +1,25 @@
-//! mock service for demonstration 
-export class OrderService {
-  static async getOrders() {
-    // Mock data for demonstration. Replace with your actual API call.
-    return [
-      { name: "Pizza", price: 10, quantity: 2, total: 20 },
-      { name: "Burger", price: 8, quantity: 1, total: 8 },
-      { name: "Pasta", price: 12, quantity: 3, total: 36 },
-    ];
+import axios from "axios";
+import { GetOrderStatusResponse, Orders } from "../types/Orders"; 
+
+const API_URL = "http://localhost:9090/order/status";
+
+const getOrderStatusData = async (
+  status: string
+): Promise<Orders[]> => {
+  try {
+    const token = localStorage.getItem("token"); // Retrieve the token from local storage
+    const response = await axios.get<GetOrderStatusResponse>(API_URL, {
+      params: {
+        token,
+        status,
+      },
+    });
+    console.log("response", response.data.orders);
+    return response.data.orders;
+  } catch (error) {
+    console.error("Error fetching order status:", error);
+    throw error;
   }
-}
+};
+
+export default getOrderStatusData;
