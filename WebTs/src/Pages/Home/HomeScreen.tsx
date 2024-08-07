@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
         <div className="flex justify-center items-center w-full bg-home1 h-screen">
           {/* Text Section */}
           <div className="flex flex-col ">
-            <h1 className="text-4xl font-bold  custom-font px-28">
+            <h1 className="text-4xl font-bold  font-montserrat px-28">
               Discover our gourmet recipes.
             </h1>
             <div className="flex justify-evenly items-center mt-10">
@@ -147,7 +147,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
           {/* Image Background Interior Section */}
-          <div className="interior-bg h-80 relative flex flex-col justify-center items-center my-10">
+          <div className="interior-bg h-80 relative flex flex-col justify-center items-center my-10" style={{backgroundAttachment: "fixed"}}>
             <div className="overlay absolute inset-0"></div>
             <h1
               className=" text-5xl mb-4"
