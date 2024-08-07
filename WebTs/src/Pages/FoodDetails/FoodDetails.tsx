@@ -7,11 +7,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { PieChart } from "@mui/x-charts/PieChart";
-
+import Comment from "./Comments/Comments";
+import OrderButton from "./OrderButton/OrderButton";
+import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import { usePlaceOrder } from "../../Hooks/useOrders";
 const FoodDetails: React.FC = () => {
   const location = useLocation();
   const { food } = location.state as { food: FormattedFood };
-
+  const [quantity, setQuantity] = useState<number>(1);
+  const { Message, error, loading, placeOrder } = usePlaceOrder();
   // * Carousel settings
   const settings = {
     dots: true,
@@ -28,22 +34,67 @@ const FoodDetails: React.FC = () => {
     { id: "vitamins", value: food.nutritionValue.vitamins },
   ];
 
-  food.comments.map((comment) => console.log("Profile Image     : ", comment.user.image));
+  // * Quantity Handlers
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  };
+  const Placeorder = async (id: number, quantity: number) => {
+    try {
+      await placeOrder(id, quantity);
+      console.info(Message);
+      toast.success(Message);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order");
+    }
+  };
 
   return (
     <div className="bg-dark-bg min-h-screen">
+      <Toaster position="bottom-left" reverseOrder={false} />
       <Navbar />
+      {error && <p>{error}</p>}
+      {loading && <p>Loading...</p>}
       <div className="flex flex-col items-center bg-dark-bg text-white mx-24 my-16">
         <div className="flex justify-between w-full">
           <div className="flex flex-col w-4/12 font-montserrat gap-10">
             <h2 className="text-4xl font-bold">{food.name}</h2>
             <p className="text-xl">Description: {food.description}</p>
-            <p className="text-xl">Category: {food.category.name}</p>
-            <p className="text-xl">Price: ${food.price}</p>
-            <p className="text-lg">Rating: {repeatStars(food.rating)}</p>
+            <div className="flex justify-between">
+              {" "}
+              <div className="flex flex-col gap-8">
+                {" "}
+                <p className="text-xl">Category: {food.category.name}</p>
+                <p className="text-xl">Price: ${food.price}</p>
+                <p className="text-lg">Rating: {repeatStars(food.rating)}</p>
+              </div>
+              <div className="flex flex-row gap-4 justify-center items-center">
+                <div className="flex items-center">
+                  <button
+                    onClick={decrementQuantity}
+                    className="p-4 border rounded-full"
+                  >
+                    <FaMinus />
+                  </button>
+                  <span className="mx-4 text-xl">{quantity}</span>{" "}
+                  {/* Display the quantity */}
+                  <button
+                    onClick={incrementQuantity}
+                    className="p-4 border rounded-full"
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+                <OrderButton onClick={() => Placeorder(food.id, quantity)} />
+              </div>
+            </div>
           </div>
           {/* Image Section */}
-          <div className="flex sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-125 duration-500 w-4/12 p-4">
+          <div className="flex sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-110 duration-500 w-4/12 p-4">
             <img
               src={food.link}
               alt={food.name}
@@ -102,7 +153,12 @@ const FoodDetails: React.FC = () => {
           </div>
         </div>
         {/* Comment Section */}
-        <div></div>
+        <div className="w-full flex flex-col gap-4">
+          <h2 className="text-4xl font-bold font-montserrat">Comments</h2>
+          {food.comments.map((comment) => {
+            return <Comment comments={comment} />;
+          })}
+        </div>
       </div>
       <Footer />
     </div>

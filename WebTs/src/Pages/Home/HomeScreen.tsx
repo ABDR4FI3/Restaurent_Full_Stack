@@ -166,18 +166,15 @@ const HomePage: React.FC = () => {
             <h2 className="text-5xl text-center SecondPolice ">Testimonials</h2>
             <div className="flex justify-center gap-16">
               {" "}
-              <Testimonial
-                img="https://i.postimg.cc/rybvTTVB/man.jpg"
-                name="John Doe"
-                text={testimonials[0]}
-                stars={4}
-              />
-              <Testimonial
-                img="https://i.postimg.cc/rybvTTVB/man.jpg"
-                name="John Doe"
-                text={testimonials[1]}
-                stars={4}
-              />
+              {testimonials.map((text, index) => (
+                <Testimonial
+                  key={index}
+                  img="https://i.postimg.cc/rybvTTVB/man.jpg"
+                  name="John Doe"
+                  text={text}
+                  stars={4}
+                />
+              ))}
             </div>
           </div>
           {/* Our Location Section */}
