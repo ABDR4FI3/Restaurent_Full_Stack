@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent/Pages/FavoritePage.dart';
+
 import 'package:restaurent/Pages/HistoryPurchase.dart';
 import 'package:restaurent/Pages/LoginPage.dart';
 import 'package:restaurent/Pages/Menu.dart';
-import 'package:restaurent/Pages/MenuPage.dart';
-import 'package:restaurent/Pages/ProfilePage.dart';
+
 import 'package:restaurent/Provider/HomeScreenProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +22,11 @@ class Customdrawer extends StatelessWidget {
     return prefs.getString('mail');
   }
 
+  Future<String?> getImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('image');
+  }
+
   @override
   Widget build(BuildContext context) {
     HomeScreenProvider routingProvider =
@@ -32,18 +36,17 @@ class Customdrawer extends StatelessWidget {
       child: ListView(
         children: [
           FutureBuilder<List<String?>>(
-            future: Future.wait([getName(), getToken()]),
+            future: Future.wait([getName(), getToken(), getImage()]),
             builder:
                 (BuildContext context, AsyncSnapshot<List<String?>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return UserAccountsDrawerHeader(
-                  accountName: const Text('Loading...'),
-                  accountEmail: const Text('Loading...'),
+                return const UserAccountsDrawerHeader(
+                  accountName: Text('Loading...'),
+                  accountEmail: Text('Loading...'),
                   currentAccountPicture: CircleAvatar(
                     child: ClipOval(
-                      child: Image.asset(
-                        'Images/avatar.png',
-                      ),
+                      child:
+                          CircularProgressIndicator(), // Placeholder while loading
                     ),
                   ),
                 );
@@ -62,6 +65,7 @@ class Customdrawer extends StatelessWidget {
               } else {
                 final name = snapshot.data?[0] ?? 'John Doe';
                 final email = snapshot.data?[1] ?? 'XQW0s@example.com';
+                final image = snapshot.data?[2] ?? 'https://i.postimg.cc/Fzpz0rVG/userImage.jpg';
                 return UserAccountsDrawerHeader(
                   onDetailsPressed: () => routingProvider.setIndex(3),
                   accountName: Text(
@@ -78,8 +82,9 @@ class Customdrawer extends StatelessWidget {
                   ),
                   currentAccountPicture: CircleAvatar(
                     child: ClipOval(
-                      child: Image.asset(
-                        'Images/avatar.png',
+                      child: Image.network(
+                        'https://i.postimg.cc/Fzpz0rVG/userImage.jpg', // Fallback image on error
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -137,7 +142,8 @@ class Customdrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Historypurchase()),
+                MaterialPageRoute(
+                    builder: (context) => const Historypurchase()),
               );
             },
           ),

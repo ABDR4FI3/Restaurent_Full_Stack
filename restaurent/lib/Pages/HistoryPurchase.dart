@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:restaurent/Components/CustomDrawer.dart';
 import 'package:restaurent/Config/IPadress.dart';
 import 'package:restaurent/model/OrderResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +40,12 @@ class _HistorypurchaseState extends State<Historypurchase> {
       for (var order in jsonResponse['orders']) {
         fetchedOrders.add(Order.fromJson(order));
       }
+
+      setState(() {
+        orders = fetchedOrders;
+      });
+    } else if (response.statusCode == 201) {
+      List<Order> fetchedOrders = [];
 
       setState(() {
         orders = fetchedOrders;

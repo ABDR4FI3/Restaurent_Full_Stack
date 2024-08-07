@@ -160,7 +160,8 @@ public class FoodService {
         } else {
             Food food = foodOptional.get();
             response.put("response", 200);
-            response.put("food", food.getCarousel());
+            response.put("carousel", food.getCarousel());
+            response.put("food", food);
         }
         return response;
     }

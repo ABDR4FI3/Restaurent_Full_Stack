@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +7,6 @@ import 'package:restaurent/Components/CustomDrawer.dart';
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/food_tile.dart';
 import 'package:restaurent/Pages/FoodDetails.dart';
-import 'package:restaurent/model/CategoryData.dart';
 import 'package:restaurent/model/food.dart';
 import 'package:restaurent/theme/colors.dart';
 
@@ -130,9 +128,10 @@ class _MenuPageState extends State<MenuPage> {
                           border: Border.all(color: primaryColor),
                         ),
                         child: Image(
-                          image: AssetImage(
-                            i.image,
-                          ),
+                          // image: AssetImage(
+                          //   i.image,
+                          // ),
+                          image: NetworkImage(i.link),
                           fit: BoxFit.cover,
                         ));
                   },

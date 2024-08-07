@@ -36,10 +36,12 @@ class Loginpage extends StatelessWidget {
     switch (response.statusCode) {
       case 200:
         final responseData = jsonDecode(response.body);
+        print("resposnse body is "+ response.body);
         final token = responseData['token'];
         await saveToken(token);
         await saveName(responseData['username']);
         await saveMail(responseData['usermail']);
+        await saveImage(responseData['image']);
         showSnackbar(context, 'Login successful');
         Navigator.pushReplacementNamed(context, '/home');
         break;
@@ -66,6 +68,10 @@ class Loginpage extends StatelessWidget {
   Future<void> saveMail(String mail) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('mail', mail);
+  }
+  Future<void> saveImage(String image) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('image', image );
   }
 
   void showSnackbar(BuildContext context, String message) {

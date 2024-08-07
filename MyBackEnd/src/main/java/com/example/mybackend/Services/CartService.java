@@ -221,7 +221,7 @@ public class CartService {
         List<Orders> items = orderRepository.findByStatusAndUser(category, user);
 
         if (items.isEmpty() || items == null) {
-            response.put("response", 400);
+            response.put("response", 201);
             response.put("message", "Cart is empty");
             return response;
         }

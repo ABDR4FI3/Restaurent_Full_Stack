@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurent/model/food.dart';
-import 'package:restaurent/theme/colors.dart';
 
 class FoodTile extends StatefulWidget {
   final Food food;
@@ -41,8 +40,8 @@ class _FoodTileState extends State<FoodTile> {
             // Image with heart icon in top right corner
             Stack(
               children: [
-                Image.asset(
-                  widget.food.image,
+                Image(
+                  image: NetworkImage(widget.food.link),
                   height: 100,
                   width: 100,
                   fit: BoxFit.cover,

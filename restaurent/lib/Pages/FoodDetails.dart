@@ -1,20 +1,14 @@
 import 'dart:convert';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:restaurent/Components/MyButton.dart';
 import 'package:restaurent/Components/radialbar.dart';
 import 'package:restaurent/Config/IPadress.dart';
-import 'package:restaurent/Pages/LoginPage.dart';
-import 'package:restaurent/model/FoodWithCarousel.dart';
-import 'package:restaurent/model/ModelFoodDetails.dart';
 import 'package:restaurent/model/food.dart';
-import 'package:restaurent/model/shop.dart';
 import 'package:restaurent/theme/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Add this import
+import 'package:shared_preferences/shared_preferences.dart'; 
 
 class FoodDetails extends StatefulWidget {
   final int foodId;
@@ -26,7 +20,7 @@ class FoodDetails extends StatefulWidget {
 }
 
 class _FoodDetailsState extends State<FoodDetails> {
-  late Future<FoodWithCarousel> futureFood;
+  late Future<Food> futureFood;
   int quantity = 1;
 
   @override
@@ -35,20 +29,27 @@ class _FoodDetailsState extends State<FoodDetails> {
     futureFood = fetchFood(widget.foodId);
   }
 
-  Future<FoodWithCarousel> fetchFood(int foodId) async {
+  Future<Food> fetchFood(int foodId) async {
+    try{
     final response = await http
-        .get(Uri.parse('http://192.168.100.128:9090/food/detailed/$foodId'));
+        .get(Uri.parse('http://192.168.100.128:9090/food/$foodId'));
 
     if (response.statusCode == 200) {
       print('Response Body: ${response.body}');
       final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      final foodJson = jsonResponse['food'][0];
-      final foodWithCarousel = FoodWithCarousel.fromJson(foodJson);
-      return foodWithCarousel;
+      print("body Json : $jsonResponse");
+      final foodJson = jsonResponse['foods'];
+      print("my dataaaaaaaaaa \n" +Food.fromJson(foodJson).toString());
+      return Food.fromJson(foodJson);
     } else {
       print('Failed to load food. Status Code: ${response.statusCode}');
       throw Exception('Failed to load food ${response.body}');
     }
+    }catch(e){
+      print(e.toString());
+      return Future.error(e);
+    }
+
   }
 
   void incrementQuantity() {
@@ -69,8 +70,9 @@ class _FoodDetailsState extends State<FoodDetails> {
       });
     }
   }
+  
 
-  Future<void> addToCart(Modelfooddetails food, String token, int qte) async {
+  Future<void> addToCart(Food food, String token, int qte) async {
     final String apiUrl = 'http://$IpAdress/order/make';
 
     print("my parameters, foodId: ${food.id}, token: $token, qte: $qte");
@@ -129,7 +131,7 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<FoodWithCarousel>(
+    return FutureBuilder<Food>(
       future: futureFood,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -142,15 +144,16 @@ class _FoodDetailsState extends State<FoodDetails> {
     );
   }
 
-  Widget _buildFoodDetails(FoodWithCarousel food) {
-    print("food: ${food.foods[0].name}");
+  Widget _buildFoodDetails(Food food) {
+    print("my food item " + food.nutritionValue.carbs.toString());
+    print("food: ${food.name}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         foregroundColor: secondaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          food.foods[0].name,
+          food.name,
           style: GoogleFonts.quicksand(
               color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -163,7 +166,7 @@ class _FoodDetailsState extends State<FoodDetails> {
             children: [
               // *  image logo
               Image.asset(
-                food.foods[0].image,
+                food.image,
                 height: 400,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -176,7 +179,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                     // * Meal Name
                     Center(
                       child: Text(
-                        food.foods[0].name,
+                        food.name,
                         style: GoogleFonts.montserrat(
                           fontSize: 34,
                           fontWeight: FontWeight.bold,
@@ -187,7 +190,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                     //* seperator
                     const SizedBox(height: 8),
                     Text(
-                      food.foods[0].description,
+                      food.description,
                       style: const TextStyle(fontSize: 18),
                     ),
                     //* seperator
@@ -200,7 +203,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                           margin: const EdgeInsets.only(top: 10),
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            'Price: \$${food.foods[0].price.toString()}',
+                            'Price: \$${food.price.toString()}',
                             style: GoogleFonts.quicksand(
                               color: Colors.grey[800],
                               fontSize: 20,
@@ -220,16 +223,13 @@ class _FoodDetailsState extends State<FoodDetails> {
                               )),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: food.images.length,
+                            itemCount: food.carousel.links.length,
                             itemBuilder: (context, index) {
                               return Container(
                                 margin: const EdgeInsets.all(10),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    fit: BoxFit.cover,
-                                    food.images[index],
-                                  ),
+                                  child: Image(image: NetworkImage(food.carousel.links[index]),),
                                 ),
                               );
                             },
@@ -248,10 +248,10 @@ class _FoodDetailsState extends State<FoodDetails> {
                               fontWeight: FontWeight.w600),
                         ),
                         RadialBar(
-                          fat: food.foods[0].nutritionValue.fat,
-                          protein: food.foods[0].nutritionValue.protein,
-                          vitamins: food.foods[0].nutritionValue.vitamins,
-                          carbohydrates: food.foods[0].nutritionValue.carbs,
+                          fat: food.nutritionValue.fat,
+                          protein: food.nutritionValue.protein,
+                          vitamins: food.nutritionValue.vitamins,
+                          carbohydrates: food.nutritionValue.carbs,
                         ),
                         // * seperator
                         const SizedBox(
@@ -281,7 +281,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                   Row(
                                     children: [
                                       Text(
-                                        food.foods[0].price.toString(),
+                                        food.price.toString(),
                                         style: GoogleFonts.quicksand(
                                           color: Colors.white,
                                           fontSize: 25,
@@ -361,7 +361,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                   final token = await getToken();
                                   if (token != null) {
                                     addToCart(
-                                      food.foods[0],
+                                      food,
                                       token,
                                       quantity,
                                     );
@@ -391,23 +391,7 @@ class _FoodDetailsState extends State<FoodDetails> {
           ),
         ),
       ),
-      /*bottomNavigationBar: CurvedNavigationBar(
-        index: 1,
-        height: 50.0,
-        items: const <Widget>[
-          Icon(Icons.add, size: 30),
-          Icon(Icons.list, size: 30),
-          Icon(Icons.compare_arrows, size: 30),
-        ],
-        color: primaryColor,
-        buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.white,
-        animationCurve: Curves.easeInOut,
-        animationDuration: const Duration(milliseconds: 600),
-        onTap: (index) {
-          //Handle button tap
-        },
-      ),*/
+
     );
   }
 }
