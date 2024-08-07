@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.css";
+import { FaCartShopping } from "react-icons/fa6";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,7 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const token = localStorage.getItem("token");
+
   return (
     <nav className="bg-dark text-white shadow-md bg-dark-bg">
       <div className="container mx-auto px-4 py-3 flex items-center font-montserrat justify-between">
@@ -57,6 +59,13 @@ const Navbar: React.FC = () => {
                   onClick={toggleMenu}
                 >
                   Profile
+                </Link>
+                <Link
+                  to="/cart"
+                  className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
+                  onClick={toggleMenu}
+                >
+                  <FaCartShopping size={28} />
                 </Link>
               </>
             ) : (

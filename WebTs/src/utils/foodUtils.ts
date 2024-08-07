@@ -1,6 +1,6 @@
-
 import { CarouselFood } from "../types/CarouselFood";
 import { Category } from "../types/Category";
+import { Comments } from "../types/Comments";
 import { Food } from "../types/Food";
 
 // Define the shape of the formatted food data
@@ -10,12 +10,13 @@ export interface FormattedFood {
   link: string;
   image: string;
   description: string;
+  comments: Comments[];
   price: number;
-  rating :number
+  rating: number;
   category: Category;
-  calories: number;
+  totalCalories: number;
   nutritionValue: { [key: string]: number };
-  carouselImage: CarouselFood;
+  carousel: CarouselFood;
 }
 
 // ! Function to format food data
@@ -27,11 +28,12 @@ export const formatFoods = (foods: Food[]): FormattedFood[] => {
     image: food.image,
     description: food.description,
     price: food.price,
-    rating : food.rating,
+    comments: food.comments,
+    rating: food.rating,
     category: food.category,
-    calories: food.totalCalories,
+    totalCalories: food.totalCalories,
     nutritionValue: food.nutritionValue,
-    carouselImage: food.carousel,
+    carousel: food.carousel,
   }));
 };
 export const formatFood = (food: Food): FormattedFood => {
@@ -40,13 +42,14 @@ export const formatFood = (food: Food): FormattedFood => {
     name: food.name,
     link: food.link,
     image: food.image,
-    rating : food.rating,
+    rating: food.rating,
     description: food.description,
+    comments: food.comments,
     price: food.price,
     category: food.category,
-    calories: food.totalCalories,
+    totalCalories: food.totalCalories,
     nutritionValue: food.nutritionValue,
-    carouselImage: food.carousel,
+    carousel: food.carousel,
   };
 };
 
@@ -56,14 +59,15 @@ export const emptyFormattedFood: FormattedFood = {
   image: "",
   link: "",
   description: "",
-  rating : 0,
+  rating: 0,
   price: 0,
   category: {
     id: 0,
     name: "",
   },
-  calories: 0,
-  carouselImage: {
+  comments: [],
+  totalCalories: 0,
+  carousel: {
     carouselId: 0,
     images: [],
     links: [],

@@ -4,15 +4,22 @@ import { useFoods } from "../../Hooks/useFood";
 
 import Footer from "../../Components/Footer/footer";
 import FoodContainer from "./Container/FoodContainer";
+import { useNavigate } from "react-router-dom";
+import { FormattedFood } from "../../utils/foodUtils";
 
 const MenuPage: React.FC = () => {
   const { categories, foods, loading, error } = useFoods();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   // Filter foods based on selected category
   const filteredFoods = selectedCategory
     ? foods.filter((food) => food.category.id === selectedCategory)
     : foods;
+
+  const OpenDetails = (food: FormattedFood) => {
+    navigate("/details", { state: { food } });
+  };
 
   return (
     <div className="flex flex-col bg-dark-bg text-white h-full">
@@ -48,6 +55,9 @@ const MenuPage: React.FC = () => {
               rating={food.rating}
               price={food.price}
               name={food.name}
+              onClick={() => {
+                OpenDetails(food);
+              }}
             />
           ))}
         </div>
