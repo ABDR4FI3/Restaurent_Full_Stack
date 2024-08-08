@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
   const cartSize = useSelector((state: RootState) => state.cart.cartSize);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const token = localStorage.getItem("token");
+  console.log(token);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 

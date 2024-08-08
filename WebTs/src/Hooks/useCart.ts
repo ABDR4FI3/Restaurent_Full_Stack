@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllCartItems } from "../services/CartService";
+import { DeleteOrder, getAllCartItems, PayCartService } from "../services/CartService";
 import { Orders } from "../types/Orders";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartSize } from "../store/slices/cartSlice";
@@ -16,10 +16,37 @@ export const useCart = () => {
     setLoading(true);
     try {
       const items = await getAllCartItems();
-      console.log("items data is", items);
-      console.log("items length is", items.length);
+
       setCartItems(items);
-      dispatch(setCartSize(items.length));
+      dispatch(setCartSize(items));
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setError("Failed to fetch cart items");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const PayCart = async () => {
+    setLoading(true);
+    try {
+      const response = await PayCartService();
+      console.log("response is", response);
+      setCartItems(response);
+      dispatch(setCartSize(response));
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setError("Failed to fetch cart items");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const deleteOrder = async (OrderId : number) => {
+    setLoading(true);
+    try {
+      const response = await DeleteOrder(OrderId);
+      console.log("response is", response);
+      setCartItems(response);
+      dispatch(setCartSize(response));
     } catch (error) {
       console.error("Error fetching cart items:", error);
       setError("Failed to fetch cart items");
@@ -32,5 +59,5 @@ export const useCart = () => {
     fetchCartItems();
   }, []);
 
-  return { cartItems, loading, error, cartSize, refreshCart: fetchCartItems , setCartSize  };
+  return { cartItems, loading, error, cartSize, refreshCart: fetchCartItems , setCartSize , PayCart , deleteOrder  };
 };

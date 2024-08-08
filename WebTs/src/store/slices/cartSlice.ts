@@ -12,13 +12,13 @@ const initialState: CartState = {
   cartSize: await getAllCartItems().then((items) => items.length),
 };
 
-
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     setCartSize: (state, action) => {
-      state.cartSize = action.payload;
+      state.cartItems = action.payload;
+      state.cartSize = action.payload.length;
     },
     setCartItems: (state, action) => {
       state.cartItems = action.payload;

@@ -1,5 +1,5 @@
 .OrderContainer {
-  height: 350px;
+  max-height: 350px;
   overflow: scroll;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
