@@ -4,12 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { fetchOrderStatus } from "../store/slices/orderSlice";
 import { PlaceOrder } from "../services/OrderService";
-import { useCart } from "./useCart";
-
+import { setCartItems } from "../store/slices/cartSlice";
 
 export const useOrderStatus = (status: string) => {
   const dispatch = useDispatch<AppDispatch>();
-  
 
   const { data, loading, error } = useSelector(
     (state: RootState) => state.orderStatus
@@ -23,10 +21,11 @@ export const useOrderStatus = (status: string) => {
 };
 
 export const usePlaceOrder = () => {
-  const { refreshCart } = useCart(); 
-  const [Message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   const placeOrder = async (foodId: number, quantity: number) => {
     setLoading(true);
@@ -35,7 +34,7 @@ export const usePlaceOrder = () => {
     try {
       const response = await PlaceOrder(foodId, quantity);
       setMessage(response);
-      await refreshCart();
+      dispatch(setCartItems([...cartItems, { foodId, quantity }]));
     } catch (err) {
       setError("Failed to place the order.");
       console.error("Error placing order:", err);
@@ -45,7 +44,7 @@ export const usePlaceOrder = () => {
   };
 
   return {
-    Message,
+    message,
     error,
     loading,
     placeOrder,

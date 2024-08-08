@@ -10,14 +10,16 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import Comment from "./Comments/Comments";
 import OrderButton from "./OrderButton/OrderButton";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import {  useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { usePlaceOrder } from "../../Hooks/useOrders";
+
 const FoodDetails: React.FC = () => {
   const location = useLocation();
   const { food } = location.state as { food: FormattedFood };
   const [quantity, setQuantity] = useState<number>(1);
-  const { Message, error, loading, placeOrder } = usePlaceOrder();
+  const { error, loading, placeOrder } = usePlaceOrder();
+
   // * Carousel settings
   const settings = {
     dots: true,
@@ -26,6 +28,7 @@ const FoodDetails: React.FC = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
   };
+
   // * Chart Data
   const nutritionData = [
     { id: "carbs", value: food.nutritionValue.carbs },
@@ -42,11 +45,11 @@ const FoodDetails: React.FC = () => {
   const decrementQuantity = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
-  const Placeorder = async (id: number, quantity: number) => {
+
+  const handlePlaceOrder = async (id: number, quantity: number) => {
     try {
       await placeOrder(id, quantity);
-      console.info(Message);
-      toast.success(Message);
+      toast.success("Order placed successfully");
     } catch (error) {
       console.error("Error placing order:", error);
       toast.error("Failed to place order");
@@ -65,9 +68,7 @@ const FoodDetails: React.FC = () => {
             <h2 className="text-4xl font-bold">{food.name}</h2>
             <p className="text-xl">Description: {food.description}</p>
             <div className="flex justify-between">
-              {" "}
               <div className="flex flex-col gap-8">
-                {" "}
                 <p className="text-xl">Category: {food.category.name}</p>
                 <p className="text-xl">Price: ${food.price}</p>
                 <p className="text-lg">Rating: {repeatStars(food.rating)}</p>
@@ -80,8 +81,7 @@ const FoodDetails: React.FC = () => {
                   >
                     <FaMinus />
                   </button>
-                  <span className="mx-4 text-xl">{quantity}</span>{" "}
-                  {/* Display the quantity */}
+                  <span className="mx-4 text-xl">{quantity}</span>
                   <button
                     onClick={incrementQuantity}
                     className="p-4 border rounded-full"
@@ -89,11 +89,12 @@ const FoodDetails: React.FC = () => {
                     <FaPlus />
                   </button>
                 </div>
-                <OrderButton onClick={() => Placeorder(food.id, quantity)} />
+                <OrderButton
+                  onClick={() => handlePlaceOrder(food.id, quantity)}
+                />
               </div>
             </div>
           </div>
-          {/* Image Section */}
           <div className="flex sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-110 duration-500 w-4/12 p-4">
             <img
               src={food.link}
@@ -102,7 +103,6 @@ const FoodDetails: React.FC = () => {
             />
           </div>
         </div>
-        {/* Carousel Section */}
         <div className="w-full mt-8">
           <Slider {...settings} className="carousel-slider">
             {food.carousel.links.map((link, index) => (
@@ -120,7 +120,6 @@ const FoodDetails: React.FC = () => {
             ))}
           </Slider>
         </div>
-        {/*nutrition Chart Section */}
         <div className="my-8 flex sm:flex-col lg:flex-row w-full  justify-between">
           <div className="font-montserrat flex flex-col gap-4 justify-center ">
             <h2 className="text-4xl font-bold">Nutrition Facts</h2>
@@ -130,7 +129,6 @@ const FoodDetails: React.FC = () => {
             className="flex justify-center items-center h-92"
             style={{ height: 400, width: 400 }}
           >
-            {" "}
             <PieChart
               series={[
                 {
@@ -152,12 +150,11 @@ const FoodDetails: React.FC = () => {
             />
           </div>
         </div>
-        {/* Comment Section */}
         <div className="w-full flex flex-col gap-4">
           <h2 className="text-4xl font-bold font-montserrat">Comments</h2>
-          {food.comments.map((comment) => {
-            return <Comment comments={comment} />;
-          })}
+          {food.comments.map((comment) => (
+            <Comment comments={comment} key={comment.id} />
+          ))}
         </div>
       </div>
       <Footer />

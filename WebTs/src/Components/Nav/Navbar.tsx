@@ -1,27 +1,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import "./Navbar.css";
 import { FaCartShopping } from "react-icons/fa6";
-import { useCart } from "../../Hooks/useCart";
+import { useSelector } from "react-redux";
 
 import Cart from "./Cart/Cart";
 import CartModal from "./Modal/CartModal";
+import "./Navbar.css";
+import { RootState } from "../../store";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { cartSize, loading, cartItems } = useCart();
   const [visible, setVisible] = useState(false);
+  const cartSize = useSelector((state: RootState) => state.cart.cartSize);
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const token = localStorage.getItem("token");
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
-  const token = localStorage.getItem("token");
 
   return (
     <>
       {visible && cartItems && (
         <CartModal onClose={() => setVisible(false)}>
-          <Cart cartItems={cartItems} />
+          <Cart/>
         </CartModal>
       )}
 
@@ -31,7 +32,7 @@ const Navbar: React.FC = () => {
             <img
               src="https://i.postimg.cc/0yPCLw0j/logo.png"
               width={150}
-              alt=""
+              alt="Logo"
             />
           </Link>
 
@@ -62,7 +63,7 @@ const Navbar: React.FC = () => {
                 Menu
               </Link>
 
-              {token != null ? (
+              {token ? (
                 <>
                   <Link
                     to="/home"
@@ -71,22 +72,15 @@ const Navbar: React.FC = () => {
                     Profile
                   </Link>
                   <div
-                    className=" hover:text-yellow-300 duration-1000"
+                    className="relative hover:text-yellow-300 duration-1000"
                     onClick={() => setVisible(true)}
                   >
                     <FaCartShopping size={40} />
-                    {!loading && cartSize > 0 && (
+                    {cartSize > 0 && (
                       <span className="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
                         {cartSize}
                       </span>
                     )}
-                    {loading ? (
-                      <span>Loading...</span>
-                    ) : cartSize > 0 ? (
-                      <span className="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
-                        {cartSize}
-                      </span>
-                    ) : null}
                   </div>
                 </>
               ) : (
@@ -105,8 +99,6 @@ const Navbar: React.FC = () => {
                   </Link>
                 </>
               )}
-              {/* Dark Light Toggle */}
-              <div></div>
             </div>
           </div>
         </div>
