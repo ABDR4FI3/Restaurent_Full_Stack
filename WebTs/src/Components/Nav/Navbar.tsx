@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
     <>
       {visible && cartItems && (
         <CartModal onClose={() => setVisible(false)}>
-          <Cart/>
+          <Cart />
         </CartModal>
       )}
 
@@ -76,9 +76,13 @@ const Navbar: React.FC = () => {
                     onClick={() => setVisible(true)}
                   >
                     <FaCartShopping size={40} />
-                    {cartSize > 0 && (
+                    {cartSize > 0 ? (
                       <span className="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
                         {cartSize}
+                      </span>
+                    ) : (
+                      <span className="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                        0
                       </span>
                     )}
                   </div>

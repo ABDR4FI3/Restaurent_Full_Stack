@@ -5,6 +5,7 @@ import { RootState, AppDispatch } from "../store";
 import { fetchOrderStatus } from "../store/slices/orderSlice";
 import { PlaceOrder } from "../services/OrderService";
 import { setCartItems } from "../store/slices/cartSlice";
+import { getAllCartItems } from "../services/CartService";
 
 export const useOrderStatus = (status: string) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +26,7 @@ export const usePlaceOrder = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+
 
   const placeOrder = async (foodId: number, quantity: number) => {
     setLoading(true);
@@ -34,7 +35,9 @@ export const usePlaceOrder = () => {
     try {
       const response = await PlaceOrder(foodId, quantity);
       setMessage(response);
-      dispatch(setCartItems([...cartItems, { foodId, quantity }]));
+      const fetchedItems = await getAllCartItems();
+      console.log("promise fullfiled ");
+      dispatch(setCartItems(fetchedItems));
     } catch (err) {
       setError("Failed to place the order.");
       console.error("Error placing order:", err);
