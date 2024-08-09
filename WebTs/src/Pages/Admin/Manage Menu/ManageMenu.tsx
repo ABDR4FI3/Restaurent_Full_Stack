@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import DashboardNav from "../../../Components/Admin/Nav/DashboardNav";
@@ -9,7 +9,7 @@ import Modal from "../../../Components/PopUp/Modal";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { getAllFoods } from "../../../services/foodService";
-import {  FormattedFood } from "../../../utils/foodUtils";
+import { FormattedFood } from "../../../utils/foodUtils";
 import "./ManageMenu.css";
 import truncateText from "../../../utils/truncateText";
 import StatsCard from "../../../Components/Admin/StatsCard/StatsCard";
@@ -18,18 +18,16 @@ import { FaBox } from "react-icons/fa6";
 import { MdOutlineAttachMoney, MdOutlinePointOfSale } from "react-icons/md";
 import TableActions from "./TableActions/tableActions";
 import Footer from "../../../Components/Footer/footer";
-
 import Loading from "../../../lottie/Loading";
-import useFetchCategories from "../../../Hooks/useFetchCategories";
 import useFoodHandlers from "../../../Hooks/useFoodHandlers";
 import Gallery from "./Gallery/Gallery";
+import { useFoods } from "../../../Hooks/useFood";
 
 const Managemenu: React.FC = () => {
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
   );
-  const { categories, loading, error } = useFetchCategories();
   const {
     visible,
     fooditem,
@@ -40,16 +38,18 @@ const Managemenu: React.FC = () => {
     setVisible,
     submitFood,
     GalleryVisible,
-    handleGallery , 
+    handleGallery,
     setGalleryVisible,
   } = useFoodHandlers();
-  
+  const { categories ,loading ,error } = useFoods();
+
   const [foods, setFoods] = React.useState<FormattedFood[]>([]);
+  const [filtredFoods, setFiltredFoods] = React.useState<FormattedFood[]>([]);
+  const [category, setCategory] = React.useState<string>("all");
   //* function to fetch the food list
   const fetchData = async () => {
     try {
       const result = await getAllFoods();
-      console.log("data fetched from server:");
       setFoods(result);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -57,16 +57,25 @@ const Managemenu: React.FC = () => {
   };
 
   // * Fetch foods data
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
-  
+  //* handle Filter food
+  useEffect(() => {
+    if(category.toLowerCase() == "all" ) {
+      setFiltredFoods(foods);
+    } else {
+      setFiltredFoods(foods.filter((food) => food.category.name == category));
+    }
+    console.log("category:", category);
+    console.log("filtredFoods:", filtredFoods);
+  }, [categories , foods , category]);
 
   // * Handle form submission
   const handleFormSubmit = async (food: FormattedFood) => {
     try {
       await submitFood(food);
-      await fetchData(); 
+      await fetchData();
     } catch (error) {
       console.error("Error submitting food data:", error);
     }
@@ -81,7 +90,7 @@ const Managemenu: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen ">
       <DashboardNav />
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       {/* Form TO manage Food */}
@@ -107,8 +116,8 @@ const Managemenu: React.FC = () => {
         </Modal>
       )}
       {error && <p>Error: {error}</p>}
-      <div className="flex lg:flex-row sm:flex-col mt-5 lg:justify-between">
-        <div className="basis-4/6 mb-14">
+      <section className="flex lg:flex-row sm:flex-col mt-5 lg:justify-between">
+        <section className="basis-4/6 mb-14">
           <div
             className="flex flex-col p-8 overflow-x-scroll no-scrollbar"
             style={{ height: "750px" }}
@@ -122,7 +131,7 @@ const Managemenu: React.FC = () => {
               </button>
             </div>
             <DataTable
-              value={foods}
+              value={filtredFoods}
               className="custom-table"
               rowClassName={() => "custom-row"}
             >
@@ -187,8 +196,20 @@ const Managemenu: React.FC = () => {
               />
             </DataTable>
           </div>
-        </div>
-        <div className="flex justify-center items-center h-2/6 lg:w-2/6 sm:w-full">
+        </section>
+        <section className="flex flex-col justify-center items-center h-1/2 lg:w-2/6 sm:w-full">
+          <div className="w-full grid grid-cols-4 gap-4 p-4 mt-14">
+            {categories.map((category) => (
+              <button
+                className={`bg-green-500 border hover:border-green-500 hover:text-green-500 hover:bg-transparent duration-500 text-white font-bold px-4 py-2 rounded ${
+                  category.name.toLowerCase() == "all" ? "col-span-2" : ""
+                }`}
+                onClick={() => setCategory(category.name)}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
           <div className="grid lg:grid-cols-2 sm:grid-cols-2 gap-4 lg:h-1/4 sm:h-full w-full">
             <StatsCard
               icon={<GiMeal size={35} />}
@@ -211,8 +232,8 @@ const Managemenu: React.FC = () => {
               value={46}
             />
           </div>
-        </div>
-      </div>
+        </section>
+      </section>
       <div className="bg-dark-bg">
         <Footer />
       </div>

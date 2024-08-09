@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import DashboardNav from "../../../Components/Admin/Nav/DashboardNav";
@@ -14,6 +14,10 @@ import { getAllUsers } from "../../../services/userService";
 import Footer from "../../../Components/Footer/footer";
 
 const ManageUsers: React.FC = () => {
+  const genders = ["male", "female"];
+  const roles = ["admin", "user"];
+  const [role, setRole] = useState<string | null>(null);
+  const [gender, setGender] = useState<string | null>(null);
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
@@ -33,28 +37,50 @@ const ManageUsers: React.FC = () => {
   };
 
   const [users, setUsers] = React.useState<FormattedUser[]>([]);
+  const [Filtredusers, setFiltredUsers] = React.useState<FormattedUser[]>([]);
 
   // Fetch users data on mount
   React.useEffect(() => {
     fetchData();
   }, []);
+  useEffect(() => {
+    if (!role && !gender) {
+      setFiltredUsers(users);
+    }
+    if (role && !gender) {
+      const filteredUsers = users.filter((user) => user.role.toLowerCase() === role);
+      setFiltredUsers(filteredUsers);
+    }
+    if (!role && gender) {
+      const filteredUsers = users.filter((user) => user.gender === gender);
+      setFiltredUsers(filteredUsers);
+    }
+    if (role && gender) {
+      const filteredUsers = users.filter(
+        (user) => user.role.toLocaleLowerCase() === role && user.gender === gender
+      );
+      setFiltredUsers(filteredUsers);
+    }
+  }, [role, gender, users]);
 
   return (
     <div className="flex flex-col h-screen">
       <DashboardNav />
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       <div className="flex lg:flex-row sm:flex-col mt-5 lg:justify-between">
-        <div className="basis-4/6 mb-14">
+        <section className="basis-4/6 mb-14">
           <div
             className="flex flex-col p-8 overflow-x-scroll no-scrollbar"
             style={{ height: "750px" }}
           >
             {/* Users List */}
             <div className="flex  py-5">
-              <h1 className="text-3xl font font-josefin underline">Users List :</h1>
+              <h1 className="text-3xl font font-josefin underline">
+                Users List :
+              </h1>
             </div>
             <DataTable
-              value={users}
+              value={Filtredusers}
               className="custom-table"
               rowClassName={() => "custom-row"}
             >
@@ -106,8 +132,42 @@ const ManageUsers: React.FC = () => {
               />
             </DataTable>
           </div>
-        </div>
-        <div className="flex justify-center items-center h-2/6 lg:w-2/6 sm:w-full">
+        </section>
+        <section className="flex flex-col justify-center items-center h-2/6 lg:w-2/6 sm:w-full gap-10">
+          <div className="flex gap-4">
+            <button
+              className="bg-red-500 border hover:border-red-500 hover:text-red-500 hover:bg-transparent duration-500 text-white font-bold px-4 py-2 rounded"
+              onClick={() => {
+                setRole(null);
+                setGender(null);
+              }}
+            >
+              Reset
+            </button>{" "}
+            {genders.map((gender) => (
+              <button
+                className="bg-green-500 border hover:border-green-500 hover:text-green-500 hover:bg-transparent duration-500 text-white font-bold px-4 py-2 rounded"
+                onClick={() => {
+                  setGender(gender);
+                  setRole(null);
+                }}
+              >
+                {gender}
+              </button>
+            ))}
+            {roles.map((role) => (
+              <button
+                className="bg-blue-500 border hover:border-blue-500 hover:text-blue-500 hover:bg-transparent duration-500 text-white font-bold px-4 py-2 rounded"
+                onClick={() => {
+                  setRole(role);
+                  setGender(null);
+                }}
+              >
+                {role}
+              </button>
+            ))}
+          </div>
+
           <div className="grid lg:grid-cols-2 sm:grid-cols-2 gap-4 lg:h-1/4 sm:h-full w-full">
             <StatsCard
               icon={<FaUsers size={35} />}
@@ -126,7 +186,7 @@ const ManageUsers: React.FC = () => {
               value={users.filter((user) => user.phone).length}
             />
           </div>
-        </div>
+        </section>
       </div>
       <div className="bg-dark-bg">
         <Footer />

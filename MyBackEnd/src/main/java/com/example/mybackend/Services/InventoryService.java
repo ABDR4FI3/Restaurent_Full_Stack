@@ -1,6 +1,7 @@
 package com.example.mybackend.Services;
 
 import com.example.mybackend.DTO.InventoryDTO;
+import com.example.mybackend.DTO.InventoryQuantityDTO;
 import com.example.mybackend.DTO.SupplierDTO;
 import com.example.mybackend.Models.Inventory;
 import com.example.mybackend.Models.InventoryCategory;
@@ -76,6 +77,45 @@ public class InventoryService {
         inventoryRepository.save(inventory);
         response.put("message" , "Inventory added successfully");
         response.put("response" , 200);
+        return response;
+    }
+    public Map<String ,Object> handleQuantity(InventoryQuantityDTO inventoryQuantityDTO ) {
+        Map<String , Object> response = new HashMap<>() ;
+        // ! Jwt Validation
+        if(jwtUtils.isTokenExpired(inventoryQuantityDTO.getToken())) {
+            response.put("message" , "Token Expired");
+            response.put("response" , 400);
+            return response;
+        }
+        Optional<Inventory> inventoryOptionaly = inventoryRepository.findById(inventoryQuantityDTO.getId());
+        if(inventoryOptionaly.isEmpty()) {
+            response.put("message" , "Inventory not found");
+            response.put("response" , 404);
+            return response;
+        }
+        Inventory update = inventoryOptionaly.get();
+        if(inventoryQuantityDTO.getAction().equalsIgnoreCase("add")) {
+            update.setQuantity(update.getQuantity() + inventoryQuantityDTO.getQuantity());
+            inventoryRepository.save(update);
+            response.put("message" , "Quantity added successfully");
+            response.put("response" , 200);
+            return response;
+        }
+        if(inventoryQuantityDTO.getAction().equalsIgnoreCase("delete") && (update.getQuantity() > inventoryQuantityDTO.getQuantity())) {
+            update.setQuantity(update.getQuantity() - inventoryQuantityDTO.getQuantity());
+            inventoryRepository.save(update);
+            response.put("message" , "Quantity removed successfully");
+            response.put("response" , 200);
+            return response;
+        }
+        if (update.getQuantity() < inventoryQuantityDTO.getQuantity()) {
+            response.put("message" , "Methode not allowed for this quantity");
+            response.put("response" , 200);
+            return response;
+        }
+        System.out.println(inventoryQuantityDTO.getAction().equalsIgnoreCase("delete"));
+        response.put("message" , "Invalid action");
+        response.put("response" , 400);
         return response;
     }
 }
