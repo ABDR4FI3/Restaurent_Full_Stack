@@ -1,6 +1,6 @@
 import React from "react";
-import { FaChartPie, FaTachometerAlt, FaTv, FaUser } from "react-icons/fa";
-import { FaClipboardList, FaInbox } from "react-icons/fa6";
+import {  FaTachometerAlt, FaTv, FaUser } from "react-icons/fa";
+import { FaClipboardList, FaClipboardUser, FaInbox } from "react-icons/fa6";
 import logo from "../../../assets/icon/SamLogo.png";
 import "./Drawer.css";
 import { Link } from "react-router-dom";
@@ -64,11 +64,12 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         </div>
         {/* Charts */}
         <div className="flex gap-4">
-          <Link to={"/admin/charts"}>
+          <Link to={"/admin/Employee"}>
             {" "}
             <li className="flex items-center space-x-4 hover:text-dark-yellew duration-150">
-              <FaChartPie className="hover:text-dark-yellew duration-150" />
-              <span>Charts</span>
+              <FaClipboardUser className="hover:text-dark-yellew duration-150" />
+
+              <span>Employees</span>
             </li>
           </Link>
         </div>
