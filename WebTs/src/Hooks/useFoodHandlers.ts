@@ -4,12 +4,12 @@ import { addFoodToMenu, editFoodFromMenu } from "../services/foodService";
 import React from "react";
 
 const useFoodHandlers = () => {
+  // * States to be exported by the hook 
   const [visible, setVisible] = useState(false);
   const [fooditem, setFooditem] = useState<FormattedFood | undefined>();
   const [action, setAction] = useState<"add" | "edit">("add");
   const [GalleryVisible, setGalleryVisible] = React.useState<boolean>(true);
 
-  
   // * init the Modal feilds using handleEdit / HandleAddFood
 
   const handleEdit = (food: FormattedFood) => {

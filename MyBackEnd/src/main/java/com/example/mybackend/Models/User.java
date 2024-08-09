@@ -28,6 +28,7 @@ public class User {
     private String phone;
     private String email;
     private String gender;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

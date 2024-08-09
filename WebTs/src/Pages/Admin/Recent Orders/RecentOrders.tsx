@@ -28,7 +28,7 @@ const RecentOrders: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchOrderStatus("Paid"));
+    dispatch(fetchOrderStatus("paid"));
   }, [dispatch]);
 
   const orders = data || [];

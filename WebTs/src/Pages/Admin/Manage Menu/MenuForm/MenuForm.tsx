@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FormattedFood } from "../../../../utils/foodUtils";
-import useFetchCategories from "../../../../Hooks/useFetchCategories";
 import { Category } from "../../../../types/Category";
+import { useFoods } from "../../../../Hooks/useFood";
 
 interface MenuFormProps {
   food: FormattedFood | undefined;
@@ -28,15 +28,16 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
       images: [],
       links: [],
     },
-    nutionValue: {
+    nutritionValue: {
       fat: 0,
       protein: 0,
       carbs: 0,
-      calories: 0,
+      vitamins: 0,
     },
   });
 
-  const { categories, loading, error } = useFetchCategories();
+  //const { categories, loading, error } = useFetchCategories();
+  const { categories, loading, error } = useFoods();
 
   useEffect(() => {
     if (action === "edit" && food) {
@@ -63,12 +64,12 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
         ...prevState,
         calories: parseInt(value),
       }));
-    } else if (name in formState.nutionValue) {
+    } else if (name in formState.nutritionValue) {
       // Handle nested fields
       setFormState((prevState) => ({
         ...prevState,
         nutionValue: {
-          ...prevState.nutionValue,
+          ...prevState.nutritionValue,
           [name]: parseInt(value), // Ensure the value is treated as a number
         },
       }));
@@ -94,7 +95,6 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     onSubmit(formState);
     console.log("Form submitted with state:", formState);
   };
-
   return (
     <div className="bg-gray-200 p-8 rounded-lg shadow-2xl">
       <h2 className="text-xl font-bold mb-4">
@@ -215,7 +215,7 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
                       type="number"
                       onChange={handleChange}
                       name="fat"
-                      value={formState.nutionValue["fat"]}
+                      value={formState.nutritionValue["fat"]}
                       className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-3/4 lg:w-full"
                       id=""
                     />
@@ -228,7 +228,7 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
                       type="number"
                       onChange={handleChange}
                       name="carbs"
-                      value={formState.nutionValue["carbs"]}
+                      value={formState.nutritionValue["carbs"]}
                       className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-3/4 lg:w-full"
                       id=""
                     />
@@ -241,7 +241,7 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
                       type="number"
                       onChange={handleChange}
                       name="protein"
-                      value={formState.nutionValue["protein"]}
+                      value={formState.nutritionValue["protein"]}
                       className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-3/4 lg:w-full"
                       id=""
                     />
@@ -254,7 +254,7 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
                       type="number"
                       onChange={handleChange}
                       name="vitamins"
-                      value={formState.nutionValue["vitamins"]}
+                      value={formState.nutritionValue["vitamins"]}
                       className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-3/4 lg:w-full"
                       id=""
                     />

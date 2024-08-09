@@ -93,11 +93,26 @@ public class CartService {
             }
             User user = userOptional.get();
             Orders order = ordersOptional.get();
+            List<Orders> items = user.getCart().getOrders();
+            List<Orders> orders = new ArrayList<>();
+            if(items == null) {
+                response.put("response", 400);
+                response.put("message", "Cart is empty");
+                response.put("orders", items);
+                return response;
+            }
             // * Get or create the cart for the user
             // * Delete Order from cart
             orderRepository.delete(order);
+            List<Orders> newList = userRepository.findById(userId).get().getCart().getOrders();
+            for(  Orders item: newList) {
+                if(Objects.equals(item.getStatus(), "pending")) {
+                    orders.add(item);
+                }
+            }
             response.put("response", 200);
             response.put("message", "Order removed from cart");
+            response.put("orders",orders );
             return response;
         }catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
@@ -221,7 +236,7 @@ public class CartService {
         List<Orders> items = orderRepository.findByStatusAndUser(category, user);
 
         if (items.isEmpty() || items == null) {
-            response.put("response", 400);
+            response.put("response", 201);
             response.put("message", "Cart is empty");
             return response;
         }
@@ -233,6 +248,7 @@ public class CartService {
     }
     public Map<String,Object> payAllItemsInCart(String token) {
         Map<String, Object> response = new HashMap<>();
+        List<Orders> ordersList = new ArrayList<>();
         // * Find the user by ID
         long userId = Long.parseLong(jwtUtils.extractUserId(token));
         Optional<User> userOptional = userRepository.findById(userId);
@@ -255,9 +271,14 @@ public class CartService {
             item.setStatus("paid");
             orderRepository.save(item);
         }
+        for(Orders item : items) {
+            if(item.getStatus().equals("pending")) {
+                ordersList.add(item);
+            }
+        }
         response.put("response", 200);
         response.put("message", "Cart items retrieved successfully");
-        response.put("orders", items);
+        response.put("orders", ordersList);
         return response;
     }
 

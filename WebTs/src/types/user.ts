@@ -8,5 +8,6 @@ export interface User {
   phone: string;
   email: string;
   gender: string;
+  image: string;
   userRole: UserRole;
 }

@@ -116,6 +116,7 @@ public class OrderService {
 
     public Map<String ,Object> getAllOrdersByStatus(String token , String status ){
         try {
+            System.out.println(status);
             Map<String, Object> response = new HashMap<>();
             // ! Check Args Validity
             // * Find the user by token

@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurent/Components/CustomDrawer.dart';
 import 'package:restaurent/Config/IPadress.dart';
 import 'package:restaurent/model/UserWithDetails.dart';
-import 'package:restaurent/model/User.dart';
 import 'package:restaurent/theme/colors.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -98,9 +97,10 @@ class _ProfilepageState extends State<Profilepage> {
                           offset: Offset(10, 10),
                         ),
                       ],
-                      image: const DecorationImage(
-                        image: AssetImage('Images/avatar.png'),
+                      image: DecorationImage(
+                        image: NetworkImage(userDetails.user.image),
                       ),
+                      
                     ),
                   ),
                   Text(

@@ -6,6 +6,7 @@ class Modelfooddetails {
   final int id;
   final String name;
   final String image;
+  final String link;
   final String description;
   final double rating;
   final double price;
@@ -22,6 +23,7 @@ class Modelfooddetails {
     required this.rating,
     required this.price,
     required this.category,
+    required this.link,
     required this.nutritionValue,
     required this.totalCalories,
     required this.comments,
@@ -45,6 +47,7 @@ class Modelfooddetails {
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
       image: json['image'] ?? '',
+      link: json['link'] ?? '',
       description: json['description'] ?? '',
       rating: (json['rating'] ?? 0.0).toDouble(),
       price: (json['price'] ?? 0.0).toDouble(),

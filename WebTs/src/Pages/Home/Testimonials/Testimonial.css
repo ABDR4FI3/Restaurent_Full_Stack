@@ -1,0 +1,13 @@
+.ellipsis {
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 8; 
+  line-clamp: 8;
+  line-height: 1.5; 
+  max-height: calc(1.5em * 8); 
+}

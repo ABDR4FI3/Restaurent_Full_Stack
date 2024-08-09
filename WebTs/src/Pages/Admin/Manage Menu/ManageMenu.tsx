@@ -9,7 +9,7 @@ import Modal from "../../../Components/PopUp/Modal";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { getAllFoods } from "../../../services/foodService";
-import { formatFoods, FormattedFood } from "../../../utils/foodUtils";
+import {  FormattedFood } from "../../../utils/foodUtils";
 import "./ManageMenu.css";
 import truncateText from "../../../utils/truncateText";
 import StatsCard from "../../../Components/Admin/StatsCard/StatsCard";
@@ -50,8 +50,7 @@ const Managemenu: React.FC = () => {
     try {
       const result = await getAllFoods();
       console.log("data fetched from server:");
-      const formattedFoods = formatFoods(result);
-      setFoods(formattedFoods);
+      setFoods(result);
     } catch (error) {
       console.error("Error fetching food data:", error);
     }

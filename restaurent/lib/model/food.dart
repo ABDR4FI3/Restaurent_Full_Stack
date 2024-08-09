@@ -1,3 +1,4 @@
+import 'package:restaurent/model/Carousel.dart';
 import 'package:restaurent/model/Category.dart';
 import 'package:restaurent/model/NutritionValue.dart';
 import 'package:restaurent/model/Comment.dart';
@@ -8,12 +9,14 @@ class Food {
   final String name;
   final String image;
   final String description;
+  final String link ;
   final double rating;
   final double price;
   final Category category;
   final NutritionValue nutritionValue;
   final int totalCalories;
   final List<Comment> comments;
+  final Carousel carousel;
 
   Food({
     required this.id,
@@ -22,10 +25,13 @@ class Food {
     required this.description,
     required this.rating,
     required this.price,
+    required this.link,
     required this.category,
     required this.nutritionValue,
     required this.totalCalories,
+    required this.carousel,
     required this.comments,
+    
   });
 
   factory Food.fromJson(Map<String, dynamic>? json) {
@@ -46,13 +52,16 @@ class Food {
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
       image: json['image'] ?? '',
+      link: json['link'] ?? '',
       description: json['description'] ?? '',
       rating: (json['rating'] ?? 0.0).toDouble(),
       price: (json['price'] ?? 0.0).toDouble(),
       category: Category.fromJson(json['category'] ?? {}),
       nutritionValue: NutritionValue.fromJson(json['nutritionValue'] ?? {}),
       totalCalories: json['totalCalories'] ?? 0,
+      carousel: Carousel.fromJson(json['carousel'] ?? {}),
       comments: parsedComments,
+      
     );
   }
   

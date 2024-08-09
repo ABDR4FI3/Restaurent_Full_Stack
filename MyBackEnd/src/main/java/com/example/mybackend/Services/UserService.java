@@ -68,6 +68,7 @@ public class UserService {
                 .address(user.getAddress())
                 .gender(user.getGender())
                 .userRole(userRoleRepository.findById(1L).get())
+                .image("https://i.postimg.cc/Fzpz0rVG/user-Image.jpg")
                 .build();
 
         // Save the new user
@@ -98,6 +99,7 @@ public class UserService {
         response.put("response", 200);
         response.put("username", user.getName());
         response.put("usermail", user.getEmail());
+        response.put("image", user.getImage());
         response.put("role", user.getUserRole().getRoleName());
         response.put("token", jwtUtils.generateToken(user));
         return response;
@@ -150,6 +152,7 @@ public class UserService {
             }
             response.put("response", 200);
             response.put("user", user);
+            response.put("favourites", user.getFavoriteFoods());
             response.put("count", count);
             response.put("totale", sum);
             return response;
