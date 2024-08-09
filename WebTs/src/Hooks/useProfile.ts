@@ -13,7 +13,6 @@ export const useProfile = () => {
     try {
       const user = await GetUserData();
       setUserData(user);
-      console.log("user data", user);
     } catch (error) {
       console.error("Error fetching User Data:", error);
       setError("Failed to fetch User Data");

@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 
 import { emptyInventory, InventoryType } from "../types/Inventory";
-import { addFoodToMenu, GetInventory } from "../services/InventoryService";
+import {
+  addFoodToMenu,
+  GetInventory,
+  HandleQuantity,
+} from "../services/InventoryService";
 
 const useInventory = () => {
   const [inventories, setInventories] = useState<InventoryType[]>([]);
@@ -10,6 +14,8 @@ const useInventory = () => {
   const [error, setError] = useState<string | null>(null);
   const [action, setAction] = useState<"add" | "edit">("add");
   const [visible, setVisible] = useState(false);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [message, setMessage] = useState<string>("");
 
   const fetchInventories = async () => {
     setLoading(true);
@@ -79,13 +85,42 @@ const useInventory = () => {
       console.error("Error submitting food data:", error);
     }
   };
+  // ! Quantity
+  const handleQuantity = async (id: number, qte: number, action: string) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error(
+          "Authentication token is missing. Please log in again."
+        );
+      }
+      const response = await HandleQuantity(id, qte, action, token);
+      console.log("Response:", response);
+      setMessage(response);
+      fetchInventories();
+      setLoading(false);
+    } catch (error) {
+      console.error("Error submitting food data:", error);
+    }
+  };
 
   // * Calculate total items
   const totalItems = inventories.length;
 
+  // * return categories
+  useEffect(() => {
+    const categor = inventories.map((item) => item.category.name);
+    categor.push("All");
+    categor.push("Warning");
+    categor.sort();
+    const uniqueCategories8 = Array.from(new Set(categor));
+    setCategories(uniqueCategories8);
+  }, [inventories]);
+
   // * Calculate unique categories
-  const uniqueCategories = new Set(inventories.map((item) => item.category));
-  const categoriesCount = uniqueCategories.size;
+
+  const categoriesCount = categories.length;
 
   // * Calculate total quantity
   const totalQuantity = inventories.reduce(
@@ -100,6 +135,7 @@ const useInventory = () => {
 
   return {
     inventories,
+    categories,
     loading,
     error,
     action,
@@ -110,6 +146,8 @@ const useInventory = () => {
     handleEdit,
     submit,
     handleDelete,
+    handleQuantity,
+    message,
     stats: {
       totalItems,
       categoriesCount,

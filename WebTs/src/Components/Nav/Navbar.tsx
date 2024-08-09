@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     <>
       {visible && cartItems && (
         <CartModal onClose={() => setVisible(false)}>
-          <Cart />
+          <Cart onClose={() => setVisible(false)} />
         </CartModal>
       )}
 

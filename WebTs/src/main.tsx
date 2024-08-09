@@ -15,6 +15,7 @@ import Inventory from "./Pages/Admin/Inventory/Inventory.tsx";
 import MenuPage from "./Pages/Menu/MenuPage.tsx";
 import FoodDetails from "./Pages/FoodDetails/FoodDetails.tsx";
 import ProfilePage from "./Pages/Profile/Profile.tsx";
+import Employees from "./Pages/Admin/Employees/Employees.tsx";
 
 const router = createBrowserRouter([
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/Inventory",
     element: <Inventory />,
+  },
+  {
+    path: "/admin/Employee",
+    element: <Employees />,
   },
   {
     path: "/home",

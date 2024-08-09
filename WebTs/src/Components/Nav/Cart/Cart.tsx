@@ -5,7 +5,11 @@ import { useCart } from "../../../Hooks/useCart";
 import toast from "react-hot-toast";
 import { Toast } from "primereact/toast";
 import { FaTrash } from "react-icons/fa";
-const Cart: React.FC = () => {
+import { IoIosCloseCircle } from "react-icons/io";
+interface CartProps {
+  onClose: () => void;
+}
+const Cart: React.FC<CartProps> = ({ onClose }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const Totale = cartItems.length
     ? cartItems
@@ -34,14 +38,22 @@ const Cart: React.FC = () => {
   return (
     <div className="p-4 flex flex-col gap-2 font-montserrat">
       <Toast />
-      <h2 className="text-3xl font-medium ">Cart :</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-medium ">Cart :</h2>
+        <div className="cursor-pointer hover:text-red-600 duration-500" onClick={onClose}>
+          <IoIosCloseCircle size={40} />
+        </div>
+      </div>
       <div className="flex flex-col gap-4  OrderContainer">
         {cartItems.map((item) => (
           <div
             key={item.id}
             className="flex items-center justify-between my-2 border rounded-2xl border-black p-4 relative  "
           >
-            <div className="absolute top-1 right-2 rounded-full hover:bg-slate-800 hover:text-white duration-500 p-1 cursor-pointer" onClick={() => HandleCancelOrder(item.id)}>
+            <div
+              className="absolute top-1 right-2 rounded-full hover:bg-slate-800 hover:text-white duration-500 p-1 cursor-pointer"
+              onClick={() => HandleCancelOrder(item.id)}
+            >
               <FaTrash
                 size={20}
                 onClick={() => console.log("deleted")}

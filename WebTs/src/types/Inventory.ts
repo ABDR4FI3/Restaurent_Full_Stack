@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import { Supplier } from "./Supplier";
 
 export interface InventoryType {
@@ -5,7 +6,7 @@ export interface InventoryType {
   itemName: string;
   quantity: number;
   price: number;
-  category: number;
+  category: Category;
   minQuantity: number;
   suppliers: Supplier[];
 }
@@ -15,7 +16,7 @@ export const emptyInventory: InventoryType = {
   itemName: "",
   quantity: 0,
   price: 0,
-  category: 0,
+  category: { id: 0, name: "" },
   minQuantity: 0,
   suppliers: [],
-} 
+};

@@ -1,6 +1,7 @@
 package com.example.mybackend.Controller;
 
 import com.example.mybackend.DTO.InventoryDTO;
+import com.example.mybackend.DTO.InventoryQuantityDTO;
 import com.example.mybackend.Services.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,9 @@ public class InventoryController {
     @PostMapping("/add")
     public Map<String , Object> addInventory(@RequestBody InventoryDTO inventoryDTO , @RequestParam("token") String token) {
         return inventoryService.addInventory(inventoryDTO , token);
+    }
+    @PostMapping("/quantity")
+    public Map<String , Object> handleQuantity(@RequestBody InventoryQuantityDTO inventoryDTO) {
+        return inventoryService.handleQuantity(inventoryDTO);
     }
 }

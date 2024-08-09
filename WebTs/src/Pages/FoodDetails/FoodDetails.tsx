@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { FaCircle, FaMinus, FaPlus } from "react-icons/fa";
 import { usePlaceOrder } from "../../Hooks/useOrders";
+import { CiStar } from "react-icons/ci";
 
 const FoodDetails: React.FC = () => {
   const location = useLocation();
@@ -64,7 +65,7 @@ const FoodDetails: React.FC = () => {
       {loading && <p>Loading...</p>}
       <div className="flex flex-col items-center bg-dark-bg text-white mx-24 my-16">
         <div className="flex justify-between w-full">
-          <div className="flex flex-col w-4/12 font-montserrat gap-10">
+          <div className="flex flex-col w-4/12 font-montserrat gap-10 basis-6/12">
             <h2 className="text-4xl font-bold">{food.name}</h2>
             <p className="text-xl">
               <span className="font-bold text-dark-yellew">Description:</span>{" "}
@@ -109,12 +110,19 @@ const FoodDetails: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-110 duration-500 w-4/12 p-4">
-            <img
-              src={food.link}
-              alt={food.name}
-              className="w-full rounded-lg mb-2"
-            />
+          <div className="flex flex-col gap-8 w-4/12">
+            <div className="flex justify-end">
+              <button className="flex items-center gap-2 bg-dark-yellew text-white px-4 py-2 rounded-2xl font-montserrat">
+                Add to Favourites <CiStar size={30} />
+              </button>
+            </div>
+            <div className="flex  sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-110 duration-500  p-4">
+              <img
+                src={food.link}
+                alt={food.name}
+                className="w-full rounded-lg mb-2"
+              />
+            </div>
           </div>
         </div>
         <div className="w-full mt-8">
@@ -186,7 +194,6 @@ const FoodDetails: React.FC = () => {
                   endAngle: 360,
                   cx: 150,
                   cy: 150,
-                  
                 },
               ]}
             />

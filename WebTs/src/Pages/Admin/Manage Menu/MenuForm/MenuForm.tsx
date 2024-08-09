@@ -22,11 +22,11 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
       id: 0,
       name: "",
     },
-    calories: 0,
-    carouselImage: {
+    totalCalories: 0,
+    carousel: {
       carouselId: 0,
-      images: [],
-      links: [],
+      images:[""],
+      links:[""],
     },
     nutritionValue: {
       fat: 0,
@@ -34,6 +34,8 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
       carbs: 0,
       vitamins: 0,
     },
+    comments: [],
+    rating: 0,
   });
 
   //const { categories, loading, error } = useFetchCategories();
@@ -197,7 +199,7 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
                   type="number"
                   name="calories"
                   className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={formState.calories}
+                  value={formState.totalCalories}
                   onChange={handleChange}
                   id=""
                 />
