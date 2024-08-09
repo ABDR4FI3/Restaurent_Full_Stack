@@ -1,5 +1,5 @@
 import { UserRole } from "./UserRole";
-
+import { Cart } from "./Cart";
 export interface User {
   id: number;
   name: string;
@@ -10,4 +10,5 @@ export interface User {
   gender: string;
   image: string;
   userRole: UserRole;
+  cart: Cart;
 }

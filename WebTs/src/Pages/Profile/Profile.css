@@ -1,0 +1,13 @@
+.mySwiper{
+    padding: 20px;
+}
+.OrderContainer{
+    max-height: 580px;
+    overflow: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+}
