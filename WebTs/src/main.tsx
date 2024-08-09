@@ -14,6 +14,7 @@ import ManageUsers from "./Pages/Admin/Manage Users/ManageUsers.tsx";
 import Inventory from "./Pages/Admin/Inventory/Inventory.tsx";
 import MenuPage from "./Pages/Menu/MenuPage.tsx";
 import FoodDetails from "./Pages/FoodDetails/FoodDetails.tsx";
+import ProfilePage from "./Pages/Profile/Profile.tsx";
 
 const router = createBrowserRouter([
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomePage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage/>,
   },
   {
     path: "/menu",

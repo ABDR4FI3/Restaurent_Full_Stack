@@ -10,8 +10,8 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import Comment from "./Comments/Comments";
 import OrderButton from "./OrderButton/OrderButton";
 import toast, { Toaster } from "react-hot-toast";
-import {  useState } from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { useState } from "react";
+import { FaCircle, FaMinus, FaPlus } from "react-icons/fa";
 import { usePlaceOrder } from "../../Hooks/useOrders";
 
 const FoodDetails: React.FC = () => {
@@ -66,33 +66,47 @@ const FoodDetails: React.FC = () => {
         <div className="flex justify-between w-full">
           <div className="flex flex-col w-4/12 font-montserrat gap-10">
             <h2 className="text-4xl font-bold">{food.name}</h2>
-            <p className="text-xl">Description: {food.description}</p>
+            <p className="text-xl">
+              <span className="font-bold text-dark-yellew">Description:</span>{" "}
+              {food.description}
+            </p>
             <div className="flex justify-between">
               <div className="flex flex-col gap-8">
-                <p className="text-xl">Category: {food.category.name}</p>
-                <p className="text-xl">Price: ${food.price}</p>
-                <p className="text-lg">Rating: {repeatStars(food.rating)}</p>
+                <p className="text-xl">
+                  <span className="text-dark-yellew font-bold">
+                    Category :{" "}
+                  </span>{" "}
+                  {food.category.name}
+                </p>
+                <p className="text-xl">
+                  <span className="text-dark-yellew font-bold">Price : </span> $
+                  {food.price}
+                </p>
+                <p className="text-lg">
+                  <span className="text-dark-yellew font-bold">Rating : </span>{" "}
+                  {repeatStars(food.rating)}
+                </p>
               </div>
-              <div className="flex flex-row gap-4 justify-center items-center">
-                <div className="flex items-center">
-                  <button
-                    onClick={decrementQuantity}
-                    className="p-4 border rounded-full"
-                  >
-                    <FaMinus />
-                  </button>
-                  <span className="mx-4 text-xl">{quantity}</span>
-                  <button
-                    onClick={incrementQuantity}
-                    className="p-4 border rounded-full"
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-                <OrderButton
-                  onClick={() => handlePlaceOrder(food.id, quantity)}
-                />
+            </div>
+            <div className="flex flex-row gap-4 justify-end items-center">
+              <div className="flex items-center">
+                <button
+                  onClick={decrementQuantity}
+                  className="p-4 border rounded-full"
+                >
+                  <FaMinus />
+                </button>
+                <span className="mx-4 text-xl">{quantity}</span>
+                <button
+                  onClick={incrementQuantity}
+                  className="p-4 border rounded-full"
+                >
+                  <FaPlus />
+                </button>
               </div>
+              <OrderButton
+                onClick={() => handlePlaceOrder(food.id, quantity)}
+              />
             </div>
           </div>
           <div className="flex sm:h-3/4 justify-center items-center hover:bg-lightwood bg-wood rounded-xl hover:scale-110 duration-500 w-4/12 p-4">
@@ -124,6 +138,36 @@ const FoodDetails: React.FC = () => {
           <div className="font-montserrat flex flex-col gap-4 justify-center ">
             <h2 className="text-4xl font-bold">Nutrition Facts</h2>
             <p className="text-xl">Calories: {food.totalCalories}</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 items-center">
+                <p className="text-xl">Carbs: {food.nutritionValue.carbs}</p>
+                <div className="flex justify-center">
+                  <FaCircle color="#02b3b0" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 items-center">
+                <p className="text-xl">
+                  Protein: {food.nutritionValue.protein}
+                </p>
+                <div className="flex justify-center">
+                  <FaCircle color="#2e96ff" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 items-center">
+                <p className="text-xl">Fat: {food.nutritionValue.fat}</p>
+                <div className="flex justify-center">
+                  <FaCircle color="b800d9" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 items-center">
+                <p className="text-xl">
+                  Vitamins: {food.nutritionValue.vitamins}
+                </p>
+                <div className="flex justify-center">
+                  <FaCircle color="60009c" />
+                </div>
+              </div>
+            </div>
           </div>
           <div
             className="flex justify-center items-center h-92"
@@ -133,9 +177,6 @@ const FoodDetails: React.FC = () => {
               series={[
                 {
                   data: nutritionData,
-                  arcLabel(item) {
-                    return `${item.id}: ${item.value}`;
-                  },
                   arcLabelRadius: 80,
                   innerRadius: 15,
                   outerRadius: 150,
@@ -145,6 +186,7 @@ const FoodDetails: React.FC = () => {
                   endAngle: 360,
                   cx: 150,
                   cy: 150,
+                  
                 },
               ]}
             />

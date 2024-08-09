@@ -15,8 +15,6 @@ const Navbar: React.FC = () => {
   const cartSize = useSelector((state: RootState) => state.cart.cartSize);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const token = localStorage.getItem("token");
-  console.log(token);
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
@@ -67,7 +65,7 @@ const Navbar: React.FC = () => {
               {token ? (
                 <>
                   <Link
-                    to="/home"
+                    to="/profile"
                     className="block px-4 py-2 nav-link hover:text-yellow-200 duration-1000 rounded"
                   >
                     Profile

@@ -3,11 +3,11 @@ import "swiper/css";
 import "swiper/css/pagination"; // Import pagination styles if used
 import "swiper/css/navigation"; // Import navigation styles if used
 import FoodContainer from "../Popular food/FoodContainer";
-import "./PopularFood.css"
+import "./PopularFood.css";
 
 const PopularFoodSwiper: React.FC = () => {
   return (
-    <div className="swiper-container" style={{width:"1400px"}}>
+    <div className="swiper-container" style={{ width: "1400px" }}>
       <Swiper
         spaceBetween={10}
         slidesPerView={4}

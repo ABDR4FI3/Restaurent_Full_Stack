@@ -41,6 +41,10 @@ public class UserController {
     public Map<String,Object> getUserDetailsWithToken(@RequestBody TokenDTO token){
         return userService.getUserDetailsWithToken(token.getToken());
     }
+    @GetMapping("/detail")
+    public Map<String,Object> getUserDetails(@RequestParam("token") String token){
+        return userService.getUserDetailsWithToken(token);
+    }
 
     @GetMapping("/all")
     public Map<String,Object> getAllUsers(){

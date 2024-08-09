@@ -152,6 +152,7 @@ public class UserService {
             }
             response.put("response", 200);
             response.put("user", user);
+            response.put("favourites", user.getFavoriteFoods());
             response.put("count", count);
             response.put("totale", sum);
             return response;
