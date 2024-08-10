@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { Employee } from "../../../../types/Employee";
-import { formatDate, parseDateString } from "../../../../utils/DateUtils";
+import { formatDate } from "../../../../utils/DateUtils";
 
 interface EmployeeFormProps {
   user: Employee;
@@ -7,14 +8,23 @@ interface EmployeeFormProps {
 }
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({ user }) => {
-  console.log(user);
-  console.log("Date :", user.hiringDate);
-  console.log("Formatted Date :", parseDateString(user.hiringDate+""));
+  // Initialize formState with the user prop
+  const [formState, setFormState] = useState<Employee>({ ...user });
+
+  // Handler to update formState on input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="flex flex-col p-10 gap-4">
       <h2 className="text-3xl">Employee Details :</h2>
       {/* Card + details */}
-      <section className="flex gap-10 ">
+      <section className="flex gap-10">
         {/* Card */}
         <div
           className="flex flex-col border border-black rounded-2xl p-4 gap-4 justify-center items-center"
@@ -25,108 +35,108 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user }) => {
           }}
         >
           <img
-            src={user.image}
-            alt={user.name}
+            src={formState.image}
+            alt={formState.name}
             className="rounded-2xl shadow-xl"
           />
-          <h2>{user.name}</h2>
-          <p>{user.position}</p>
+          <h2>{formState.name}</h2>
+          <p>{formState.position}</p>
         </div>
         <div className="grid grid-cols-2 gap-4 basis-2/3">
-          {/* Input Fields Adress */}
+          {/* Input Fields Address */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Adress</label>
+            <label htmlFor="address">Address</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.address}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="address"
+              id="address"
+              value={formState.address}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Email */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.email}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="email"
+              id="email"
+              value={formState.email}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Department */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Departement</label>
+            <label htmlFor="department">Department</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.department}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="department"
+              id="department"
+              value={formState.department}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Phone */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Phone</label>
+            <label htmlFor="phone">Phone</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.phone}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="phone"
+              id="phone"
+              value={formState.phone}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Salary */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Salary</label>
+            <label htmlFor="salary">Salary</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.salary}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="salary"
+              id="salary"
+              value={formState.salary}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Shift */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Shift</label>
+            <label htmlFor="shift">Shift</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.shift}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="shift"
+              id="shift"
+              value={formState.shift}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
-          {/* Input Fields  */}
+          {/* Input Fields Image */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Image</label>
+            <label htmlFor="image">Image</label>
             <input
               type="text"
-              name=""
-              id=""
-              value={user.image}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              name="image"
+              id="image"
+              value={formState.image}
+              onChange={handleChange}
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
+          {/* Input Fields Hiring Date */}
           <div className="w-full flex-col flex">
-            {" "}
-            <label htmlFor="">Hiring Date</label>
+            <label htmlFor="hiringDate">Hiring Date</label>
             <input
-              type="Date"
-              name=""
-              id=""
+              type="date"
+              name="hiringDate"
+              id="hiringDate"
+              value={formatDate(formState.hiringDate+"")}
               disabled
-              value={formatDate(user.hiringDate+"")}
-              className="border-2 border-black rounded-xl py-1 px-2 "
+              className="border-2 border-black rounded-xl py-1 px-2"
             />
           </div>
         </div>
