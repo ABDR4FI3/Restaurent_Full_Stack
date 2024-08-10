@@ -42,7 +42,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
             className="rounded-2xl shadow-xl"
           />
           <h2>{formState.name}</h2>
-          <p>{formState.position}</p>
+          <p>{formState.position.name}</p>
         </div>
         <div className="flex flex-col basis-2/3">
           <div className="grid grid-cols-2 gap-4 ">
@@ -79,7 +79,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 type="text"
                 name="department"
                 id="department"
-                value={formState.department}
+                value={formState.department.name}
                 onChange={handleChange}
                 disabled={isDisabled}
                 className="border-2 border-black rounded-lg py-1 px-2"

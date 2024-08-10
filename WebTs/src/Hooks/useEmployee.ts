@@ -25,18 +25,43 @@ export const useEmployee = () => {
   useEffect(() => {
     getEmployees();
   }, []);
-  // * get Employees count 
+  // * get Employees count
   const Employeescount = Employees.length;
   // * get Department count
-  const Departmentcount = [...new Set(Employees.map((item) => item.department))].length;
+  const Departmentcount = [...new Set(Employees.map((item) => item.department))]
+    .length;
   //* get Postion count
-  const Postioncount = [...new Set(Employees.map((item) => item.position))].length;
+  const Postioncount = [...new Set(Employees.map((item) => item.position))]
+    .length;
   // * get Highest salary
   const Highestsalary = Math.max(...Employees.map((item) => item.salary));
+  //* get Departments
+  const departments = Array.from(
+    new Set(
+      Employees.map((employee) => employee.department.name) // Get department names
+    )
+  ).map((name) => {
+    // Find the first occurrence of the department with this name
+    return Employees.find((employee) => employee.department.name === name)
+      ?.department;
+  });
+
+  //* get Positions
+  const positions = Array.from(
+    new Set(
+      Employees.map((employee) => employee.position.name) // Get position names
+    )
+  ).map((name) => {
+    // Find the first occurrence of the department with this name
+    return Employees.find((employee) => employee.position.name === name)
+      ?.position;
+  });
   return {
     Employees,
     loading,
     error,
+    departments,
+    positions,
     stats: {
       Employeescount,
       Departmentcount,

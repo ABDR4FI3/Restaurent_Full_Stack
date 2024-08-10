@@ -10,6 +10,7 @@ export const GetEmployeesService = async (): Promise<Employee[]> => {
     const response = await axios.get<{ employees: Employee[] }>(
       `${API_URL}/employee/all?token=${token}`
     );
+    console.log("response", response.data.employees);
     return response.data.employees;
   } catch (error) {
     console.error("Error fetching inventory data:", error);

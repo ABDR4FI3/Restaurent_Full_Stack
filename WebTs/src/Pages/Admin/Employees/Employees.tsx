@@ -11,9 +11,10 @@ import { Column } from "primereact/column";
 import { FaBoxes, FaSortAmountUp, FaTag, FaUserFriends } from "react-icons/fa";
 import "./Employee.css";
 import TableActions from "./TableItems/TableItems";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
 import Modal from "./PopUp/Modal";
+import { Department } from "../../../types/Departement";
 
 const Employees: React.FC = () => {
   const isDrawerOpen = useSelector(
@@ -23,23 +24,34 @@ const Employees: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [user, setUser] = useState<Employee>({} as Employee);
   const [action, setAction] = useState<"details" | "edit" | "add">("details");
-  const { Employees, loading, error, stats } = useEmployee();
+  const [filtredEmployees, setFiltredEmployees] = useState<Employee[]>([]);
+  const [department, setDepartment] = useState<Department | undefined>();
+  const { Employees, loading, error, stats, departments } = useEmployee();
 
   const handleAdd = () => {
     setUser({} as Employee);
     setVisible(true);
     setAction("add");
   };
-  const handledit = (rowData : Employee) => {
-        setUser(rowData);
-        setVisible(true);
-        setAction("edit");
+  const handledit = (rowData: Employee) => {
+    setUser(rowData);
+    setVisible(true);
+    setAction("edit");
   };
-  const handledetails = (rowData : Employee) => {
-        setUser(rowData);
-        setVisible(true);
-        setAction("details");
+  const handledetails = (rowData: Employee) => {
+    setUser(rowData);
+    setVisible(true);
+    setAction("details");
   };
+  useEffect(() => {
+    if(!department){
+      setFiltredEmployees(Employees)
+    }
+    if(Employees && department){
+      setFiltredEmployees(Employees.filter((employee) => employee.department.id === department.id))
+    }
+
+  }, [Employees, department]);
 
   const actionBodyTemplate = (rowData: Employee) => (
     <TableActions
@@ -55,7 +67,7 @@ const Employees: React.FC = () => {
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       {visible && user && (
         <Modal onClose={() => setVisible(false)}>
-          <EmployeeForm user={user} action={action}/>
+          <EmployeeForm user={user} action={action} />
         </Modal>
       )}
       <section className="flex  mt-8 ">
@@ -78,7 +90,7 @@ const Employees: React.FC = () => {
                 add Employee
               </button>
             </div>
-            <DataTable value={Employees} className="custom-table">
+            <DataTable value={filtredEmployees} className="custom-table">
               <Column
                 header="image"
                 sortable
@@ -97,15 +109,17 @@ const Employees: React.FC = () => {
               />
               <Column
                 header="position"
-                field="position"
-                sortable
+                body={(rowData: Employee) => (
+                  <p className="ml-2">{rowData.position.name}</p>
+                )}
                 headerClassName="custom-header"
                 className="custom-cell"
               />
               <Column
-                field="department"
                 header="department"
-                sortable
+                body={(rowData: Employee) => (
+                  <p className="ml-2">{rowData.department.name}</p>
+                )}
                 headerClassName="custom-header"
                 className="custom-cell"
               />
@@ -135,6 +149,23 @@ const Employees: React.FC = () => {
           </div>
         </section>
         <section className="StatsCards flex flex-col ">
+          {/*Filter Section*/}
+          <div className="flex-col">
+            {/*Department Section*/}
+            <div className="grid grid-cols-4 gap-4">
+              {" "}
+              {departments.map((department) => (
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => setDepartment(department)}
+                >
+                  {department?.name}
+                </button>
+              ))}
+            </div>
+
+            <div></div>
+          </div>
           <div className="grid lg:grid-cols-2 sm:grid-cols-2 gap-4 lg:h-1/4 sm:h-full w-full">
             <StatsCard
               icon={<FaBoxes size={35} />}
