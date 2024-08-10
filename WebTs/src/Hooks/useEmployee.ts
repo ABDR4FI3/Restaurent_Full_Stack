@@ -30,7 +30,7 @@ export const useEmployee = () => {
   // * get Department count
   const Departmentcount = [...new Set(Employees.map((item) => item.department))].length;
   //* get Postion count
-  const Postioncount = [...new Set(Employees.map((item) => item.postion))].length;
+  const Postioncount = [...new Set(Employees.map((item) => item.position))].length;
   // * get Highest salary
   const Highestsalary = Math.max(...Employees.map((item) => item.salary));
   return {

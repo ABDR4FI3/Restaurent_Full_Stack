@@ -1,7 +1,7 @@
 export interface Employee {
     id: number;
     name: string;
-    postion: string;
+    position: string;
     salary: number;
     department: string;
     address: string;
@@ -10,5 +10,5 @@ export interface Employee {
     gender: string;
     image: string;
     shift: string;
-    HiringDate: Date;
+    hiringDate: Date;
 }

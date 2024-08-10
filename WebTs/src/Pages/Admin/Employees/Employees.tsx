@@ -12,7 +12,6 @@ import { FaBoxes, FaSortAmountUp, FaTag, FaUserFriends } from "react-icons/fa";
 import "./Employee.css";
 import TableActions from "./TableItems/TableItems";
 import { useState } from "react";
-
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
 import Modal from "./PopUp/Modal";
 
@@ -23,15 +22,29 @@ const Employees: React.FC = () => {
   const dispatch = useAppDispatch();
   const [visible, setVisible] = useState<boolean>(false);
   const [user, setUser] = useState<Employee>({} as Employee);
+  const [action, setAction] = useState<"details" | "edit" | "add">("details");
   const { Employees, loading, error, stats } = useEmployee();
+
+  const handleAdd = () => {
+    setUser({} as Employee);
+    setVisible(true);
+    setAction("add");
+  };
+  const handledit = (rowData : Employee) => {
+        setUser(rowData);
+        setVisible(true);
+        setAction("edit");
+  };
+  const handledetails = (rowData : Employee) => {
+        setUser(rowData);
+        setVisible(true);
+        setAction("details");
+  };
 
   const actionBodyTemplate = (rowData: Employee) => (
     <TableActions
-      handleEdit={() => console.log("edit")}
-      handleDetails={() => {
-        setUser(rowData);
-        setVisible(true);
-      }}
+      handleEdit={() => handledit(rowData)}
+      handleDetails={() => handledetails(rowData)}
     />
   );
   return (
@@ -42,7 +55,7 @@ const Employees: React.FC = () => {
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       {visible && user && (
         <Modal onClose={() => setVisible(false)}>
-          <EmployeeForm user={user} />
+          <EmployeeForm user={user} action={action}/>
         </Modal>
       )}
       <section className="flex  mt-8 ">
@@ -59,7 +72,7 @@ const Employees: React.FC = () => {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => {
-                  console.log("clicked");
+                  handleAdd();
                 }}
               >
                 add Employee
