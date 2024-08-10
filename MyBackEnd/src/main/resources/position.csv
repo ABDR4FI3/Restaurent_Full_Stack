@@ -1,11 +1,22 @@
-id,name,description,level,responsibilities,qualifications
-1,Human Resources Manager,Oversees HR department and manages employee relations,Senior,Recruitment, conflict resolution, and benefits administration,Bachelor's in Human Resources or related field
-2,Marketing Director,Leads marketing strategies and promotional campaigns,Senior,Develop marketing plans, manage advertising, and analyze market trends,Bachelor's in Marketing or Business Administration
-3,IT Support Specialist,Provides technical support and manages IT infrastructure,Junior,Helpdesk support, troubleshoot technical issues, and maintain IT systems,Associate's in IT or related field
-4,Sales Executive,Drives sales efforts and develops client relationships,Mid-Level,Generate leads, conduct sales presentations, and close deals,Bachelor's in Business or related field
-5,Customer Service Representative,Handles customer inquiries and resolves issues,Entry-Level,Provide support via phone, email, or chat, and ensure customer satisfaction,High School Diploma or equivalent
-6,Financial Analyst,Analyzes financial data and provides investment recommendations,Senior,Prepare financial reports, analyze data, and advise on financial strategies,Bachelor's in Finance or related field
-7,Product Manager,Oversees product development and lifecycle,Mid-Level,Coordinate product launches, manage product teams, and conduct market research,Bachelor's in Business or Product Management
-8,Operations Manager,Ensures efficient operation of the business processes,Senior,Oversee daily operations, improve efficiency, and manage staff,Bachelor's in Business Administration or related field
-9,Software Engineer,Develops and maintains software applications,Mid-Level,Write code, test software, and troubleshoot issues,Bachelor's in Computer Science or related field
-10,Graphic Designer,Creates visual content for marketing and communications,Entry-Level,Design graphics, manage creative projects, and collaborate with marketing,Bachelor's in Graphic Design or related field
+id,name,level,responsibilities,qualifications
+1,Human Resources Manager,Senior,Manages HR department and employee relations develops HR policies handles employee grievances oversees performance management,Bachelor's in Human Resources or related field
+2,Human Resources Coordinator,Mid-Level,Assists with recruitment onboarding employee records management and benefits administration,Bachelor's in Human Resources or Business Administration
+3,Human Resources Assistant,Entry-Level,Supports HR team with administrative tasks scheduling interviews and maintaining employee files,High School Diploma or equivalent
+4,Marketing Director,Senior,Leads marketing strategies and campaigns for restaurant promotions develops marketing plans manages advertising campaigns,Bachelor's in Marketing or Business Administration
+5,Marketing Manager,Mid-Level,Oversees daily marketing activities implements promotional events manages social media presence,Bachelor's in Marketing or related field
+6,Marketing Assistant,Entry-Level,Supports marketing team with campaign execution handles social media posts and assists with market research,High School Diploma or equivalent
+7,IT Support Specialist,Junior,Provides technical support resolves IT issues maintains network and systems assists with hardware and software troubleshooting,Associate's in IT or related field
+8,IT Technician,Mid-Level,Manages IT infrastructure supports system upgrades ensures data security and performs routine maintenance,Bachelor's in IT or Computer Science
+9,IT Manager,Senior,Oversees IT department manages infrastructure projects implements IT policies and ensures technology alignment with business needs,Bachelor's in IT or related field
+10,Customer Service Supervisor,Senior,Manages customer service team handles complex issues and complaints ensures high level of customer satisfaction,Associate's Degree in Hospitality or related field
+11,Customer Service Representative,Mid-Level,Handles customer inquiries resolves issues and ensures positive customer experiences,High School Diploma or equivalent
+12,Customer Service Assistant,Entry-Level,Provides basic support to customers processes orders and handles service requests,High School Diploma or equivalent
+13,Cleaning Supervisor,Senior,Oversees cleaning operations manages cleaning staff ensures cleanliness standards and implements safety protocols,Associate's Degree in Facility Management or related field
+14,Cleaning Crew Leader,Mid-Level,Coordinates cleaning tasks manages schedules and performs routine inspections,High School Diploma or equivalent
+15,Cleaning Staff,Entry-Level,Performs cleaning duties maintains hygiene standards and follows cleaning schedules,High School Diploma or equivalent
+16,Kitchen Manager,Senior,Manages kitchen operations oversees food preparation menu planning and staff performance,Bachelor's in Culinary Arts or related field
+17,Head Chef,Mid-Level,Leads kitchen team develops recipes ensures food quality and manages kitchen inventory,Bachelor's in Culinary Arts or related field
+18,Cook,Entry-Level,Prepares food follows recipes and assists with daily kitchen operations,High School Diploma or equivalent
+19,Reception Manager,Senior,Oversees front desk operations manages check-ins and check-outs and ensures guest satisfaction,Bachelor's in Hospitality or related field
+20,Front Desk Supervisor,Mid-Level,Assists with front desk operations handles guest inquiries and manages reservations,High School Diploma or equivalent
+21,Receptionist,Entry-Level,Greets guests handles phone calls and provides information and assistance,High School Diploma or equivalent

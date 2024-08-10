@@ -1,16 +1,11 @@
 package com.example.mybackend.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.util.Locale;
 
 @Entity
 @Data
@@ -22,9 +17,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String position;
     private double salary;
-    private String department;
     private String address;
     private String phone;
     private String email;
@@ -32,5 +25,12 @@ public class Employee {
     private String image ;
     private String shift;
     private LocalDate HiringDate;
+    private Boolean isActive;
+
+    @ManyToOne
+    private position position; // Link to Position entity
+
+    @ManyToOne
+    private Department department; // Link to Department entity
 
 }

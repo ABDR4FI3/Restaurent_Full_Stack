@@ -34,4 +34,30 @@ public class EmployeeService {
         response.put("response" , 200);
         return response;
     }
+    public Map<String ,Object> addEmployee(Employee employee , String token){
+        Map<String , Object> response = new HashMap<>() ;
+        // ! JWT Validation
+        if(jwtUtils.isTokenExpired(token)) {
+            response.put("message" , "Token Expired");
+            response.put("response" , 400);
+            return response;
+        }
+        employeeRepository.save(employee);
+        response.put("message" , "Employee added successfully");
+        response.put("response" , 200);
+        return response;
+    }
+    public Map<String ,Object> updateEmployee(Employee employee , String token){
+        Map<String , Object> response = new HashMap<>() ;
+        // ! JWT Validation
+        if(jwtUtils.isTokenExpired(token)) {
+            response.put("message" , "Token Expired");
+            response.put("response" , 400);
+            return response;
+        }
+        employeeRepository.save(employee);
+        response.put("message" , "Employee updated successfully");
+        response.put("response" , 200);
+        return response;
+    }
 }
