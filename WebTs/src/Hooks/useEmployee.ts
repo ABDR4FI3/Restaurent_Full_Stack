@@ -56,10 +56,13 @@ export const useEmployee = () => {
     return Employees.find((employee) => employee.position.name === name)
       ?.position;
   });
+  //* create Shift Array
+  const shifts = ["Morning", "Evening", "Night"];
   return {
     Employees,
     loading,
     error,
+    shifts,
     departments,
     positions,
     stats: {

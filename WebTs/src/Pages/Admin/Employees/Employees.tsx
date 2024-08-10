@@ -6,7 +6,7 @@ import { toggleDrawer } from "../../../store/slices/drawerSlice";
 import StatsCard from "../../../Components/Admin/StatsCard/StatsCard";
 import { DataTable } from "primereact/datatable";
 import { useEmployee } from "../../../Hooks/useEmployee";
-import { Employee } from "../../../types/Employee";
+import { Employee, emptyEmployee } from "../../../types/Employee";
 import { Column } from "primereact/column";
 import { FaBoxes, FaSortAmountUp, FaTag, FaUserFriends } from "react-icons/fa";
 import "./Employee.css";
@@ -22,7 +22,7 @@ const Employees: React.FC = () => {
   );
   const dispatch = useAppDispatch();
   const [visible, setVisible] = useState<boolean>(false);
-  const [user, setUser] = useState<Employee>({} as Employee);
+  const [user, setUser] = useState<Employee>(emptyEmployee);
   const [action, setAction] = useState<"details" | "edit" | "add">("details");
   const [filtredEmployees, setFiltredEmployees] = useState<Employee[]>([]);
   const [department, setDepartment] = useState<Department | undefined>();
@@ -148,16 +148,19 @@ const Employees: React.FC = () => {
             </DataTable>
           </div>
         </section>
-        <section className="StatsCards flex flex-col ">
+        <section className="StatsCards flex flex-col p-8 gap-8">
           {/*Filter Section*/}
           <div className="flex-col">
             {/*Department Section*/}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {" "}
               {departments.map((department) => (
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                    department?.name.toLocaleLowerCase() === "human resources" && "col-span-2"
+                  }`}
                   onClick={() => setDepartment(department)}
+                  key={department?.id}
                 >
                   {department?.name}
                 </button>
