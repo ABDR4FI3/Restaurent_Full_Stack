@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { FormattedFood } from "../../../../utils/foodUtils";
 import { Category } from "../../../../types/Category";
 import { useFoods } from "../../../../Hooks/useFood";
+import { Food } from "../../../../types/Food";
 
 interface MenuFormProps {
-  food: FormattedFood | undefined;
+  food: Food | undefined;
   action: "add" | "edit";
   onSubmit: (food: FormattedFood) => void;
 }
 
 const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
-  const [formState, setFormState] = useState<FormattedFood>({
+  const [formState, setFormState] = useState<Food>({
     id: 0,
     name: "",
     image: "",
@@ -25,8 +26,8 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     totalCalories: 0,
     carousel: {
       carouselId: 0,
-      images:[""],
-      links:[""],
+      images: [""],
+      links: [""],
     },
     nutritionValue: {
       fat: 0,
@@ -91,6 +92,8 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
       }));
     }
   };
+  console.log("formState:", formState);
+  console.log("Original food:", food);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

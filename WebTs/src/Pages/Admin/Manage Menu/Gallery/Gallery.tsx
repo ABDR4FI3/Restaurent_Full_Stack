@@ -8,9 +8,10 @@ import {
   useFetchFood,
 } from "../../../../Hooks/useCarousel";
 import { FormattedFood } from "../../../../utils/foodUtils";
+import { Food } from "../../../../types/Food";
 
 interface GalleryProps {
-  fooditem: FormattedFood;
+  fooditem: Food;
 }
 
 const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
@@ -52,7 +53,7 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
   };
 
   const handleDelete = async (link: string) => {
-    if (foodData?.carouselImage.links.length === 1 ) {
+    if (foodData?.carousel.links.length === 1 ) {
       setError("You can't delete all the images");
       return;
     }
@@ -96,7 +97,7 @@ const Gallery: React.FC<GalleryProps> = ({ fooditem }) => {
       </div>
       <div className="grid grid-cols-3 gap-5 my-8">
         {foodData &&
-          foodData.carouselImage.links.map((link: string, index: number) => (
+          foodData.carousel.links.map((link: string, index: number) => (
             <div className="relative" key={index}>
               <img
                 src={link}

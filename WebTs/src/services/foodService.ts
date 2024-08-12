@@ -1,11 +1,12 @@
 import axios from "axios";
 import { FormattedFood } from "../utils/foodUtils";
+import { Food } from "../types/Food";
 
 const API_URL = "http://localhost:9090";
 
-export const getAllFoods = async (): Promise<FormattedFood[]> => {
+export const getAllFoods = async (): Promise<Food[]> => {
   try {
-    const response = await axios.get<{ foods: FormattedFood[] }>(
+    const response = await axios.get<{ foods: Food[] }>(
       `${API_URL}/food/all`
     );
     return response.data.foods;
@@ -14,9 +15,9 @@ export const getAllFoods = async (): Promise<FormattedFood[]> => {
     throw error;
   }
 };
-export const getFood = async (foodid: number): Promise<FormattedFood> => {
+export const getFood = async (foodid: number): Promise<Food> => {
   try {
-    const response = await axios.get<{ food: FormattedFood }>(
+    const response = await axios.get<{ food: Food }>(
       `${API_URL}/food/${foodid}`
     );
     return response.data.food;
