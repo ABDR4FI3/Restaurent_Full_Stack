@@ -21,7 +21,7 @@ public class EmployeeController {
     public Map<String , Object> addEmployee(@RequestBody Employee employee , @RequestParam("token") String token) {
         return employeeService.addEmployee(employee , token);
     }
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Map<String , Object> updateEmployee(@RequestBody Employee employee , @RequestParam("token") String token) {
         return employeeService.updateEmployee(employee , token);
     }

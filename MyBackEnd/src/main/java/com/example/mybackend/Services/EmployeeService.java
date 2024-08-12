@@ -42,6 +42,7 @@ public class EmployeeService {
             response.put("response" , 400);
             return response;
         }
+        employee.setIsActive(true);
         employeeRepository.save(employee);
         response.put("message" , "Employee added successfully");
         response.put("response" , 200);
