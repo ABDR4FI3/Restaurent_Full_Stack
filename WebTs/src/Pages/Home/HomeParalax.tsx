@@ -12,51 +12,60 @@ import Footer from "../../Components/Footer/footer";
 
 import PopularFoodSwiper from "./Popular Food Swiper/PopularFood";
 import Testimonial from "./Testimonials/Testimonial";
+import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 
-const HomePage: React.FC = () => {
+const HomeParalax: React.FC = () => {
   const testimonials = [
     "Dining at [Restaurant Name] was a delightful experience! The ambiance was cozy and inviting, perfect for a relaxing evening. I tried their signature seafood platter, and it was absolutely delicious—fresh, flavorful, and beautifully presented. The staff were attentive and friendly, making sure our needs were met throughout the meal. I highly recommend this place for anyone looking to enjoy a top-notch meal in a great atmosphere. I'll definitely be returning soon!",
     "As a food critic, I've visited many restaurants, but [Restaurant Name] truly stands out. The creative menu offers a unique twist on classic dishes, and the quality of the ingredients is evident in every bite. I was particularly impressed with their homemade pasta—it was cooked to perfection and paired with a rich, flavorful sauce. The service was impeccable, with staff who are knowledgeable about the menu and passionate about providing a great dining experience. This restaurant has quickly become one of my favorites, and I recommend it to anyone who appreciates fine dining.",
   ];
   const navigate = useNavigate();
   return (
-    <div className="bg-dark-bg text-white">
-      <Navbar />
-      <div className="w-full h-full flex flex-col items-center justify-center  ">
-        {/* Hero Section Sying + image */}
-        <div className="flex justify-center items-center w-full bg-home1 h-screen">
-          {/* Text Section */}
-          <div className="flex flex-col ">
-            <h1 className="text-4xl font-bold  font-montserrat px-28">
-              Discover our gourmet recipes.
-            </h1>
-            <div className="flex justify-evenly items-center mt-10">
-              {/* Location Section */}
-              <div className="flex gap-5">
-                <FaLocationDot color="#FFFFE0" size={30} />
-                <p className="  text-xl SecondPolice">Discover our Locations</p>
+    <div className="bg-dark-bg text-white" style={{zIndex: -10}}>
+      <Parallax pages={5.05} style={{ backgroundColor: "black" , zIndex: 0 }}>
+        <ParallaxLayer offset={0} speed={0.5}>
+          <Navbar />
+        </ParallaxLayer>
+        <ParallaxLayer offset={0.2} speed={0.2}>
+          {" "}
+          {/* Hero Section Sying + image */}
+          <section className="flex justify-center items-center w-full bg-home1 h-screen">
+            {/* Text Section */}
+            <div className="flex flex-col ">
+              <h1 className="text-4xl font-bold  font-montserrat px-28">
+                Discover our gourmet recipes.
+              </h1>
+              <div className="flex justify-evenly items-center mt-10">
+                {/* Location Section */}
+                <div className="flex gap-5">
+                  <FaLocationDot color="#FFFFE0" size={30} />
+                  <p className="  text-xl SecondPolice">
+                    Discover our Locations
+                  </p>
+                </div>
+                <div className="flex gap-5">
+                  <IoMdTime color="#FFFFE0" size={30} />
+                  <p className=" text-2xl SecondPolice">Our Working Hours</p>
+                </div>
               </div>
-              <div className="flex gap-5">
-                <IoMdTime color="#FFFFE0" size={30} />
-                <p className=" text-2xl SecondPolice">Our Working Hours</p>
-              </div>
+              <div className="flex justify-center">
+                <button
+                  className="Font text-2xl mt-10 border p-5 rounded-xl hover:scale-105 duration-1000"
+                  style={{ fontFamily: "LibreBodoni", fontWeight: "lighter" }}
+                  onClick={() => {
+                    navigate("/menu");
+                  }}
+                >
+                  Check our Menu
+                </button>
+              </div>{" "}
             </div>
-            <div className="flex justify-center">
-              <button
-                className="Font text-2xl mt-10 border p-5 rounded-xl hover:scale-105 duration-1000"
-                style={{ fontFamily: "LibreBodoni", fontWeight: "lighter" }}
-                onClick={() => {
-                  navigate("/menu");
-                }}
-              >
-                Check our Menu
-              </button>
-            </div>{" "}
-          </div>
-        </div>
-        {/* Second Section Sying +  */}
-        <div className="bg-gradient">
-          <div className="flex justify-center items-center w-full  ">
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={1} speed={1}>
+          {/* Second Section Sying +  */}
+
+          <section className="flex justify-center items-center w-full  ">
             {/* Container */}
             <div className="flex w-9/12 justify-center items-center p-8 mt-10 onScroll">
               <img
@@ -86,9 +95,11 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={1.8} speed={0.8}>
           {/*  What we offer Section +  */}
-          <div className="flex flex-col gap-10 justify-center items-center w-full mb-10 mt-16">
+          <section className="flex flex-col gap-10 justify-center items-center w-full mb-10 mt-16">
             {/*Text Section*/}
             <div
               className="flex flex-col justify-center items-center gap-4"
@@ -145,9 +156,11 @@ const HomePage: React.FC = () => {
                 <PopularFoodSwiper />
               </div>
             </div>
-          </div>
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={2.5} speed={0.4}>
           {/* Image Background Interior Section */}
-          <div
+          <section
             className="interior-bg h-80 relative flex flex-col justify-center items-center my-10"
             style={{ backgroundAttachment: "fixed" }}
           >
@@ -163,9 +176,11 @@ const HomePage: React.FC = () => {
               are ready to delight you with new delicious dishes and drinks
               every day.
             </p>
-          </div>
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={3} speed={0.8}>
           {/* Testimonial Section */}
-          <div className="flex justify-center flex-col gap-4">
+          <section className="flex justify-center flex-col gap-4">
             <h2 className="text-5xl text-center SecondPolice ">Testimonials</h2>
             <div className="flex justify-center gap-16">
               {" "}
@@ -179,9 +194,11 @@ const HomePage: React.FC = () => {
                 />
               ))}
             </div>
-          </div>
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={4} speed={0.5}>
           {/* Our Location Section */}
-          <div className="flex mx-16 items-center SecondPolice mb-10">
+          <section className="flex mx-16 items-center SecondPolice mb-10">
             <div className="basis-1/3 sm:basis-1/2 flex flex-col">
               <h1 className="text-4xl">Our Locations: </h1>
               <p>Working hours : 10:00 AM - 10:00 PM </p>
@@ -191,12 +208,14 @@ const HomePage: React.FC = () => {
             <div className="w-full lg:basis-2/3 sm:basis-1/2">
               <MapComponent height="400px" width="100%" />
             </div>
-          </div>
+          </section>
+        </ParallaxLayer>
+        <ParallaxLayer offset={4.8} speed={0.3}>
           <Footer />
-        </div>
-      </div>
+        </ParallaxLayer>
+      </Parallax>
     </div>
   );
 };
 
-export default HomePage;
+export default HomeParalax;

@@ -7,4 +7,5 @@
   &::-webkit-scrollbar {
     display: none;
   }
+  z-index: 1000;
 }

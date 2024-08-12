@@ -16,9 +16,9 @@ import MenuPage from "./Pages/Menu/MenuPage.tsx";
 import FoodDetails from "./Pages/FoodDetails/FoodDetails.tsx";
 import ProfilePage from "./Pages/Profile/Profile.tsx";
 import Employees from "./Pages/Admin/Employees/Employees.tsx";
+import HomeParalax from "./Pages/Home/HomeParalax.tsx";
 
 const router = createBrowserRouter([
-
   {
     path: "/admin/dashboard",
     element: <Dashboard />,
@@ -45,11 +45,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
+    element: <HomeParalax />,
+  },
+  {
+    path: "/homeOriginal",
     element: <HomePage />,
   },
   {
     path: "/profile",
-    element: <ProfilePage/>,
+    element: <ProfilePage />,
   },
   {
     path: "/menu",
