@@ -6,17 +6,30 @@ import { useEmployee } from "../../../../Hooks/useEmployee";
 interface EmployeeFormProps {
   user: Employee;
   action: "details" | "edit" | "add";
+  onSubmit: (employee: Employee) => void;
 }
 
-const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
+const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action , onSubmit }) => {
   const initialFormState: Employee =
     action === "add"
       ? {
           id: 0,
           name: "",
-          position: { id: 0, name: "",level: "", responsibilities: "", qualifications: "" }, 
+          position: {
+            id: 1,
+            name: "Human Resources Manager",
+            level: "Senior",
+            responsibilities:
+              "Manages HR department and employee relations develops HR policies handles employee grievances oversees performance management",
+            qualifications: "Bachelor's in Human Resources or related field",
+          },
           salary: 0,
-          department: { id: 0, name: "", description: "" }, 
+          department: {
+            id: 4,
+            name: "Service",
+            description:
+              "Handles all aspects of customer service operations including addressing customer inquiries resolving complaints and managing service quality; ensures customer satisfaction and implements service improvement strategies",
+          },
           address: "",
           phone: "",
           email: "",
@@ -28,7 +41,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
       : { ...user };
 
   const [formState, setFormState] = useState<Employee>(initialFormState);
-  const { departments, positions, shifts } = useEmployee();
+  const { departments, positions, shifts , error } = useEmployee();
 
   // Handler to update formState on input change
   const handleChange = (
@@ -36,14 +49,14 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
   ) => {
     const { name, value } = e.target;
 
-    if (name === "department" || name === "position" || name === "shift") {
+    if (name === "department" || name === "position" ) {
       const selectedId = Number(value);
       const selectedObject =
         name === "department"
           ? departments.find((dept) => dept?.id === selectedId)
           : name === "position"
           ? positions.find((pos) => pos?.id === selectedId)
-          : console.log("shift");
+          : null;
 
       if (selectedObject) {
         setFormState((prevState) => ({
@@ -65,10 +78,13 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
   const handleAction = () => {
     console.log("Action handled: " + action);
     console.log("Form state:", formState);
+    // submitEmployee(formState, action);
+    onSubmit(formState);
   };
 
   return (
     <div className="flex flex-col p-10 gap-4 font-montserrat">
+      {error && <p className="text-red-500 text-2xl font-montserrat">{error}</p>}
       <h2 className="text-3xl">Employee Card :</h2>
       {/* Card + details */}
       <section className="flex gap-10">
@@ -91,6 +107,23 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
         </div>
         <div className="flex flex-col basis-2/3">
           <div className="grid grid-cols-2 gap-4">
+            {/* Input Fields Name */}
+            <div
+              className={`w-full flex-col flex ${
+                action !== "add" ? "hidden" : ""
+              }`}
+            >
+              <label htmlFor="name">name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={formState.name}
+                onChange={handleChange}
+                disabled={isDisabled}
+                className="border-2 border-black rounded-lg py-1 px-2"
+              />
+            </div>
             {/* Input Fields Address */}
             <div className="w-full flex-col flex">
               <label htmlFor="address">Address</label>
@@ -126,6 +159,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 value={formState.department.id}
                 onChange={handleChange}
                 disabled={isDisabled}
+                required
                 className="border-2 border-black rounded-lg py-1 px-2"
               >
                 <option value="" disabled>
@@ -144,6 +178,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
               <select
                 name="position"
                 id="position"
+                required
                 value={formState.position.id}
                 onChange={handleChange}
                 disabled={isDisabled}
@@ -166,6 +201,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 type="text"
                 name="phone"
                 id="phone"
+                required
                 value={formState.phone}
                 onChange={handleChange}
                 disabled={isDisabled}
@@ -179,6 +215,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 type="text"
                 name="salary"
                 id="salary"
+                required
                 value={formState.salary}
                 onChange={handleChange}
                 disabled={isDisabled}
@@ -191,6 +228,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
               <select
                 name="shift"
                 id="shift"
+                required
                 value={formState.shift}
                 onChange={handleChange}
                 disabled={isDisabled}
@@ -213,6 +251,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 type="text"
                 name="image"
                 id="image"
+                required
                 value={formState.image}
                 onChange={handleChange}
                 disabled={isDisabled}
@@ -226,6 +265,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ user, action }) => {
                 type="date"
                 name="hiringDate"
                 id="hiringDate"
+                required
                 value={formatDate(formState.hiringDate + "")}
                 onChange={handleChange}
                 disabled={isDisabled}

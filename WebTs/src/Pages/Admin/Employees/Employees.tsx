@@ -26,7 +26,8 @@ const Employees: React.FC = () => {
   const [action, setAction] = useState<"details" | "edit" | "add">("details");
   const [filtredEmployees, setFiltredEmployees] = useState<Employee[]>([]);
   const [department, setDepartment] = useState<Department | undefined>();
-  const { Employees, loading, error, stats, departments } = useEmployee();
+  const { Employees, loading, error, stats, departments, submitEmployee } =
+    useEmployee();
 
   const handleAdd = () => {
     setUser({} as Employee);
@@ -43,20 +44,26 @@ const Employees: React.FC = () => {
     setVisible(true);
     setAction("details");
   };
+  const handleSubmit = (employee : Employee) => {
+    submitEmployee(employee, action);
+    setVisible(false);
+  };
   useEffect(() => {
-    if(!department){
-      setFiltredEmployees(Employees)
+    if (!department) {
+      setFiltredEmployees(Employees);
     }
-    if(Employees && department){
-      setFiltredEmployees(Employees.filter((employee) => employee.department.id === department.id))
+    if (Employees && department) {
+      setFiltredEmployees(
+        Employees.filter((employee) => employee.department.id === department.id)
+      );
     }
-
   }, [Employees, department]);
 
   const actionBodyTemplate = (rowData: Employee) => (
     <TableActions
       handleEdit={() => handledit(rowData)}
       handleDetails={() => handledetails(rowData)}
+
     />
   );
   return (
@@ -67,7 +74,7 @@ const Employees: React.FC = () => {
       <Drawer isOpen={isDrawerOpen} onClose={() => dispatch(toggleDrawer())} />
       {visible && user && (
         <Modal onClose={() => setVisible(false)}>
-          <EmployeeForm user={user} action={action} />
+          <EmployeeForm user={user} action={action} onSubmit={handleSubmit} />
         </Modal>
       )}
       <section className="flex  mt-8 ">
@@ -157,7 +164,8 @@ const Employees: React.FC = () => {
               {departments.map((department) => (
                 <button
                   className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-                    department?.name.toLocaleLowerCase() === "human resources" && "col-span-2"
+                    department?.name.toLocaleLowerCase() ===
+                      "human resources" && "col-span-2"
                   }`}
                   onClick={() => setDepartment(department)}
                   key={department?.id}

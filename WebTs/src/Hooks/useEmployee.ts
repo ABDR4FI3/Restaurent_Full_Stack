@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 
 import { Employee } from "../types/Employee";
-import { GetEmployeesService } from "../services/EmployeeService";
+import {
+  AddEmployeesService,
+  EditEmployeesService,
+  GetEmployeesService,
+} from "../services/EmployeeService";
 
 export const useEmployee = () => {
   const [Employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [action, setAction] = useState<string>("");
+  const [employee, setEmployee] = useState<Employee>({} as Employee);
 
   const getEmployees = async () => {
     setLoading(true);
@@ -22,6 +28,28 @@ export const useEmployee = () => {
       setError(null);
     }
   };
+
+  //* function that handles the form submission
+  const submitEmployee = async (employee: Employee , action :string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error(
+          "Authentication token is missing. Please log in again."
+        );
+      }
+      if (action === "add") {
+        await AddEmployeesService(employee);
+      } else {
+        await EditEmployeesService(employee);
+      }
+      await getEmployees();
+    } catch (error) {
+      console.error("Error submitting employee data:", error);
+      setError("Failed to submit employee data");
+    }
+  };
+
   useEffect(() => {
     getEmployees();
   }, []);
@@ -65,6 +93,7 @@ export const useEmployee = () => {
     shifts,
     departments,
     positions,
+    submitEmployee,
     stats: {
       Employeescount,
       Departmentcount,
