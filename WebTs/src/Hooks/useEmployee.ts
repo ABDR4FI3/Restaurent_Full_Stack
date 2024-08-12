@@ -11,8 +11,7 @@ export const useEmployee = () => {
   const [Employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [action, setAction] = useState<string>("");
-  const [employee, setEmployee] = useState<Employee>({} as Employee);
+
 
   const getEmployees = async () => {
     setLoading(true);
