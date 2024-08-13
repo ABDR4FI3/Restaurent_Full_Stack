@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Drawer from "../../../Components/Admin/Drawer/Drawer";
 import { RootState } from "../../../store";
-import { GrFormPrevious } from "react-icons/gr";
-import { MdNavigateNext } from "react-icons/md";
 import DashboardNav from "../../../Components/Admin/Nav/DashboardNav";
 import { toggleDrawer } from "../../../store/slices/drawerSlice";
 import useInventory from "../../../Hooks/useInventory";
@@ -18,6 +16,7 @@ import InventoryForm from "./InventoryForm/InventoryForm";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import "./Inventory.css";
+import PaginationNav from "../../../Components/Pagination/PaginationNav";
 
 const Inventory: React.FC = () => {
   const [pagintaedInventories, setPagintedInventories] = useState<
@@ -27,7 +26,6 @@ const Inventory: React.FC = () => {
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState(5);
 
-  const RowsOptions = [5, 10, 15];
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(
     (state: RootState) => state.drawer.isDrawerOpen
@@ -69,8 +67,7 @@ const Inventory: React.FC = () => {
   useEffect(() => {
     setPage(1);
     setRows(5);
-
-  },[filtredInventories, category]);
+  }, [filtredInventories, category]);
 
   const actionBodyTemplate = (rowData: InventoryType) => (
     <TableActions
@@ -101,10 +98,6 @@ const Inventory: React.FC = () => {
       setFiltredInventories(filtered);
     }
   }, [inventories, category, categories]);
-  console.log("page and rows state: "+ page , rows);
-  console.log("filtredInventories:", filtredInventories);
-  console.log("paginated inventories:", pagintaedInventories);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   return (
@@ -200,51 +193,15 @@ const Inventory: React.FC = () => {
               className="custom-cell"
             />
           </DataTable>
+          <PaginationNav
+            page={page}
+            setPage={setPage}
+            rows={rows}
+            setRows={setRows}
+            filtredData={filtredInventories}
+            toast={(message:string) => toast.error(message)}
+          />
           {/* Options and Pagination*/}
-          <div className="flex items-center justify-center gap-4 p-2">
-            <div className="flex items-center">
-              {" "}
-              <select
-                name="rows"
-                id=""
-                value={rows}
-                onChange={(e) => setRows(Number(e.target.value))}
-                className="mx-2 border border-black p-2"
-              >
-                {RowsOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex justify-end items-center gap-8">
-              {" "}
-              <span
-                onClick={() => {
-                  if (page > 1) {
-                    setPage(page - 1);
-                  } else {
-                    toast.error("you can't go back any further.");
-                  }
-                }}
-              >
-                <GrFormPrevious size={35} />
-              </span>
-              <div className="text-3xl flex ">{page}</div>
-              <span
-                onClick={() => {
-                  if (page + 1 <= Math.ceil(filtredInventories.length / rows)) {
-                    setPage(page + 1);
-                  } else {
-                    toast.error("you have reached the last page.");
-                  }
-                }}
-              >
-                <MdNavigateNext size={35} />
-              </span>
-            </div>
-          </div>
         </section>
         <section className="StatsCards flex flex-col items-center ">
           <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-4 lg:h-1/4 sm:h-full w-full p-4">
