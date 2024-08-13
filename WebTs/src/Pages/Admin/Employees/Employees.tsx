@@ -10,7 +10,7 @@ import { Employee, emptyEmployee } from "../../../types/Employee";
 import { Column } from "primereact/column";
 import { FaBoxes, FaSortAmountUp, FaTag, FaUserFriends } from "react-icons/fa";
 import "./Employee.css";
-import TableActions from "./TableItems/TableItems";
+import TableActions from "./TableItems/TableItems";``
 import { useEffect, useState } from "react";
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
 import Modal from "./PopUp/Modal";
