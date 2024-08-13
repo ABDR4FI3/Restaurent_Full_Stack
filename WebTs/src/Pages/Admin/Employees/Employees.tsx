@@ -15,6 +15,9 @@ import { useEffect, useState } from "react";
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
 import Modal from "./PopUp/Modal";
 import { Department } from "../../../types/Departement";
+import { GrFormPrevious } from "react-icons/gr";
+import { MdNavigateNext } from "react-icons/md";
+import toast, { Toaster } from "react-hot-toast";
 
 const Employees: React.FC = () => {
   const isDrawerOpen = useSelector(
@@ -28,6 +31,12 @@ const Employees: React.FC = () => {
   const [department, setDepartment] = useState<Department | undefined>();
   const { Employees, loading, error, stats, departments, submitEmployee } =
     useEmployee();
+  const [pagintedEmployees, setPagintedEmployees] = useState<Employee[]>([]);
+  //* states for managining pagination :
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState(5);
+
+  const RowsOptions = [5, 10, 15];
 
   const handleAdd = () => {
     setUser({} as Employee);
@@ -44,7 +53,7 @@ const Employees: React.FC = () => {
     setVisible(true);
     setAction("details");
   };
-  const handleSubmit = (employee : Employee) => {
+  const handleSubmit = (employee: Employee) => {
     submitEmployee(employee, action);
     setVisible(false);
   };
@@ -58,16 +67,27 @@ const Employees: React.FC = () => {
       );
     }
   }, [Employees, department]);
+  useEffect(() => {
+    setPagintedEmployees(
+      filtredEmployees.slice((page - 1) * rows, page * rows)
+    );
+  }, [page, rows]);
+  useEffect(() => {
+    setPagintedEmployees(filtredEmployees.slice(0, 5));
+  }, filtredEmployees);
+  useEffect(() => {
+    setPage(1);
+  }, [rows, filtredEmployees]);
 
   const actionBodyTemplate = (rowData: Employee) => (
     <TableActions
       handleEdit={() => handledit(rowData)}
       handleDetails={() => handledetails(rowData)}
-
     />
   );
   return (
     <div className="flex flex-col h-screen">
+      <Toaster position="bottom-left" reverseOrder={false} />
       {loading && <p>loading</p>}
       {error && <p>{error}</p>}
       <DashboardNav />
@@ -78,81 +98,117 @@ const Employees: React.FC = () => {
         </Modal>
       )}
       <section className="flex  mt-8 ">
-        <section className=" mb-14">
-          <div
-            className="flex flex-col px-8 overflow-x-scroll no-scrollbar"
-            style={{ height: "750px" }}
-          >
-            {/* Users List */}
-            <div className="flex px-5 justify-between my-4">
-              <h1 className="text-3xl font font-josefin underline">
-                Employee :
-              </h1>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <section className=" mb-14 p-8">
+          {/* Users List */}
+          <div className="flex px-5 justify-between my-4">
+            <h1 className="text-3xl font font-josefin underline">Employee :</h1>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => {
+                handleAdd();
+              }}
+            >
+              add Employee
+            </button>
+          </div>
+          <DataTable value={pagintedEmployees} className="custom-table">
+            <Column
+              header="image"
+              sortable
+              headerClassName="custom-header"
+              className="custom-cell"
+              body={(rowData: Employee) => (
+                <img src={rowData.image} alt={rowData.name} className="" />
+              )}
+            />
+            <Column
+              field="name"
+              header="name"
+              sortable
+              headerClassName="custom-header"
+              className="custom-cell"
+            />
+            <Column
+              header="position"
+              body={(rowData: Employee) => (
+                <p className="ml-2">{rowData.position.name}</p>
+              )}
+              headerClassName="custom-header"
+              className="custom-cell"
+            />
+            <Column
+              header="department"
+              body={(rowData: Employee) => (
+                <p className="ml-2">{rowData.department.name}</p>
+              )}
+              headerClassName="custom-header"
+              className="custom-cell"
+            />
+            <Column
+              field="salary"
+              header="salary"
+              sortable
+              headerClassName="custom-header"
+              className="custom-cell"
+            />
+            <Column
+              field="shift"
+              header="Shift"
+              sortable
+              headerClassName="custom-header"
+              className="custom-cell"
+            />
+
+            <Column
+              body={actionBodyTemplate}
+              header="Actions"
+              style={{ width: "15%" }}
+              headerClassName="custom-header topright"
+              className="custom-cell"
+            />
+          </DataTable>
+          <div className="flex items-center justify-center gap-4 p-2">
+            <div className="flex items-center">
+              {" "}
+              <select
+                name="rows"
+                id=""
+                onChange={(e) => setRows(Number(e.target.value))}
+                className="mx-2 border border-black p-2"
+              >
+                {RowsOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-end items-center gap-8">
+              {" "}
+              <span
                 onClick={() => {
-                  handleAdd();
+                  if (page > 1) {
+                    setPage(page - 1);
+                  } else {
+                    toast.error("you can't go back any further.");
+                  }
                 }}
               >
-                add Employee
-              </button>
+                <GrFormPrevious size={35} />
+              </span>
+              <div className="text-3xl flex ">{page}</div>
+              <span
+                onClick={() => {
+                  if (page + 1 <= Math.ceil(filtredEmployees.length / rows)) {
+                    setPage(page + 1);
+                  } else {
+                    toast.error("you have reached the last page.");
+                  }
+                }}
+              >
+                <MdNavigateNext size={35} />
+              </span>
             </div>
-            <DataTable value={filtredEmployees} className="custom-table">
-              <Column
-                header="image"
-                sortable
-                headerClassName="custom-header"
-                className="custom-cell"
-                body={(rowData: Employee) => (
-                  <img src={rowData.image} alt={rowData.name} className="" />
-                )}
-              />
-              <Column
-                field="name"
-                header="name"
-                sortable
-                headerClassName="custom-header"
-                className="custom-cell"
-              />
-              <Column
-                header="position"
-                body={(rowData: Employee) => (
-                  <p className="ml-2">{rowData.position.name}</p>
-                )}
-                headerClassName="custom-header"
-                className="custom-cell"
-              />
-              <Column
-                header="department"
-                body={(rowData: Employee) => (
-                  <p className="ml-2">{rowData.department.name}</p>
-                )}
-                headerClassName="custom-header"
-                className="custom-cell"
-              />
-              <Column
-                field="salary"
-                header="salary"
-                sortable
-                headerClassName="custom-header"
-                className="custom-cell"
-              />
-              <Column
-                field="shift"
-                header="Shift"
-                sortable
-                headerClassName="custom-header"
-                className="custom-cell"
-              />
-
-              <Column
-                body={actionBodyTemplate}
-                header="Actions"
-                style={{ width: "15%" }}
-                headerClassName="custom-header topright"
-                className="custom-cell"
-              />
-            </DataTable>
           </div>
         </section>
         <section className="StatsCards flex flex-col p-8 gap-8">

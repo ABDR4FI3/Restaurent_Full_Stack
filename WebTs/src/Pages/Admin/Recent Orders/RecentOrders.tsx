@@ -28,6 +28,7 @@ const RecentOrders: React.FC = () => {
   //* states for managining pagination :
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState(5);
+  const [pagintedOrders, setPagintedOrders] = useState<Orders[]>([]);
 
   const RowsOptions = [5, 10, 15];
   const dispatch: AppDispatch = useDispatch();
@@ -45,7 +46,6 @@ const RecentOrders: React.FC = () => {
     setPagintedOrders(orders.slice((page - 1) * rows, page * rows));
   }, [page, rows]);
 
-  const [pagintedOrders, setPagintedOrders] = useState<Orders[]>([]);
   useEffect(() => {
     setPage(1);
   }, [rows]);
