@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormattedFood } from "../utils/foodUtils";
+import { convertToFoodDTO, FormattedFood } from "../utils/foodUtils";
 import { Food } from "../types/Food";
 
 const API_URL = "http://localhost:9090";
@@ -28,14 +28,19 @@ export const getFood = async (foodid: number): Promise<Food> => {
 };
 
 export const addFoodToMenu = async (food: FormattedFood, token: string) => {
-  const response = await axios.post(`${API_URL}/food/admin/add`, food, {
+  console.log("addFoodToMenu", food);
+  const foodDto = convertToFoodDTO(food);
+  const response = await axios.post(`${API_URL}/food/admin/add`, foodDto, {
     params: { token },
   });
   return response.data;
 };
 
 export const editFoodFromMenu = async (food: FormattedFood, token: string) => {
-  const response = await axios.post(`${API_URL}/food/admin/edit`, food, {
+  console.log("editFoodFromMenu", food);
+  const foodDto  = convertToFoodDTO(food);
+  console.log("foodDto", foodDto);
+  const response = await axios.post(`${API_URL}/food/admin/edit`, foodDto, {
     params: { token },
   });
   return response.data;

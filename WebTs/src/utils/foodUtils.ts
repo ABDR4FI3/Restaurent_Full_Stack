@@ -18,7 +18,17 @@ export interface FormattedFood {
   nutritionValue: { [key: string]: number };
   carousel: CarouselFood;
 }
-
+export interface FoodDTO {
+  id: number;
+  name: string;
+  image: string;
+  link: string;
+  totalCalories: number;
+  description: string;
+  price: number;
+  category: string;
+  nutritionValue: { [key: string]: number };
+}
 // ! Function to format food data
 export const formatFoods = (foods: Food[]): FormattedFood[] => {
   return foods.map((food) => ({
@@ -78,4 +88,30 @@ export const emptyFormattedFood: FormattedFood = {
     carbs: 0,
     calories: 0,
   },
+};
+
+export const convertToFoodDTO = (food: FormattedFood): FoodDTO => {
+  return {
+    id: food.id,
+    name: food.name,
+    image: food.image,
+    link: food.link,
+    totalCalories: food.totalCalories,
+    description: food.description,
+    price: food.price,
+    category: food.category.name, // Converting Category object to a string
+    nutritionValue: convertNutritionValueToFloats(food.nutritionValue),
+  };
+};
+
+const convertNutritionValueToFloats = (nutritionValue: {
+  [key: string]: number;
+}): { [key: string]: number } => {
+  const floatValues: { [key: string]: number } = {};
+
+  Object.keys(nutritionValue).forEach((key) => {
+    floatValues[key] = parseFloat(nutritionValue[key].toFixed(1)); // Ensuring float precision
+  });
+
+  return floatValues;
 };

@@ -54,44 +54,41 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     setPreviewImageUrl(formState.link);
   }, [formState.link]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
+const handleChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >
+) => {
+  const { name, value } = e.target;
 
-    if (name === "calories") {
-      // Handle total calories separately
-      setFormState((prevState) => ({
-        ...prevState,
-        calories: parseInt(value),
-      }));
-    } else if (name in formState.nutritionValue) {
-      // Handle nested fields
-      setFormState((prevState) => ({
-        ...prevState,
-        nutionValue: {
-          ...prevState.nutritionValue,
-          [name]: parseInt(value), // Ensure the value is treated as a number
-        },
-      }));
-    } else if (name === "category") {
-      // Handle category separately
-      const selectedCategory = categories.find(
-        (category) => category.id.toString() === value
-      );
-      setFormState((prevState) => ({
-        ...prevState,
-        category: selectedCategory || prevState.category,
-      }));
-    } else {
-      setFormState((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
+  if (name === "calories") {
+    setFormState((prevState) => ({
+      ...prevState,
+      totalCalories: parseInt(value),
+    }));
+  } else if (name in formState.nutritionValue) {
+    setFormState((prevState) => ({
+      ...prevState,
+      nutritionValue: {
+        ...prevState.nutritionValue,
+        [name]: parseInt(value),
+      },
+    }));
+  } else if (name === "category") {
+    const selectedCategory = categories.find(
+      (category) => category.id.toString() === value
+    );
+    setFormState((prevState) => ({
+      ...prevState,
+      category: selectedCategory || prevState.category,
+    }));
+  } else {
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+};
   console.log("formState:", formState);
   console.log("Original food:", food);
 
