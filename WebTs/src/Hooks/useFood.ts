@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { getAllFoods, getFood } from "../services/foodService";
-import { FormattedFood } from "../utils/foodUtils";
 import { Category } from "../types/Category";
+import { Food } from "../types/Food";
 
 export const useFoods = () => {
-  const [foods, setFoods] = useState<FormattedFood[]>([]);
+  const [foods, setFoods] = useState<Food[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export const useFoods = () => {
   return { foods, categories, loading, error };
 };
 export const useFetchFood = (foodId: number) => {
-  const [food, setFood] = useState<FormattedFood | null>(null);
+  const [food, setFood] = useState<Food | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
 

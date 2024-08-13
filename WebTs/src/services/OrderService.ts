@@ -16,7 +16,6 @@ export const getOrderStatusData = async (status: string): Promise<Orders[]> => {
         },
       }
     );
-    console.log("response", response.data.orders);
     return response.data.orders;
   } catch (error) {
     console.error("Error fetching order status:", error);

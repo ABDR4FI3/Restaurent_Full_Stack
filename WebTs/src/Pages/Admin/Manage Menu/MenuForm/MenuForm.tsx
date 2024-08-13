@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { FormattedFood } from "../../../../utils/foodUtils";
 import { Category } from "../../../../types/Category";
 import { useFoods } from "../../../../Hooks/useFood";
+import { Food } from "../../../../types/Food";
 
 interface MenuFormProps {
-  food: FormattedFood | undefined;
+  food: Food | undefined;
   action: "add" | "edit";
   onSubmit: (food: FormattedFood) => void;
 }
 
 const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
-  const [formState, setFormState] = useState<FormattedFood>({
+  const [formState, setFormState] = useState<Food>({
     id: 0,
     name: "",
     image: "",
@@ -25,8 +26,8 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     totalCalories: 0,
     carousel: {
       carouselId: 0,
-      images:[""],
-      links:[""],
+      images: [""],
+      links: [""],
     },
     nutritionValue: {
       fat: 0,
@@ -53,44 +54,43 @@ const MenuForm: React.FC<MenuFormProps> = ({ food, action, onSubmit }) => {
     setPreviewImageUrl(formState.link);
   }, [formState.link]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
+const handleChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >
+) => {
+  const { name, value } = e.target;
 
-    if (name === "calories") {
-      // Handle total calories separately
-      setFormState((prevState) => ({
-        ...prevState,
-        calories: parseInt(value),
-      }));
-    } else if (name in formState.nutritionValue) {
-      // Handle nested fields
-      setFormState((prevState) => ({
-        ...prevState,
-        nutionValue: {
-          ...prevState.nutritionValue,
-          [name]: parseInt(value), // Ensure the value is treated as a number
-        },
-      }));
-    } else if (name === "category") {
-      // Handle category separately
-      const selectedCategory = categories.find(
-        (category) => category.id.toString() === value
-      );
-      setFormState((prevState) => ({
-        ...prevState,
-        category: selectedCategory || prevState.category,
-      }));
-    } else {
-      setFormState((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
+  if (name === "calories") {
+    setFormState((prevState) => ({
+      ...prevState,
+      totalCalories: parseInt(value),
+    }));
+  } else if (name in formState.nutritionValue) {
+    setFormState((prevState) => ({
+      ...prevState,
+      nutritionValue: {
+        ...prevState.nutritionValue,
+        [name]: parseInt(value),
+      },
+    }));
+  } else if (name === "category") {
+    const selectedCategory = categories.find(
+      (category) => category.id.toString() === value
+    );
+    setFormState((prevState) => ({
+      ...prevState,
+      category: selectedCategory || prevState.category,
+    }));
+  } else {
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+};
+  console.log("formState:", formState);
+  console.log("Original food:", food);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

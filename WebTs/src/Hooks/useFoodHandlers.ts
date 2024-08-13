@@ -2,11 +2,12 @@ import { useState } from "react";
 import { emptyFormattedFood, FormattedFood } from "../utils/foodUtils";
 import { addFoodToMenu, editFoodFromMenu } from "../services/foodService";
 import React from "react";
+import { Food } from "../types/Food";
 
 const useFoodHandlers = () => {
   // * States to be exported by the hook 
   const [visible, setVisible] = useState(false);
-  const [fooditem, setFooditem] = useState<FormattedFood | undefined>();
+  const [fooditem, setFooditem] = useState<Food | undefined>();
   const [action, setAction] = useState<"add" | "edit">("add");
   const [GalleryVisible, setGalleryVisible] = React.useState<boolean>(true);
 
@@ -19,7 +20,7 @@ const useFoodHandlers = () => {
     setVisible(true);
   };
 
-  const handleGallery = (food: FormattedFood) => {
+  const handleGallery = (food: Food) => {
     setFooditem(food);
     setGalleryVisible(true);
   };
