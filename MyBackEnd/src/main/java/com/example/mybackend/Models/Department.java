@@ -23,6 +23,6 @@ public class Department {
     private String description;
     @OneToMany(mappedBy = "department")
     @JsonIgnore
-    private Set<Employee> employees; // Link back to Employee entity
+    private Set<Employee> employees;
 
 }

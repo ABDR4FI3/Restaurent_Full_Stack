@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import Cart from "./Cart/Cart";
 import CartModal from "./Modal/CartModal";
 import "./Navbar.css";
 import { RootState } from "../../store";
+import { RedirectToLogin } from "../../utils/AuthUtils";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,13 @@ const Navbar: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const token = localStorage.getItem("token");
   const toggleMenu = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
+
+  if(!token){
+    navigate("/");
+  }else{
+    RedirectToLogin(token);
+  }
 
   return (
     <>
@@ -70,6 +78,7 @@ const Navbar: React.FC = () => {
                   >
                     Profile
                   </Link>
+
                   <div
                     className="relative hover:text-yellow-300 duration-1000"
                     onClick={() => setVisible(true)}
@@ -103,6 +112,7 @@ const Navbar: React.FC = () => {
                 </>
               )}
             </div>
+            
           </div>
         </div>
       </nav>

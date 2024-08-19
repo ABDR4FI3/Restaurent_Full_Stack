@@ -37,6 +37,9 @@ public class FoodService {
         response.put("response", 200);
         return response;
     }
+    public List<Food> getAll(){
+        return foodRepository.findAll();
+    }
     public Map<String, Object> getPopularFoods() {
         HashMap<String, Object> response = new HashMap<>();
         int count = 0;
