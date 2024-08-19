@@ -11,3 +11,12 @@
       display: none;
     }
 }
+
+.button-Logout{
+  height: max-content;
+  width: max-content;
+  padding: 20px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 700;
+}

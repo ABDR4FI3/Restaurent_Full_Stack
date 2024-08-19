@@ -10,9 +10,14 @@ import Order from "./OrderComponent/Order";
 const ProfilePage: React.FC = () => {
   const { error, loading, userData } = useProfile();
   const navigate = useNavigate();
-    const OpenDetails = (food: FormattedFood) => {
-      navigate("/details", { state: { food } });
-    };
+  const OpenDetails = (food: FormattedFood) => {
+    navigate("/details", { state: { food } });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -23,7 +28,7 @@ const ProfilePage: React.FC = () => {
         <div className="flex flex-col gap-8 bg-dark-bg">
           <Navbar />
           {/* Image + Details */}
-          <div className="flex justify-between p-20">
+          <section className="flex justify-between p-20">
             {/* Image */}
             <div className="border-green-500 border p-4  rounded-xl">
               <img
@@ -50,7 +55,10 @@ const ProfilePage: React.FC = () => {
                 Phone : {userData.user.phone}
               </h1>
             </div>
-          </div>
+            <div className="justify-end items-end bg-red-600 p-4 rounded-xl  button-Logout hover:bg-transparent hover:text-red-600 hover:border-red-600 duration-500 border-2 border-transparent" onClick={handleLogout}>
+              Log out
+            </div>
+          </section>
           {/* Favorite Foods Slider */}
           <section className="CarouselFavourite">
             {" "}
@@ -58,7 +66,7 @@ const ProfilePage: React.FC = () => {
               <h1 className="text-3xl text-green-500 font-bold font-montserrat ">
                 Favorite Foods :
               </h1>
-              <div className="my-8 " >
+              <div className="my-8 ">
                 <Swiper
                   spaceBetween={40}
                   slidesPerView={3}
@@ -77,7 +85,9 @@ const ProfilePage: React.FC = () => {
                         rating={food.rating}
                         price={food.price}
                         name={food.name}
-                        onClick={() => {OpenDetails(food)}}
+                        onClick={() => {
+                          OpenDetails(food);
+                        }}
                       />
                     </SwiperSlide>
                   ))}

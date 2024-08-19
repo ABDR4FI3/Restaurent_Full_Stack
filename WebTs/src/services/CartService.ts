@@ -6,11 +6,14 @@ const API_URL = "http://localhost:9090";
 export const getAllCartItems = async (): Promise<Orders[]> => {
   try {
     const token = localStorage.getItem("token");
-    const status = "pending"
+    const status = "pending";
+    if (!token) {
+      return [];
+    }
     const response = await axios.get(`${API_URL}/order/status`, {
       params: {
         token,
-        status
+        status,
       },
     });
     return response.data.orders;
@@ -33,7 +36,7 @@ export const PayCartService = async (): Promise<Orders[]> => {
     throw error;
   }
 };
-export const DeleteOrder = async (orderId : number): Promise<Orders[]> => {
+export const DeleteOrder = async (orderId: number): Promise<Orders[]> => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(`${API_URL}/cart/remove`, null, {
