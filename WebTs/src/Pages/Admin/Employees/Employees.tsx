@@ -15,9 +15,8 @@ import { useEffect, useState } from "react";
 import EmployeeForm from "./EmployeeForm/EmployeeForm";
 import Modal from "./PopUp/Modal";
 import { Department } from "../../../types/Departement";
-import { GrFormPrevious } from "react-icons/gr";
-import { MdNavigateNext } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
+import PaginationNav from "../../../Components/Pagination/PaginationNav";
 
 const Employees: React.FC = () => {
   const isDrawerOpen = useSelector(
@@ -35,8 +34,6 @@ const Employees: React.FC = () => {
   //* states for managining pagination :
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState(5);
-
-  const RowsOptions = [5, 10, 15];
 
   const handleAdd = () => {
     setUser({} as Employee);
@@ -97,7 +94,7 @@ const Employees: React.FC = () => {
           <EmployeeForm user={user} action={action} onSubmit={handleSubmit} />
         </Modal>
       )}
-      <section className="flex  mt-8 ">
+      <section className="flex mt-8 ">
         <section className=" mb-14 p-8">
           {/* Users List */}
           <div className="flex px-5 justify-between my-4">
@@ -168,47 +165,15 @@ const Employees: React.FC = () => {
             />
           </DataTable>
           <div className="flex items-center justify-center gap-4 p-2">
-            <div className="flex items-center">
-              {" "}
-              <select
-                name="rows"
-                id=""
-                onChange={(e) => setRows(Number(e.target.value))}
-                className="mx-2 border border-black p-2"
-              >
-                {RowsOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex justify-end items-center gap-8">
-              {" "}
-              <span
-                onClick={() => {
-                  if (page > 1) {
-                    setPage(page - 1);
-                  } else {
-                    toast.error("you can't go back any further.");
-                  }
-                }}
-              >
-                <GrFormPrevious size={35} />
-              </span>
-              <div className="text-3xl flex ">{page}</div>
-              <span
-                onClick={() => {
-                  if (page + 1 <= Math.ceil(filtredEmployees.length / rows)) {
-                    setPage(page + 1);
-                  } else {
-                    toast.error("you have reached the last page.");
-                  }
-                }}
-              >
-                <MdNavigateNext size={35} />
-              </span>
-            </div>
+            <PaginationNav
+              page={page}
+              setPage={setPage}
+              rows={rows}
+              setRows={setRows}
+              filtredData={filtredEmployees}
+              toast={(message: string) => toast.error(message)}
+              key={page}
+            />
           </div>
         </section>
         <section className="StatsCards flex flex-col p-8 gap-8">

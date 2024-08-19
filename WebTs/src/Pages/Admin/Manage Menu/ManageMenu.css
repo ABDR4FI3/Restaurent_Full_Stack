@@ -1,12 +1,9 @@
 .custom-row {
-  border-bottom: 1px solid #000000;
-  border-left: 1px solid #000000;
-  border-right: 1px solid #000000;
   background-color: rgb(227, 227, 227);
 }
 .custom-cell {
   padding: 15px;
-  border-left: 1px solid #000000;
+  border-bottom: 1px solid #000000;
   text-align: center;
   
 }

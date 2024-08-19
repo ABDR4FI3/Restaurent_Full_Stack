@@ -6,3 +6,6 @@
 .Normal{
  background-color: white;   
 }
+.StatsCards{
+    max-height: 900px;
+}
