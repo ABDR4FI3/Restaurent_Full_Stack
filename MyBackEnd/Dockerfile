@@ -1,7 +1,7 @@
 # Use the official Maven image to build the application
 FROM maven:3.8.5-openjdk-17 AS build
 
-# Copy  source code
+# Copy the source code
 COPY . .
 
 # Build the application
@@ -17,4 +17,4 @@ COPY --from=build /target/MyBackEnd-0.0.1-SNAPSHOT.jar MyBackEnd.jar
 EXPOSE 9090
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "MyBackEnd.jar"]
