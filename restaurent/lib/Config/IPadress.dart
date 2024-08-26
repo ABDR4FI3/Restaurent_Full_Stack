@@ -1,1 +1,1 @@
-var IpAdress =  "192.168.100.128:9090";
+var IpAdress =  "https://rms-service-g7uz.onrender.com";

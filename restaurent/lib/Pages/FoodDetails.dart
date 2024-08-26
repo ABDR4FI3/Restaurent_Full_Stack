@@ -73,7 +73,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   
 
   Future<void> addToCart(Food food, String token, int qte) async {
-    final String apiUrl = 'http://$IpAdress/order/make';
+    final String apiUrl = '$IpAdress/order/make';
 
     print("my parameters, foodId: ${food.id}, token: $token, qte: $qte");
 
