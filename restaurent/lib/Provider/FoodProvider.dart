@@ -12,7 +12,7 @@ class FoodProvider with ChangeNotifier {
 
   Future<void> fetchFoods() async {
     final response =
-        await http.get(Uri.parse('http://192.168.100.128:9090/food/all'));
+        await http.get(Uri.parse('https://rms-service-g7uz.onrender.com/food/all'));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

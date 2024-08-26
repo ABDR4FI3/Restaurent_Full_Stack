@@ -24,7 +24,7 @@ class Registerpage extends StatelessWidget {
   Registerpage({super.key});
 
   Future<void> RegisterUser(BuildContext context) async {
-    final String apiUrl = 'http://192.168.100.128:9090/user/register'; 
+    final String apiUrl = 'https://rms-service-g7uz.onrender.com/user/register'; 
 
     final userDTO = {
       'name': usernameController.text,
