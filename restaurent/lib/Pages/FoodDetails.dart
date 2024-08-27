@@ -32,7 +32,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   Future<Food> fetchFood(int foodId) async {
     try{
     final response = await http
-        .get(Uri.parse('http://192.168.100.128:9090/food/$foodId'));
+        .get(Uri.parse('https://rms-service-g7uz.onrender.com/food/$foodId'));
 
     if (response.statusCode == 200) {
       print('Response Body: ${response.body}');
@@ -73,7 +73,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   
 
   Future<void> addToCart(Food food, String token, int qte) async {
-    final String apiUrl = 'http://$IpAdress/order/make';
+    final String apiUrl = '$IpAdress/order/make';
 
     print("my parameters, foodId: ${food.id}, token: $token, qte: $qte");
 

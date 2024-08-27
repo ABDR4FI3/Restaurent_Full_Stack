@@ -23,7 +23,7 @@ class Loginpage extends StatelessWidget {
     }
 
     final response = await http.post(
-      Uri.parse('http://192.168.100.128:9090/user/Login'),
+      Uri.parse('https://rms-service-g7uz.onrender.com/user/Login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

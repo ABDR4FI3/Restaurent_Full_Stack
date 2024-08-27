@@ -26,7 +26,7 @@ class _ProfilepageState extends State<Profilepage> {
   }
 
   Future<UserWithDetails> fetchUserDetails() async {
-    final String url = 'http://$IpAdress/user/details';
+    final String url = '$IpAdress/user/details';
     final String? token = await getToken();
 
     if (token == null) {

@@ -35,7 +35,7 @@ class _CardPageState extends State<CardPage> {
   Future<Map<String, dynamic>> payOrder() async {
     String? token = await getToken();
     // Replace with your API endpoint URL
-    final String apiUrl = 'http://$IpAdress/cart/pay?token=$token';
+    final String apiUrl = '$IpAdress/cart/pay?token=$token';
 
     // Prepare the query parameters
 
@@ -83,7 +83,7 @@ class _CardPageState extends State<CardPage> {
   Future<void> fetchOrders() async {
     final token = await getToken();
     final url =
-        Uri.parse('http://$IpAdress/order/status?token=$token&status=pending');
+        Uri.parse('$IpAdress/order/status?token=$token&status=pending');
 
     try {
       final response = await http.get(url);
@@ -125,7 +125,7 @@ class _CardPageState extends State<CardPage> {
   Future<void> removeFromCart(int orderId) async {
     final token = await getToken();
     final url =
-        Uri.parse('http://$IpAdress/cart/remove?token=$token&orderId=$orderId');
+        Uri.parse('$IpAdress/cart/remove?token=$token&orderId=$orderId');
 
     try {
       final response = await http.post(url);

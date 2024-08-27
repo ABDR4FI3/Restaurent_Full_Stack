@@ -26,11 +26,10 @@ class _HistorypurchaseState extends State<Historypurchase> {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
-
   Future<void> fetchOrders() async {
     final token = await getToken();
 
-    final url = Uri.parse('http://$IpAdress/cart/paid?token=$token');
+    final url = Uri.parse('$IpAdress/cart/paid?token=$token');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
